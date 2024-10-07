@@ -1,81 +1,93 @@
 import {
-  AppBar,
   Box,
+  Button,
   CssBaseline,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
   Toolbar,
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router";
 import { useIsNarrow } from "../utils/useIsNarrow";
+import { Close } from "@mui/icons-material";
+import { CreatePostNew } from "../components/CreatePostNew";
+import { TopAppbar } from "../components/TopAppbar";
+import { CreatePostProvider } from "../providers/createPostProvider";
 interface LayoutProps {
   children: React.ReactNode;
 }
-const sidebar = [
-  {
-    icon: null,
-    label: "home",
-    path: "/",
-  },
-  {
-    icon: null,
-    label: "create",
-    path: "/create",
-  },
-];
-const drawerWidth = 240;
+
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const nav = useNavigate();
   const isNarrow = useIsNarrow();
+  const [isOpen, setIsOpen] = React.useState(false);
+  const onClose = () => {
+    onOpenConfirm();
+  };
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+  const onQuit = () => {
+    setIsOpen(false);
+    onCloseConfirm();
+  };
+  const onContinue = () => {
+    onCloseConfirm();
+  };
+  const [openConfirmation, setOpenConfirmation] = React.useState(false);
+  const onOpenConfirm = () => {
+    setOpenConfirmation(true);
+  };
+  const onCloseConfirm = () => {
+    setOpenConfirmation(false);
+  };
   return (
     <Box display={"flex"}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Stills
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: isNarrow ? 0 : drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: isNarrow ? 0 : drawerWidth,
-            boxSizing: "border-box",
-            transition: "width 0.5s",
-          },
-          transition: "width 0.5s",
-        }}
-      >
-        <Toolbar />
-        <List>
-          {sidebar.map((s) => {
-            return (
-              <ListItem key={s.path} onClick={() => nav(s.path)}>
-                <ListItemText
-                  sx={{ textTransform: "capitalize" }}
-                  primary={s.label}
-                />
-              </ListItem>
-            );
-          })}
-        </List>
-      </Drawer>
+      <TopAppbar onOpen={onOpen} />
       <Toolbar />
       <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
         <Toolbar />
         {children}
       </Box>
+      <Dialog
+        PaperProps={{
+          style: {
+            maxWidth: "800px",
+          },
+        }}
+        onClose={onClose}
+        open={isOpen}
+        fullScreen={isNarrow}
+      >
+        <Toolbar
+          disableGutters
+          sx={{ textAlign: "center", alignItems: "center" }}
+        >
+          <Typography fontWeight={"bold"} sx={{ pl: 1 }}>
+            Create
+          </Typography>
+          <IconButton sx={{ ml: "auto" }}>
+            <Close onClick={onClose} />
+          </IconButton>
+        </Toolbar>
+        <CreatePostProvider>
+          <CreatePostNew />
+        </CreatePostProvider>
+      </Dialog>
+      <Dialog onClose={onCloseConfirm} open={openConfirmation}>
+        <DialogContent>Are you sure you want to exit? </DialogContent>
+        <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
+          <Button fullWidth>Save as Draft and exit</Button>
+          <Button onClick={onContinue} fullWidth>
+            Continue Editing
+          </Button>
+          <Button color="error" onClick={onQuit} fullWidth>
+            quit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

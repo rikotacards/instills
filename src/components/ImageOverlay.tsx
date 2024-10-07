@@ -1,11 +1,6 @@
-import { Favorite, MoreVert } from "@mui/icons-material";
 import {
-  Avatar,
   Box,
-  Chip,
-  IconButton,
-  Toolbar,
-  Typography,
+
 } from "@mui/material";
 import React from "react";
 import { Caption } from "./Caption";
@@ -20,11 +15,12 @@ interface ImageOverlayProps {
   isCaptionOpen: boolean;
   onClose: () => void;
   onToggle: () => void;
+  captions: string[]
 }
 const sampleText =
   'this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to testthis is along piece of text that is designed to test this is along piece of text that is designed to testthis is along piece of text that is designed to testthis is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test the caption box to see if we can type somethign long or not. hopefully it will act as desgiend otherwise I"ll be a bit annoyed.';
 
-const c = [sampleText, "And this is when we went to the fire drill"];
+export const c = [sampleText, "And this is when we went to the fire drill"];
 export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   children,
   swiperController,
@@ -32,6 +28,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   isCaptionOpen,
   onClose,
   onToggle,
+  captions
 }) => {
   return (
     <Box
@@ -70,7 +67,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           modules={[Controller, Navigation]}
           style={{ display: "flex" }}
         >
-          {c.map((text) => (
+          {captions.map((text) => (
             <SwiperSlide >
               <Caption
                 isCaptionOpen={isCaptionOpen}

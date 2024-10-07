@@ -6,22 +6,20 @@ import {
   Routes,
 } from "react-router-dom";
 import "./App.css";
-import { CreatePostFormNarrow } from "./components/CreatePostFormNarrow";
+import sample from "../sample.jpg";
+import landscape from "../landscape.jpg";
 import { Post } from "./components/Post";
 import { Layout } from "./layout/Layout";
-import { CreatePostProvider } from "./providers/createPostProvider";
+const imageUrls = [sample, landscape]
+import { c } from "./components/ImageOverlay";
 function App() {
   return (
     <BrowserRouter>
-      <CreatePostProvider>
         <Layout>
-          {/* <Post /> */}
           <Routes>
-            <Route path="/" element={<Post />} />
-            <Route path="/create" element={<CreatePostFormNarrow />} />
+            <Route path="/" element={<Post captions={c} imageUrls={imageUrls} />} />
           </Routes>
         </Layout>
-      </CreatePostProvider>
     </BrowserRouter>
   );
 }

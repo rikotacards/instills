@@ -3,7 +3,7 @@ import { PreparePost } from '../types';
 
 interface IPostContext {
     posts: PreparePost[],
-    addSlide: () => void;
+    addSlide: (file?: File) => void;
     removeSlide: (index: number) => void;
     onUpdateCaption: (i: number, caption: string) => void;
     onImageChange: (i: number, imageFile: File) => void;
@@ -15,16 +15,16 @@ interface CreatePostProviderProps {
     children: React.ReactNode;
 }
 export const CreatePostProvider: React.FC<CreatePostProviderProps>= ({children}) => {
-    const [posts, setPosts] = React.useState([{imageUrl: undefined, caption:''}] as PreparePost[])
+    const [posts, setPosts] = React.useState([] as PreparePost[])
     
-    const addSlide = () => {
-        if(!posts[posts.length-1].imageUrl){
-            return;
-        }
-        setPosts((p) => [...p, {imageFile: undefined, caption:''}])
+    const addSlide = (file?: File) => {
+        
+        const imageUrl = file && URL.createObjectURL(file);
+        setPosts((p) => [...p, {imageFile: file, caption:'', imageUrl}])
     }
+  
     const onUpdateCaption = (i: number, caption: string)=> {
-        const newPost = {imageFile: posts[i].imageUrl, caption}
+        const newPost = {...posts[i], caption}
         const pre = posts.slice(0,i);
         const post = posts.slice(i+1);
         setPosts([...pre, newPost, ...post])
