@@ -5,6 +5,7 @@ import landscape from "../../landscape.jpg";
 import { Post } from './Post';
 export const Timeline: React.FC = () => (
     <Box>
-        {[sample, landscape].map((i) => <Post captions={['hi']} imageUrls={[i]}/>)}
+        {[sample, landscape].map((i) => <Box sx={{mb:1}}>
+            <Post captions={['hi']} imageUrls={[i]}/></Box>)}
     </Box>
 )

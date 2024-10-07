@@ -42,14 +42,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const onCloseConfirm = () => {
     setOpenConfirmation(false);
   };
-
+   
   return (
-    <Box display={"flex"} sx={{ flexDirection: isNarrow ? "column" : "row" }}>
+    <Box display={"flex"} sx={{flexDirection: isNarrow ? 'column' : 'row'}}>
       <CssBaseline />
       <TopAppbar onOpen={onOpen} />
-      <Toolbar />
+      {!isNarrow && <Toolbar />}
       <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-        <Toolbar />
+        {!isNarrow && <Toolbar />}
         {children}
       </Box>
       <Dialog
@@ -64,23 +64,17 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       >
         <Toolbar
           disableGutters
-          sx={{
-            textAlign: "center",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          sx={{ textAlign: "center", alignItems: "center",  justifyContent: 'center' }}
         >
-          <Box sx={{ flex: 1 }} />
-          <Typography
-            fontWeight={"bold"}
-            sx={{ pl: 1, display: "flex", flex: 1, justifyContent: "center" }}
-          >
+            <Box sx={{flex:1}}/>
+          <Typography fontWeight={"bold"} sx={{ pl: 1, display: 'flex' , flex:1,  justifyContent: "center"}}>
             Create
           </Typography>
-          <Box sx={{ display: "flex", flex: 1, justifyContent: "flex-end" }}>
-            <IconButton>
-              <Close onClick={onClose} />
-            </IconButton>
+          <Box sx={{display: 'flex', flex: 1, justifyContent: 'flex-end', }}>
+
+          <IconButton >
+            <Close onClick={onClose} />
+          </IconButton>
           </Box>
         </Toolbar>
         <CreatePostProvider>
