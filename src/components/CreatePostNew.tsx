@@ -4,10 +4,8 @@ import React from "react";
 import { useCreatePostContext } from "../providers/useContexts";
 import { CreatePostForm } from "./CreatePostForm";
 import { PostPreview } from "./PostPreview";
-const stepLabels = [
-    'Preview', 
-    'Post'
-]
+import { useIsNarrow } from "../utils/useIsNarrow";
+const stepLabels = ["Preview", "Post"];
 export const CreatePostNew: React.FC = () => {
   const [step, setStep] = React.useState(0);
   const inc = () => {
@@ -18,6 +16,7 @@ export const CreatePostNew: React.FC = () => {
   };
 
   const cp = useCreatePostContext();
+  const isNarrow = useIsNarrow();
   const ref = React.useRef<null | HTMLInputElement>(null);
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
@@ -36,11 +35,11 @@ export const CreatePostNew: React.FC = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        p: 1,
+        m: 1,
       }}
     >
       {cp.posts.length <= 0 && (
-        <Card variant="outlined">
+        <Card variant="outlined" sx={{ m: isNarrow ? 0 : 0 }}>
           <CardActionArea
             sx={{
               width: "400px",

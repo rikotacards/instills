@@ -20,12 +20,13 @@ export const Caption: React.FC<CaptionProps> = ({onToggle, isCaptionOpen, text }
         height: "auto",
         lineHeight: "1.5em",
         textAlign: 'left',
-        m:1,
+        m:2,
         maxHeight: open ? "200px" : 'calc(2 * 1.5em)',
       }}
       onClick={onToggle}
     >
       <Typography 
+      fontWeight={500}
       sx={{color: 'white'}}
       variant='body2'>{text}</Typography>
     </Box>

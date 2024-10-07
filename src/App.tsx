@@ -1,31 +1,60 @@
 import {
   BrowserRouter,
   Route,
-  Router,
-  RouterProvider,
   Routes,
 } from "react-router-dom";
 import "./App.css";
-import sample from "../sample.jpg";
-import landscape from "../landscape.jpg";
-import { Post } from "./components/Post";
+import { createTheme, ThemeProvider } from "@mui/material";
+
 import { Layout } from "./layout/Layout";
-const imageUrls = [sample, landscape]
-import { c } from "./components/ImageOverlay";
 import { ProfilePage } from "./Pages/ProfilePage";
 import { ProfileSettingsPage } from "./Pages/ProfileSettingsPage";
+import { HomePage } from "./Pages/HomePage";
 function App() {
+  const theme = createTheme({
+    palette: {
+      mode: "light",
+      background: {
+        // paper: "white",
+      },
+    },
+    components: {
+      MuiAppBar: {
+        styleOverrides: {
+          
+          
+        }
+      }
+    },
+    typography: {
+      fontFamily: [
+        "-apple-system",
+        "BlinkMacSystemFont",
+        '"Segoe UI"',
+        "Roboto",
+        '"Helvetica Neue"',
+        "Arial",
+        "sans-serif",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(","),
+    },
+  });
   return (
     <BrowserRouter>
+        <ThemeProvider theme={theme}>
+
         <Layout>
           <Routes>
-            <Route path="/" element={<Post captions={c} imageUrls={imageUrls} />} />
+            <Route path="/" element={<HomePage/>} />
             <Route path="/profile/edit" element={<ProfileSettingsPage/>} />
             <Route path="/profile"  element={<ProfilePage/>} />
 
 
           </Routes>
         </Layout>
+        </ThemeProvider>
     </BrowserRouter>
   );
 }

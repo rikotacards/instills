@@ -11,11 +11,11 @@ export const PostTop: React.FC<PostTopProps> = ({onMoreClick}) => {
 
       <Avatar sx={{
         mr:1,
-        height:30,
-        width:30
+        height:35,
+        width:35
       }} />
       <Box>
-        <Typography sx={{color: 'white'}} variant='caption'>Maxwelldhsu</Typography>
+        <Typography fontWeight={600} sx={{color: 'white'}} variant='caption'>Maxwelldhsu</Typography>
       </Box>
       </Box>
       <IconButton onClick={onMoreClick} sx={{ ml: "auto" }}>

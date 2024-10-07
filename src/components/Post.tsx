@@ -20,8 +20,9 @@ export const Post: React.FC<IPost> = (props) => {
       sx={{
         position: "relative",
         maxWidth: "400px",
-        height: "500px",
-        maxHeight: "500px",
+        width:'100%',
+        height: "600px",
+        maxHeight: "600px",
       }}
     >
       <ImageOverlay

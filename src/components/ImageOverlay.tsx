@@ -3,7 +3,8 @@ import React from "react";
 import { Caption } from "./Caption";
 import { PostTop } from "./PostTop";
 import { SwiperSlide, Swiper } from "swiper/react";
-import { Controller, Navigation } from "swiper/modules";
+import { Controller, Navigation, EffectFade } from "swiper/modules";
+import 'swiper/css/effect-fade';
 
 interface ImageOverlayProps {
   children: React.ReactNode;
@@ -61,14 +62,17 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           width: "100%",
           zIndex: 1,
           background:
-            "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)); ",
+            `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0,  ${isCaptionOpen ? 0.8 : 0.6})) `,
         }}
       >
         <Swiper
           onSwiper={onSwiper}
           onSlideChange={onClose}
+          effect={'fade'}
+          fadeEffect ={{ crossFade: true }}
+
           controller={{ control: swiperController }}
-          modules={[Controller, Navigation]}
+          modules={[Controller, Navigation, EffectFade]}
           style={{ display: "flex" }}
         >
           {captions.map((text) => (

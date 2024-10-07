@@ -1,26 +1,27 @@
-import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, Menu, IconButton, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemText, Menu, IconButton, Box, ListItemIcon, Avatar } from '@mui/material';
 import React from 'react';
 import { useIsNarrow } from '../utils/useIsNarrow';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router';
 import Button from '@mui/material/Button';
+import HomeIcon from '@mui/icons-material/Home';
 import MenuItem from '@mui/material/MenuItem';
 const drawerWidth = 240;
-
+import AddIcon from '@mui/icons-material/Add';
 const sidebar = [
     {
-      icon: null,
+      icon: <HomeIcon/>,
       label: "home",
       path: "/",
     },
     {
-      icon: null,
+      icon: <AddIcon/>,
       label: "create",
       path: "/create",
       
     },
     {
-        icon: null,
+        icon: <Avatar sx={{height:25, width:25}}/>,
         label: "profile",
         path: "/profile",
         
@@ -67,6 +68,8 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({onOpen}) => {
             width: isNarrow ? 0 : drawerWidth,
             boxSizing: "border-box",
             transition: "width 0.5s",
+            borderColor: 'transparent',
+            zIndex: 0,
           },
           transition: "width 0.5s",
         }}
@@ -77,8 +80,9 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({onOpen}) => {
           {sidebar.map((s) => {
             return (
               <MenuItem key={s.path} onClick={s.label ==='create'? onOpen : () => nav(s.path)}>
+               {s.icon && <ListItemIcon>{s.icon}</ListItemIcon> }
                 <ListItemText
-                  sx={{ textTransform: "capitalize" }}
+                  sx={{ textTransform: "capitalize", textAlign: 'left' }}
                   primary={s.label}
                 />
               </MenuItem>
