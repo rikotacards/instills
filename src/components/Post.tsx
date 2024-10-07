@@ -10,7 +10,6 @@ export const Post: React.FC<IPost> = (props) => {
   const [secondSwiper, setSecondSwiper] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => {
-    console.log('closing')
     setIsOpen(false);
   };
   const onToggle = () => {

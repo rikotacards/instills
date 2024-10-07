@@ -1,7 +1,4 @@
-import {
-  Box,
-
-} from "@mui/material";
+import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
 import { Caption } from "./Caption";
 import { PostTop } from "./PostTop";
@@ -15,7 +12,7 @@ interface ImageOverlayProps {
   isCaptionOpen: boolean;
   onClose: () => void;
   onToggle: () => void;
-  captions: string[]
+  captions: string[];
 }
 const sampleText =
   'this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to testthis is along piece of text that is designed to test this is along piece of text that is designed to testthis is along piece of text that is designed to testthis is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test this is along piece of text that is designed to test the caption box to see if we can type somethign long or not. hopefully it will act as desgiend otherwise I"ll be a bit annoyed.';
@@ -28,8 +25,15 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   isCaptionOpen,
   onClose,
   onToggle,
-  captions
+  captions,
 }) => {
+  const [isOpen, setOpen] = React.useState(false);
+  const onDialogOpen = () => {
+    setOpen(true);
+  };
+  const onDialogClose = () => {
+    setOpen(false);
+  };
   return (
     <Box
       sx={{
@@ -46,7 +50,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           display: "flex",
         }}
       >
-        <PostTop />
+        <PostTop onMoreClick={onDialogOpen} />
       </Box>
 
       {children}
@@ -56,8 +60,8 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           bottom: 0,
           width: "100%",
           zIndex: 1,
-          background: "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)); ",
-
+          background:
+            "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)); ",
         }}
       >
         <Swiper
@@ -68,7 +72,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           style={{ display: "flex" }}
         >
           {captions.map((text) => (
-            <SwiperSlide >
+            <SwiperSlide>
               <Caption
                 isCaptionOpen={isCaptionOpen}
                 text={text}
@@ -78,6 +82,12 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           ))}
         </Swiper>
       </Box>
+      <Dialog onClose={onDialogClose} open={isOpen}>
+        <DialogContent>
+
+        <Button color='error'>Delete</Button>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };

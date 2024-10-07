@@ -4,6 +4,10 @@ import React from "react";
 import { useCreatePostContext } from "../providers/useContexts";
 import { CreatePostForm } from "./CreatePostForm";
 import { PostPreview } from "./PostPreview";
+const stepLabels = [
+    'Preview', 
+    'Post'
+]
 export const CreatePostNew: React.FC = () => {
   const [step, setStep] = React.useState(0);
   const inc = () => {
@@ -66,7 +70,7 @@ export const CreatePostNew: React.FC = () => {
         {step > 0 && <Button onClick={dec}>Back</Button>}
         {cp.posts.length > 0 && (
           <Button sx={{ ml: "auto" }} onClick={inc}>
-            Next
+            {stepLabels[step]}
           </Button>
         )}
       </Box>

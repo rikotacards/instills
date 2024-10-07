@@ -42,9 +42,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const onCloseConfirm = () => {
     setOpenConfirmation(false);
   };
-   
+
   return (
-    <Box display={"flex"} sx={{flexDirection: isNarrow ? 'column' : 'row'}}>
+    <Box display={"flex"} sx={{ flexDirection: isNarrow ? "column" : "row" }}>
       <CssBaseline />
       <TopAppbar onOpen={onOpen} />
       <Toolbar />
@@ -64,14 +64,24 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       >
         <Toolbar
           disableGutters
-          sx={{ textAlign: "center", alignItems: "center" }}
+          sx={{
+            textAlign: "center",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <Typography fontWeight={"bold"} sx={{ pl: 1 }}>
+          <Box sx={{ flex: 1 }} />
+          <Typography
+            fontWeight={"bold"}
+            sx={{ pl: 1, display: "flex", flex: 1, justifyContent: "center" }}
+          >
             Create
           </Typography>
-          <IconButton sx={{ ml: "auto" }}>
-            <Close onClick={onClose} />
-          </IconButton>
+          <Box sx={{ display: "flex", flex: 1, justifyContent: "flex-end" }}>
+            <IconButton>
+              <Close onClick={onClose} />
+            </IconButton>
+          </Box>
         </Toolbar>
         <CreatePostProvider>
           <CreatePostNew />

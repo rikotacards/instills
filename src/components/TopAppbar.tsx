@@ -19,6 +19,12 @@ const sidebar = [
       path: "/create",
       
     },
+    {
+        icon: null,
+        label: "profile",
+        path: "/profile",
+        
+      },
   ];
   interface TopAppbarProps {
     onOpen: () => void;
@@ -70,12 +76,12 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({onOpen}) => {
         <List>
           {sidebar.map((s) => {
             return (
-              <ListItem key={s.path} onClick={s.label ==='create'? onOpen : () => nav(s.path)}>
+              <MenuItem key={s.path} onClick={s.label ==='create'? onOpen : () => nav(s.path)}>
                 <ListItemText
                   sx={{ textTransform: "capitalize" }}
                   primary={s.label}
                 />
-              </ListItem>
+              </MenuItem>
             );
           })}
         </List>
