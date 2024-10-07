@@ -1,10 +1,11 @@
-import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Box, Button, Chip, Dialog, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { Caption } from "./Caption";
 import { PostTop } from "./PostTop";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Controller, Navigation, EffectFade } from "swiper/modules";
 import 'swiper/css/effect-fade';
+import { EmojiEmotions, Favorite } from "@mui/icons-material";
 
 interface ImageOverlayProps {
   children: React.ReactNode;
@@ -35,6 +36,8 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   const onDialogClose = () => {
     setOpen(false);
   };
+  const [currPage, setCurrPage] = React.useState(1)
+
   return (
     <Box
       sx={{
@@ -61,16 +64,23 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           bottom: 0,
           width: "100%",
           zIndex: 1,
+          p:2,
           background:
             `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0,  ${isCaptionOpen ? 0.8 : 0.6})) `,
         }}
       >
+        <Box sx={{mb:1, display: 'flex', width:'100%', justifyContent: 'flex-start', alignItems: 'center'}}>
+          <Chip icon={<Favorite color='error'/>} size='small' sx={{color: 'white', fontWeight: 600, mr:1}} label={40}/>
+          <Chip  size='small' sx={{color: 'white', fontWeight: 600, mr:1}} label={'😂 23'}/>
+          <IconButton size="small" sx={{color: 'white'}}><EmojiEmotions fontSize="small"/></IconButton>
+        </Box>
         <Swiper
           onSwiper={onSwiper}
           onSlideChange={onClose}
           effect={'fade'}
           fadeEffect ={{ crossFade: true }}
-
+          onSlideNextTransitionEnd={() => setCurrPage((p) => p+1)}
+          onSlidePrevTransitionEnd={() => setCurrPage(p => p-1)}
           controller={{ control: swiperController }}
           modules={[Controller, Navigation, EffectFade]}
           style={{ display: "flex" }}
@@ -85,6 +95,11 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
             </SwiperSlide>
           ))}
         </Swiper>
+        <Box sx={{width:'100%', display: 'flex', justifyContent: 'flex-end'}}>
+
+        <Chip   sx={{mt:0.5, ml:'auto', color: 'white', backdropFilter: 'blur(5px)'}} size='small' label={<Typography color='grey' variant='caption'>{currPage}/{captions.length}</Typography>}/>
+        </Box>
+
       </Box>
       <Dialog onClose={onDialogClose} open={isOpen}>
         <DialogContent>

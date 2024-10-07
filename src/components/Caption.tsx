@@ -20,7 +20,7 @@ export const Caption: React.FC<CaptionProps> = ({onToggle, isCaptionOpen, text }
         height: "auto",
         lineHeight: "1.5em",
         textAlign: 'left',
-        m:2,
+        m:0,
         maxHeight: open ? "200px" : 'calc(2 * 1.5em)',
       }}
       onClick={onToggle}
