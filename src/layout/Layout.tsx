@@ -42,8 +42,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const onCloseConfirm = () => {
     setOpenConfirmation(false);
   };
+   
   return (
-    <Box display={"flex"}>
+    <Box display={"flex"} sx={{flexDirection: isNarrow ? 'column' : 'row'}}>
       <CssBaseline />
       <TopAppbar onOpen={onOpen} />
       <Toolbar />

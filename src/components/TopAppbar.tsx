@@ -91,9 +91,8 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({onOpen}) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        {sidebar.map((item) => <MenuItem onClick={item.label === 'create' ? onOpen : () => nav(item.path)}>{item.label}</MenuItem>)}
+       
       </Menu>
       </>
     )
