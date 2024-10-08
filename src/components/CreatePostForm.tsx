@@ -4,10 +4,8 @@ import { CreatePostInput } from "./CreatePostInput";
 import { Add, Photo } from "@mui/icons-material";
 import { useCreatePostContext } from "../providers/useContexts";
 import { useIsNarrow } from "../utils/useIsNarrow";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Controller, Navigation } from "swiper/modules";
 import { CreatePostFormNarrow } from "./CreatePostFormNarrow";
 
 const thumbnail = { height: "50px", width: "50px" };

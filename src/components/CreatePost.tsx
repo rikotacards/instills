@@ -29,9 +29,9 @@ export const CreatePost: React.FC<CreatePostProps> = ({ onClose }) => {
           }}
         >
           <Box sx={{ display: "flex", flex: 1, justifyContent: "flex-start" }}>
-            <IconButton>
+            {/* <IconButton>
               <Close onClick={onClose} />
-            </IconButton>
+            </IconButton> */}
           </Box>
           <Typography
             fontWeight={"bold"}
@@ -42,8 +42,9 @@ export const CreatePost: React.FC<CreatePostProps> = ({ onClose }) => {
           <Box
             sx={{ display: "flex", flex: 1, justifyContent: "flex-end", mr: 1 }}
           >
-            {<Button sx={{ textTransform: "capitalize" }}>Preview</Button>}
-          </Box>
+<IconButton>
+              <Close onClick={onClose} />
+            </IconButton>          </Box>
         </Toolbar>
         <CreatePostNew />
       </CreatePostProvider>
