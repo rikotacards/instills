@@ -23,9 +23,9 @@ export const CreatePostNew: React.FC = () => {
     if (e.target.files) {
       const array = Array.from(e.target.files);
       for (const file of array) {
-        console.log("fff", file);
         cp.addSlide(file);
       }
+      inc()
     }
   };
   return (
@@ -35,7 +35,7 @@ export const CreatePostNew: React.FC = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        m: 1,
+        m: 0,
       }}
     >
       {cp.posts.length <= 0 && (
@@ -61,8 +61,8 @@ export const CreatePostNew: React.FC = () => {
           />
         </Card>
       )}
-      {step == 0 && <CreatePostForm />}
-      {step == 1 && <PostPreview />}
+        {step == 1 && <CreatePostForm />}
+        {step == 2 && <PostPreview />}
       <Box
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >

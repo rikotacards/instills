@@ -15,6 +15,7 @@ import { Close } from "@mui/icons-material";
 import { CreatePostNew } from "../components/CreatePostNew";
 import { TopAppbar } from "../components/TopAppbar";
 import { CreatePostProvider } from "../providers/createPostProvider";
+import { CreatePost } from "../components/CreatePost";
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -69,42 +70,20 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         open={isOpen}
         fullScreen={isNarrow}
       >
-        <Toolbar
-          disableGutters
-          sx={{
-            textAlign: "center",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Box sx={{ flex: 1 }} />
-          <Typography
-            fontWeight={"bold"}
-            sx={{ pl: 1, display: "flex", flex: 1, justifyContent: "center" }}
-          >
-            Create
-          </Typography>
-          <Box sx={{ display: "flex", flex: 1, justifyContent: "flex-end" }}>
-            <IconButton>
-              <Close onClick={onClose} />
-            </IconButton>
-          </Box>
-        </Toolbar>
-        <CreatePostProvider>
-          <CreatePostNew />
-        </CreatePostProvider>
+        <CreatePost onClose={onClose}/>
+       
       </Dialog>
       <Dialog onClose={onCloseConfirm} open={openConfirmation}>
         <DialogContent>Are you sure you want to exit? </DialogContent>
-        <DialogActions sx={{ display: "flex", flexDirection: "column" }}>
-          <Button fullWidth>Save as Draft and exit</Button>
-          <Button onClick={onContinue} fullWidth>
+          <Box sx={{p:1}}>
+          <Button sx={{mb:1}} variant='outlined' fullWidth>Save as Draft and exit</Button>
+          <Button sx={{mb:1}} variant='outlined' fullWidth onClick={onContinue} >
             Continue Editing
           </Button>
-          <Button color="error" onClick={onQuit} fullWidth>
+          <Button variant='outlined' color="error" onClick={onQuit} fullWidth>
             quit
           </Button>
-        </DialogActions>
+          </Box>
       </Dialog>
     </Box>
   );
