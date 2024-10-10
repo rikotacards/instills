@@ -1,10 +1,13 @@
 import {
+  AppBar,
   Box,
   Button,
   CssBaseline,
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   Toolbar,
   Typography,
@@ -16,14 +19,16 @@ import { CreatePostNew } from "../components/CreatePostNew";
 import { TopAppbar } from "../components/TopAppbar";
 import { CreatePostProvider } from "../providers/createPostProvider";
 import { CreatePost } from "../components/CreatePost";
+import { Outlet } from "react-router";
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const Layout: React.FC = () => {
   const isNarrow = useIsNarrow();
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => {
+ 
     onOpenConfirm();
   };
   const onOpen = () => {
@@ -43,6 +48,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const onCloseConfirm = () => {
     setOpenConfirmation(false);
   };
+  const closeWithoutPosts = () => {
+    setIsOpen(false)
+  }
 
   return (
     <Box
@@ -56,9 +64,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <CssBaseline />
       <TopAppbar onOpen={onOpen} />
       {!isNarrow && <Toolbar />}
-      <Box component="main" sx={{  p: 0, width:'100%' }}>
+      <Box component="main" sx={{ p: 0, width: "100%" }}>
         {!isNarrow && <Toolbar />}
-        {children}
+        <Outlet/>
       </Box>
       <Dialog
         PaperProps={{
@@ -71,22 +79,40 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         fullScreen={isNarrow}
       >
         
-        <CreatePost onClose={onClose}/>
-       
+ 
+        <CreatePostProvider>
+          <CreatePost onClose={onClose} closeWithoutPosts={closeWithoutPosts}/>
+        </CreatePostProvider>
       </Dialog>
       <Dialog onClose={onCloseConfirm} open={openConfirmation}>
-        <DialogContent>Are you sure you want to exit? </DialogContent>
-          <Box sx={{p:1}}>
-          <Button sx={{mb:1}} variant='outlined' color="error" onClick={onQuit} fullWidth>
+        <DialogTitle>Discard Post?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            If you leave, your edits won't be saved
+          </DialogContentText>
+        </DialogContent>
+        <Box sx={{ p: 1 }}>
+          <Button
+            sx={{ mb: 1 }}
+            variant="outlined"
+            color="error"
+            onClick={onQuit}
+            fullWidth
+          >
             quit
           </Button>
-          <Button sx={{mb:1}} variant='outlined' fullWidth onClick={onContinue} >
+          <Button
+            sx={{ mb: 1 }}
+            variant="outlined"
+            fullWidth
+            onClick={onContinue}
+          >
             Continue Editing
           </Button>
-          <Button sx={{mb:1}} variant='outlined' fullWidth>Save as Draft and exit</Button>
-          
-         
-          </Box>
+          <Button sx={{ mb: 1 }} variant="outlined" fullWidth>
+            Save as Draft and exit
+          </Button>
+        </Box>
       </Dialog>
     </Box>
   );

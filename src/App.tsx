@@ -1,8 +1,4 @@
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 
@@ -20,11 +16,8 @@ function App() {
     },
     components: {
       MuiAppBar: {
-        styleOverrides: {
-          
-          
-        }
-      }
+        styleOverrides: {},
+      },
     },
     typography: {
       fontFamily: [
@@ -43,18 +36,15 @@ function App() {
   });
   return (
     <BrowserRouter>
-        <ThemeProvider theme={theme}>
-
-        <Layout>
-          <Routes>
-            <Route path="/" element={<HomePage/>} />
-            <Route path="/profile/edit" element={<ProfileSettingsPage/>} />
-            <Route path="/profile"  element={<ProfilePage/>} />
-
-
-          </Routes>
-        </Layout>
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/profile/edit" element={<ProfileSettingsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+        </Routes>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

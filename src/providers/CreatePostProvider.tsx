@@ -7,7 +7,7 @@ interface IPostContext {
     removeSlide: (index: number) => void;
     onUpdateCaption: (i: number, caption: string) => void;
     onImageChange: (i: number, imageFile: File) => void;
-
+    onReset: () => void;
 }
 
 export const PostContext = React.createContext({} as IPostContext)
@@ -54,12 +54,16 @@ export const CreatePostProvider: React.FC<CreatePostProviderProps>= ({children})
         })
     }
     console.log('CHECK MUTE', posts)
+    const onReset = () => {
+        setPosts([])
+    }
     const value = {
         posts,
         addSlide,
         removeSlide,
         onUpdateCaption,
-        onImageChange
+        onImageChange,
+        onReset
     }
     console.log('P', posts)
     

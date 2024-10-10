@@ -3,8 +3,9 @@ import { Card, CardActionArea } from '@mui/material';
 import React from 'react';
 interface UploadAreaProps {
     onUpload: (file: File) => void;
+    inc: () => void;
 }
-export const UploadArea: React.FC<UploadAreaProps> =({onUpload} ) => {
+export const UploadArea: React.FC<UploadAreaProps> =({onUpload, inc} ) => {
     const ref = React.useRef<null | HTMLInputElement>(null);
     const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e.target.files);
@@ -13,6 +14,7 @@ export const UploadArea: React.FC<UploadAreaProps> =({onUpload} ) => {
           for (const file of array) {
             onUpload(file);
           }
+          inc()
         }
       };
     return (
