@@ -1,4 +1,5 @@
 import { MoreVert } from "@mui/icons-material";
+import profile from '../assets/profile.jpeg'
 import { Box, Avatar, IconButton, Typography } from "@mui/material";
 import React from "react";
 interface PostTopProps {
@@ -6,10 +7,10 @@ interface PostTopProps {
 }
 export const PostTop: React.FC<PostTopProps> = ({onMoreClick}) => {
   return (
-    <Box sx={{width:'100%', display: 'flex', p:1, alignItems: 'center'}}>
+    <Box sx={{width:'100%', display: 'flex', p:2, alignItems: 'center'}}>
       <Box sx={{display: 'flex', alignItems: 'center'}}>
 
-      <Avatar sx={{
+      <Avatar src={profile} sx={{
         mr:1,
         height:35,
         width:35

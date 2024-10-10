@@ -38,6 +38,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
       modules={[Navigation, Controller]}
       navigation
       onSliderMove={onClose}
+      pagination={true}
       // onSlideChangeTransitionStart={onClose}
       onSwiper={onSwiper}
       controller={{ control: swiperController }}

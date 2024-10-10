@@ -1,18 +1,18 @@
-import { Close } from "@mui/icons-material";
+import {  Close, Delete, Edit } from "@mui/icons-material";
 import {
   Box,
   Button,
-  Card,
-  CardActionArea,
+
   Dialog,
   DialogActions,
   DialogContent,
   IconButton,
   InputAdornment,
   OutlinedInput,
+  TextField,
 } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 import React from "react";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { useCreatePostContext } from "../providers/useContexts";
 import { useIsNarrow } from "../utils/useIsNarrow";
 interface CreatePostInputProps {
@@ -58,7 +58,7 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
   const onYes = (i: number) => {
     onRemove(i);
     onClose();
-  }
+  };
   const [caption, setCaption] = React.useState(captionFromContext);
   const cp = useCreatePostContext();
   const ref = React.useRef<null | HTMLInputElement>(null);
@@ -70,7 +70,7 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
     // save
     cp.onUpdateCaption(index, caption);
   };
-  
+
   return (
     <Box
       sx={{
@@ -81,16 +81,7 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
         alignItems: "center",
       }}
     >
-      {!imageUrl ? (
-        <Card sx={{ width: "100%", height: "100%", m: 1 }} variant="outlined">
-          <CardActionArea
-            sx={{ width: "100%", height: "100%" }}
-            onClick={onClickUpload}
-          >
-            <AddPhotoAlternateIcon color="disabled" />
-          </CardActionArea>
-        </Card>
-      ) : (
+      {
         <Box sx={{ position: "relative", display: "flex" }}>
           <Box
             onClick={onClickUpload}
@@ -100,43 +91,86 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
               position: "relative",
               maxWidth: "400px",
               height: "500px",
-              width:'100%',
+              width: "100%",
               maxHeight: "500px",
               objectFit: "cover",
             }}
           />
-          <Box sx={{ position: "absolute", bottom: 0, right: 0 }}>
+          {isNarrow && (
+            <TextField
+              value={caption}
+              variant="standard"
+              onChange={onChange}
+              onBlur={onBlur}
+              multiline
+              fullWidth
+              size="small"
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Edit sx={{pl: 1,color:'white'}} />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              inputProps={{ style: { color: "white", margin: 4 } }}
+              placeholder="Write your caption"
+              sx={{
+                bottom: 0,
+                // minWidth: 200,
+                zIndex: 2000,
+                position: "absolute",
+                input: {
+                  color: "white",
+                },
+                background:
+                `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0,  ${true ? 0.8 : 0.6})) `,
+              }}
+            />
+          )}
+          
+          <Box sx={{ position: "absolute", top: 0, right: 0, p: 1 }}>
             <IconButton
-              sx={{ backdropFilter: "blur(4px)", color: "white" }}
+              sx={{  backdropFilter: "blur(10px)", color: "white", background:'rgba(255,255,255,0.5)' }}
               onClick={onOpen}
             >
-              <Close />
+              <DeleteIcon color='action' />
             </IconButton>
           </Box>
         </Box>
-      )}
+      }
 
+      {!isNarrow && (
+        <OutlinedInput
+          value={caption}
+          onChange={onChange}
+          onBlur={onBlur}
+          fullWidth
+          multiline
+          placeholder="Write your caption"
+          sx={{
+            height: "100%",
+            alignItems: "flex-start",
+            m: 0,
+            flexBasis: 1,
+            display: "flex",
+            minWidth: 200,
+          }}
+        />
+      )}
       <input
         onChange={(e) => onImageFileChange(index, e)}
         ref={ref}
         accept="image/*"
         type="file"
-        style={{ display: "none", height: "100%", width: "100%" }}
-      />
-      <OutlinedInput
-        value={caption}
-        onChange={onChange}
-        onBlur={onBlur}
-        fullWidth
-        multiline
-        placeholder="Write your caption"
-        sx={{
-          height: "100%",
-          alignItems: "flex-start",
-          m: 1,
-          flexBasis: 1,
-          display: "flex",
-          minWidth: 200,
+        style={{
+          display: 'none',
+          position: "absolute",
+          top: 0,
+          border: "5px solid red",
+          height: "50px",
+          width: "100%",
         }}
       />
       <Dialog open={open} onClose={onClose}>
@@ -145,9 +179,7 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={() => onYes(index)}>Yes</Button>
-          <Button
-          onClick={onClose}
-          >Cancel</Button>
+          <Button onClick={onClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -103,9 +103,9 @@ export const CreatePost: React.FC<CreatePostProps> = ({ onClose, closeWithoutPos
           {hasPosts && <Button onClick={onPreview}>Preview</Button>}
         </Box>
       </Toolbar>
-      {step == 0 && <UploadArea onUpload={cp.addSlide} inc={inc} />}
+      {step === 0 && <UploadArea onUpload={cp.addSlide} inc={inc} />}
       {step === 1 && <CreatePostForm />}
-      {step == 2 && <PostPreview />}
+      {step === 2 && <PostPreview />}
       <Dialog open={open} onClose={onCloseDiscard}>
         <DialogTitle> Discard post?</DialogTitle>
         <DialogContent>

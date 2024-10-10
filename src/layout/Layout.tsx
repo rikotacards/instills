@@ -28,7 +28,6 @@ export const Layout: React.FC = () => {
   const isNarrow = useIsNarrow();
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => {
- 
     onOpenConfirm();
   };
   const onOpen = () => {
@@ -49,8 +48,8 @@ export const Layout: React.FC = () => {
     setOpenConfirmation(false);
   };
   const closeWithoutPosts = () => {
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
   return (
     <Box
@@ -66,7 +65,7 @@ export const Layout: React.FC = () => {
       {!isNarrow && <Toolbar />}
       <Box component="main" sx={{ p: 0, width: "100%" }}>
         {!isNarrow && <Toolbar />}
-        <Outlet/>
+        <Outlet />
       </Box>
       <Dialog
         PaperProps={{
@@ -78,10 +77,8 @@ export const Layout: React.FC = () => {
         open={isOpen}
         fullScreen={isNarrow}
       >
-        
- 
         <CreatePostProvider>
-          <CreatePost onClose={onClose} closeWithoutPosts={closeWithoutPosts}/>
+          <CreatePost onClose={onClose} closeWithoutPosts={closeWithoutPosts} />
         </CreatePostProvider>
       </Dialog>
       <Dialog onClose={onCloseConfirm} open={openConfirmation}>

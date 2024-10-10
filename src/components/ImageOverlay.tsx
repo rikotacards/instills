@@ -85,8 +85,8 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           modules={[Controller, Navigation, EffectFade]}
           style={{ display: "flex" }}
         >
-          {captions.map((text) => (
-            <SwiperSlide>
+          {captions.map((text,i) => (
+            <SwiperSlide key={text+i}>
               <Caption
                 isCaptionOpen={isCaptionOpen}
                 text={text}

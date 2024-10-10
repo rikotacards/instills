@@ -46,7 +46,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({onOpen}) => {
         <>
         <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, }}
       >
         <Toolbar>
           <Typography fontWeight={'bold'} variant="h6" noWrap component="div">
@@ -101,7 +101,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({onOpen}) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        {sidebar.map((item) => <MenuItem onClick={item.label === 'create' ? onOpen : () => nav(item.path)}>{item.label}</MenuItem>)}
+        {sidebar.map((item) => <MenuItem key={item.label} onClick={item.label === 'create' ? onOpen : () => nav(item.path)}>{item.label}</MenuItem>)}
        
       </Menu>
       </>
