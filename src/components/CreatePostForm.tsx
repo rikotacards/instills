@@ -42,7 +42,6 @@ export const CreatePostForm: React.FC = () => {
         flexDirection: isNarrow ? "column" : "row",
         maxWidth: isNarrow ? "400px" : "100%",
         width: "100%",
-        border: "1px solid blue",
       }}
     >
       <Box
@@ -50,8 +49,7 @@ export const CreatePostForm: React.FC = () => {
           display: "flex",
           flexDirection: isNarrow ? "row" : "column",
           alignItems: "center",
-          width: "100%",
-          border: "1px solid yellow",
+          // width: "100%",
         }}
       >
         {p.map((post, i) => {
@@ -97,7 +95,7 @@ export const CreatePostForm: React.FC = () => {
         )}
       </Box>
 
-      <Box sx={{ display: "flex",width:'100%' }}>
+      <Box sx={{ display: "flex", width:'100%'}}>
         {isNarrow ? <CreatePostFormNarrow posts={cp.posts}/>: renderedInput[selected]}
       </Box>
       <input

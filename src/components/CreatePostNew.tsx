@@ -5,6 +5,7 @@ import { useCreatePostContext } from "../providers/useContexts";
 import { CreatePostForm } from "./CreatePostForm";
 import { PostPreview } from "./PostPreview";
 import { useIsNarrow } from "../utils/useIsNarrow";
+import { UploadArea } from "./UploadArea";
 const stepLabels = ["Preview", "Post"];
 export const CreatePostNew: React.FC = () => {
   const [step, setStep] = React.useState(0);
@@ -25,7 +26,7 @@ export const CreatePostNew: React.FC = () => {
       for (const file of array) {
         cp.addSlide(file);
       }
-      inc()
+      inc();
     }
   };
   return (
@@ -33,36 +34,17 @@ export const CreatePostNew: React.FC = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        // justifyContent: "center",
         alignItems: "center",
-        m: 0,
+        height: "100%",
+        
       }}
     >
       {cp.posts.length <= 0 && (
-        <Card variant="outlined" sx={{ m: isNarrow ? 0 : 0 }}>
-          <CardActionArea
-            sx={{
-              width: "400px",
-              height: "400px",
-              display: "flex",
-              alignItem: "center",
-            }}
-            onClick={() => ref?.current?.click()}
-          >
-            <AddPhotoAlternate color="disabled" />
-          </CardActionArea>
-          <input
-            onChange={onFileChange}
-            ref={ref}
-            accept="image/*"
-            type="file"
-            multiple
-            style={{ display: "none", height: "100%", width: "100%" }}
-          />
-        </Card>
+        <UploadArea onUpload={cp.addSlide}/>
       )}
-        {step == 1 && <CreatePostForm />}
-        {step == 2 && <PostPreview />}
+      {cp.posts.length>= 1 && <CreatePostForm />}
+      {step == 1 && <PostPreview />}
       <Box
         sx={{ width: "100%", display: "flex", justifyContent: "space-between" }}
       >

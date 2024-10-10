@@ -25,7 +25,6 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
   index,
   imageUrl,
 }) => {
-  console.log("imageUrl", imageUrl);
   const [open, setOpen] = React.useState(false);
   const onOpen = () => {
     setOpen(true);
@@ -75,7 +74,7 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
   return (
     <Box
       sx={{
-        // width: "100%",
+        width: "100%",
         display: "flex",
         flexDirection: isNarrow ? "column" : "row",
         justifyContent: "center",
@@ -101,6 +100,7 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
               position: "relative",
               maxWidth: "400px",
               height: "500px",
+              width:'100%',
               maxHeight: "500px",
               objectFit: "cover",
             }}

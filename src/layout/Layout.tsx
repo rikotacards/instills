@@ -70,19 +70,22 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         open={isOpen}
         fullScreen={isNarrow}
       >
+        
         <CreatePost onClose={onClose}/>
        
       </Dialog>
       <Dialog onClose={onCloseConfirm} open={openConfirmation}>
         <DialogContent>Are you sure you want to exit? </DialogContent>
           <Box sx={{p:1}}>
-          <Button sx={{mb:1}} variant='outlined' fullWidth>Save as Draft and exit</Button>
+          <Button sx={{mb:1}} variant='outlined' color="error" onClick={onQuit} fullWidth>
+            quit
+          </Button>
           <Button sx={{mb:1}} variant='outlined' fullWidth onClick={onContinue} >
             Continue Editing
           </Button>
-          <Button variant='outlined' color="error" onClick={onQuit} fullWidth>
-            quit
-          </Button>
+          <Button sx={{mb:1}} variant='outlined' fullWidth>Save as Draft and exit</Button>
+          
+         
           </Box>
       </Dialog>
     </Box>

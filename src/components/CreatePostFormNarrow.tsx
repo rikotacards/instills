@@ -17,7 +17,7 @@ export const CreatePostFormNarrow: React.FC<CreatePostFormNarrowProps> = ({posts
         </SwiperSlide>
       ));
     return (
-        <Swiper>
+        <Swiper style={{width:'100%'}}>
             {renderedInput}
         </Swiper>
     )

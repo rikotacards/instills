@@ -42,9 +42,10 @@ export const CreatePost: React.FC<CreatePostProps> = ({ onClose }) => {
           <Box
             sx={{ display: "flex", flex: 1, justifyContent: "flex-end", mr: 1 }}
           >
-<IconButton>
+            <IconButton>
               <Close onClick={onClose} />
-            </IconButton>          </Box>
+            </IconButton>
+          </Box>
         </Toolbar>
         <CreatePostNew />
       </CreatePostProvider>
