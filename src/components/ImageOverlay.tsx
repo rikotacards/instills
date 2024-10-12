@@ -209,6 +209,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
             label={40}
           />
           <Chip
+          onClick={enlarge}
             size="small"
             sx={{
               color: "white",
@@ -216,7 +217,17 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
               mr: 1,
               // backdropFilter: "blur(10px)",
             }}
-            label={"😂 23"}
+            icon={<IconButton
+            size="small"
+            sx={{padding:0, m:0,
+              height: isBig ? 40 : 'default',
+              width: isBig ? 40 : 'default',
+              transform: isBig ? 'rotate(20deg) scale(2)': 0,
+              transition: 'height 0.1s ease-in, width 0.1s ease-in'
+            }}
+            
+            >😂</IconButton>}
+            label={"23"}
           />
           <IconButton size="small" sx={{ color: "white", ml: "auto" }}>
             <AddReaction fontSize="small" />
