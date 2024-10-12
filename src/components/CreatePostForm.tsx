@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { CreatePostFormNarrow } from "./CreatePostFormNarrow";
 import { Thumbnails } from "./Thumbnails";
+import Swiper from "swiper";
 
 export const CreatePostForm: React.FC = () => {
   const cp = useCreatePostContext();
@@ -20,18 +21,52 @@ export const CreatePostForm: React.FC = () => {
     />
   ));
   const [selected, setSelected] = React.useState(0);
+  const [enableSlide, setEnable] = React.useState(true);
   const onSetSelected = (index: number) => {
     setSelected(index);
+    setEnable(false)
+    swiper?.slideTo(index);
+
   };
+
+  const onNextSlide = () => {
+   console.log('nnnnext')
+    setSelected((s) => {
+      if(s >= cp.posts.length-1){
+        return s
+      }
+      return s+1
+    })
+  }
+ 
+  const onPrevSlide = () => {
+
+
+    setSelected((s) => {
+      if(s  === 0){
+        return s
+      }
+      return s-1
+    })
+  }
   const isNarrow = useIsNarrow();
   const ref = React.useRef<null | HTMLInputElement>(null);
-
+  const [swiper, setSwiper] = React.useState<Swiper>();
+  const onSwiper = (swiper: Swiper) => {
+    setSwiper(swiper);
+  };
+  const slideToEnd = () => {
+    swiper?.slideTo(cp.posts.length+1)
+  }
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('filechange')
     if (e.target.files) {
       const array = Array.from(e.target.files);
       for (const file of array) {
         cp.addSlide(file);
       }
+      setSelected(cp.posts.length)
+      swiper?.slideTo(cp.posts.length)
     }
   };
   const onRefClick = () => {
@@ -54,14 +89,20 @@ export const CreatePostForm: React.FC = () => {
         onSetSelected={onSetSelected}
       />
 
-      <Box sx={{ display: "flex", width: "100%" }}>
+      <Box sx={{ display: "flex", width: "100%", p:0.5 }}>
         {isNarrow ? (
-          <CreatePostFormNarrow posts={cp.posts} />
+          <CreatePostFormNarrow
+          onNextSlide={onNextSlide}
+          onPrevSlide={onPrevSlide}
+          slideToEnd={slideToEnd}
+          onSwiper={onSwiper} 
+          selected={selected}
+          enableSlide={enableSlide}
+          posts={cp.posts} />
         ) : (
           renderedInput[selected]
         )}
       </Box>
-
       <input
         onChange={onFileChange}
         ref={ref}

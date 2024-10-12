@@ -1,4 +1,4 @@
-import {  Close, Delete, Edit } from "@mui/icons-material";
+import {   Edit } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
   DialogContent,
   IconButton,
   InputAdornment,
+  InputBase,
   OutlinedInput,
   TextField,
 } from "@mui/material";
@@ -47,6 +48,7 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
       cp.onImageChange(i, e.target.files[0]);
       const imageUrl = URL.createObjectURL(e.target.files[0]);
       setImagePath(imageUrl);
+
     }
   };
   const onClickUpload = () => {
@@ -97,45 +99,43 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
             }}
           />
           {isNarrow && (
-            <TextField
+            
+
+            <InputBase
               value={caption}
-              variant="standard"
+              // variant="outlined"
               onChange={onChange}
               onBlur={onBlur}
               multiline
               fullWidth
-              size="small"
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Edit sx={{pl: 1,color:'white'}} />
-                    </InputAdornment>
-                  ),
-                },
-              }}
-              inputProps={{ style: { color: "white", margin: 4 } }}
+              // slotProps={{
+              //   input: {
+              //     startAdornment: (
+              //       <InputAdornment position="start">
+              //         <Edit sx={{color:'white'}} />
+              //       </InputAdornment>
+              //     ),
+              //   },
+              // }}
+              inputProps={{ style: { color: "white", margin: 0 } }}
               placeholder="Write your caption"
               sx={{
-                bottom: 0,
-                // minWidth: 200,
-                zIndex: 2000,
+                bottom:0,
+                p:2,
                 position: "absolute",
-                input: {
-                  color: "white",
-                },
                 background:
                 `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0,  ${true ? 0.8 : 0.6})) `,
               }}
             />
+        
           )}
           
           <Box sx={{ position: "absolute", top: 0, right: 0, p: 1 }}>
             <IconButton
-              sx={{  backdropFilter: "blur(10px)", color: "white", background:'rgba(255,255,255,0.5)' }}
+              sx={{  backdropFilter: "blur(10px)", color: "white", background:'rgba(0,0,0,0.5)' }}
               onClick={onOpen}
             >
-              <DeleteIcon color='action' />
+              <DeleteIcon />
             </IconButton>
           </Box>
         </Box>

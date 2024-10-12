@@ -1,7 +1,7 @@
 import React from "react";
 import { ImageOverlay } from "./ImageOverlay";
 import { ImageSlider } from "./ImageSlider";
-import { Box } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import { IPost } from "../types";
 
 export const Post: React.FC<IPost> = (props) => {
@@ -23,6 +23,7 @@ export const Post: React.FC<IPost> = (props) => {
         width:'100%',
         height: "600px",
         maxHeight: "600px",
+        overflow: 'hidden'
       }}
     >
       <ImageOverlay
@@ -40,6 +41,7 @@ export const Post: React.FC<IPost> = (props) => {
           swiperController={firstSwiper}
         />
       </ImageOverlay>
+
     </Box>
   );
 };

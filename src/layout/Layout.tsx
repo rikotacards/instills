@@ -1,28 +1,20 @@
 import {
-  AppBar,
   Box,
   Button,
   CssBaseline,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import React from "react";
 import { useIsNarrow } from "../utils/useIsNarrow";
-import { Close } from "@mui/icons-material";
-import { CreatePostNew } from "../components/CreatePostNew";
 import { TopAppbar } from "../components/TopAppbar";
-import { CreatePostProvider } from "../providers/createPostProvider";
 import { CreatePost } from "../components/CreatePost";
 import { Outlet } from "react-router";
-interface LayoutProps {
-  children: React.ReactNode;
-}
+import { CreatePostProvider } from "../providers/createPostProvider";
+
 
 export const Layout: React.FC = () => {
   const isNarrow = useIsNarrow();

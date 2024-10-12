@@ -16,7 +16,7 @@ export const PostTop: React.FC<PostTopProps> = ({onMoreClick}) => {
         width:35
       }} />
       <Box>
-        <Typography fontWeight={700} sx={{color: 'white'}} variant='body2'>Maxwelldhsu</Typography>
+        <Typography fontWeight={700} sx={{color: 'white', textShadow: '0px 0px 15px black'}} variant='body2'>Maxwelldhsu</Typography>
       </Box>
       </Box>
       <IconButton onClick={onMoreClick} sx={{ ml: "auto" }}>

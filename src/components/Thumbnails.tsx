@@ -35,20 +35,24 @@ export const Thumbnails: React.FC<ThumbnailsProps> = ({
       >
         {posts.map((post, i) => {
           return (
+
             <Box
               component="img"
               src={post?.imageUrl}
               key={post.caption + i}
               sx={{
-                m:0.5,
-                ...thumbnail,
-                position: "relative",
-                objectFit: "cover",
-                borderRadius: 1,
-                border: i === selected ? "2px solid black" : undefined,
-              }}
-              onClick={() => onSetSelected(i)}
-            />
+              
+                  m:0.5,
+                  mt:1,
+                  opacity: i === selected ? 1 : '0.7',
+                  ...thumbnail,
+                  position: "relative",
+                  objectFit: "cover",
+                  borderRadius: 1,
+                  border: i === selected ? '2px solid blue': undefined
+                }}
+                onClick={() => onSetSelected(i)}
+                />
           );
         })}
       </Box>

@@ -23,7 +23,10 @@ interface CreatePostProps {
   onClose: () => void;
   closeWithoutPosts: () => void;
 }
-export const CreatePost: React.FC<CreatePostProps> = ({ onClose, closeWithoutPosts }) => {
+export const CreatePost: React.FC<CreatePostProps> = ({
+  onClose,
+  closeWithoutPosts,
+}) => {
   const [step, setStep] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const onOpen = () => {
@@ -56,19 +59,20 @@ export const CreatePost: React.FC<CreatePostProps> = ({ onClose, closeWithoutPos
   const onDiscard = () => {
     cp.onReset();
     onCloseDiscard();
-    dec()
+    dec();
   };
   const close = () => {
-    if(cp.posts.length > 0){
-      onClose()
+    if (cp.posts.length > 0) {
+      onClose();
     } else {
-      closeWithoutPosts()
+      closeWithoutPosts();
     }
-  }
-  const isNarrow =useIsNarrow();
+  };
+  const isNarrow = useIsNarrow();
   return (
     <Box>
-      {!isNarrow && <AppBar elevation={0} sx={{ background: "transparent" }}>
+      {!isNarrow && (
+        <AppBar elevation={0} sx={{ background: "transparent" }}>
           <Toolbar>
             <IconButton
               onClick={close}
@@ -77,9 +81,11 @@ export const CreatePost: React.FC<CreatePostProps> = ({ onClose, closeWithoutPos
               <Close />
             </IconButton>
           </Toolbar>
-        </AppBar>}
+        </AppBar>
+      )}
+      <AppBar position={isNarrow ? 'fixed': 'relative'} elevation={0}>
       <Toolbar
-        disableGutters
+        
         sx={{
           textAlign: "center",
           alignItems: "center",
@@ -95,28 +101,34 @@ export const CreatePost: React.FC<CreatePostProps> = ({ onClose, closeWithoutPos
           fontWeight={"bold"}
           sx={{ pl: 0, display: "flex", flex: 1, justifyContent: "center" }}
         >
-          Create
+          {["New post", "Create", "Preview"][step]}
         </Typography>
         <Box
           sx={{ display: "flex", flex: 1, justifyContent: "flex-end", mr: 1 }}
         >
-          {hasPosts && <Button onClick={onPreview}>Preview</Button>}
+          {hasPosts && <Button disableElevation variant='contained' sx={{textTransform: 'capitalize'}} onClick={onPreview}>{step === 2 ? 'Share': 'Preview'}</Button>}
         </Box>
       </Toolbar>
-      {step === 0 && <UploadArea onUpload={cp.addSlide} inc={inc} />}
+      </AppBar>
+      {isNarrow && <Toolbar/>}
+
+      {step === 0 && (
+        <Box sx={{ p: 3 }}>
+          <UploadArea onUpload={cp.addSlide} inc={inc} />
+        </Box>
+      )}
       {step === 1 && <CreatePostForm />}
       {step === 2 && <PostPreview />}
       <Dialog open={open} onClose={onCloseDiscard}>
         <DialogTitle> Discard post?</DialogTitle>
         <DialogContent>
-
-        <DialogContentText>
-          If you leave, your edits won't be saved
-        </DialogContentText>
-        <DialogActions>
-          <Button onClick={onDiscard}>Discard</Button>
-          <Button onClick={onCloseDiscard}>Cancel</Button>
-        </DialogActions>
+          <DialogContentText>
+            If you leave, your edits won't be saved.
+          </DialogContentText>
+          <Box sx={{display: 'flex', flexDirection: 'column', pt:1}}>
+            <Button variant='outlined' fullWidth color='error' onClick={onDiscard}>Discard</Button>
+            <Button onClick={onCloseDiscard}>Cancel</Button>
+          </Box>
         </DialogContent>
       </Dialog>
     </Box>

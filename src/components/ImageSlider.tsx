@@ -23,11 +23,17 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
       <SwiperSlide key={i}>
         <Box
           component="img"
+        
+          onContextMenu={(e) => e.preventDefault()}
           src={i}
           style={{
             objectFit: "cover",
             height: "100%",
             width: "100%",
+            pointerEvents: 'none',
+            WebkitUserSelect: 'none',
+            WebkitTouchCallout: 'none',
+            userSelect: 'none',
           }}
         />
       </SwiperSlide>

@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 
 import { Layout } from "./layout/Layout";
@@ -16,7 +15,11 @@ function App() {
     },
     components: {
       MuiAppBar: {
-        styleOverrides: {},
+        styleOverrides: {
+          colorPrimary: {
+            backgroundColor: 'white'
+          }
+        },
       },
     },
     typography: {
