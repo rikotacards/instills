@@ -1,10 +1,10 @@
 import {
+  Avatar,
   Box,
   Button,
   Chip,
   Dialog,
   DialogContent,
-  DialogTitle,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -14,7 +14,8 @@ import { PostTop } from "./PostTop";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Controller, Navigation, EffectFade } from "swiper/modules";
 import "swiper/css/effect-fade";
-import { AddReaction, EmojiEmotions, Favorite } from "@mui/icons-material";
+import profile from '../assets/profile.jpeg'
+import { AddReaction,  Favorite } from "@mui/icons-material";
 import './ImageOverlay.css'
 interface ImageOverlayProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ interface ImageOverlayProps {
   onClose: () => void;
   onToggle: () => void;
   captions: string[];
+  enableTop?: boolean
 }
 const sampleText =
   'Went to view this apartment today, the floors were okay, but made of wood. nothing too bad.';
@@ -37,6 +39,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   onClose,
   onToggle,
   captions,
+  enableTop
 }) => {
   const [isOpen, setOpen] = React.useState(false);
   const [isBig, setBig] = React.useState(false)
@@ -52,29 +55,66 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   }
   const [currPage, setCurrPage] = React.useState(1);
 
+  const captionSlider =  <Box sx={{m:2}}>
+  <Box display={'flex'} sx={{color:'white', alignItems: 'center'}}>
+    <Avatar sx={{height:30, width:30, mr:1}} src={profile}/>
+  <Typography variant='body2' fontWeight={700} sx={{color: 'white'}}>Maxwelldhsu</Typography>
+  <Typography variant='caption' fontWeight={300} sx={{color: 'white',ml:1}}>Oct 12 2024</Typography>
+ </Box>
+
+  <Swiper
+    onSwiper={onSwiper}
+    onSlideChange={onClose}
+    effect={"fade"}
+    fadeEffect={{ crossFade: true }}
+    onSlideNextTransitionEnd={() => setCurrPage((p) => p + 1)}
+    onSlidePrevTransitionEnd={() => setCurrPage((p) => p - 1)}
+    controller={{ control: swiperController }}
+    modules={[Controller, Navigation, EffectFade]}
+    style={{ display: "flex", zIndex:1 , marginTop: 8}}
+  >
+    {captions.map((text, i) => (
+      <SwiperSlide key={text + i}>
+        <Caption
+          isCaptionOpen={isCaptionOpen}
+          text={text}
+          onToggle={onToggle}
+        />
+      </SwiperSlide>
+    ))}
+  </Swiper>
+  </Box>
+
   return (
     <Box
+
       sx={{
         position: "relative",
         height: "100%",
+        
       }}
     >
       <Box
+        className={enableTop ? 'top': undefined}
         sx={{
           position: "absolute",
           top: 0,
           width: "100%",
           zIndex: 2,
           display: "flex",
+          flexDirection: 'column',
         }}
       >
-        <PostTop onMoreClick={onDialogOpen} />
-      </Box>
+ 
+
+      {!enableTop &&   <PostTop onMoreClick={onDialogOpen} />}
+        {enableTop && captionSlider}
+        </Box>
 
       {children}
 
       <Box
-      className={isOpen ? 'forNow' : 'forNow'}
+      className={'bottom'}
         sx={{
           position: "absolute",
           bottom: 0,
@@ -84,7 +124,9 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           // background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0,  ${isCaptionOpen ? 0.9 : 0.9})) `,
         }}
       >
-       <Box display={'flex'} sx={{color:'white'}}>
+      {!enableTop &&
+          <>
+        <Box display={'flex'} sx={{color:'white'}}>
         <Typography variant='body2' fontWeight={700} sx={{color: 'white'}}>Maxwelldhsu</Typography>
         <Typography variant='caption' fontWeight={300} sx={{color: 'white',ml:1}}>Oct 12 2024</Typography>
        </Box>
@@ -110,6 +152,8 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
             </SwiperSlide>
           ))}
         </Swiper>
+        </>
+        }
         {/* <Box
           sx={{ 
             position: 'absolute',
@@ -132,16 +176,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
             }
           />
         </Box> */}
-        {/* <Box sx={{ width: "100%", textAlign: "left" }}>
-          <Typography
-          color='textSecondary'
-            component="div"
-            sx={{ ml: "auto", color: "grey" }}
-            variant="caption"
-          >
-            Oct 12 2024
-          </Typography>
-        </Box> */}
+      
          <Box
           sx={{
             mt:1,

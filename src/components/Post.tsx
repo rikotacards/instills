@@ -1,11 +1,11 @@
 import React from "react";
 import { ImageOverlay } from "./ImageOverlay";
 import { ImageSlider } from "./ImageSlider";
-import { Box, Card, Typography } from "@mui/material";
+import { Box,} from "@mui/material";
 import { IPost } from "../types";
 
-export const Post: React.FC<IPost> = (props) => {
-  const {imageUrls, captions} = props;
+export const Post: React.FC<IPost & {enableTop?: boolean}> = (props) => {
+  const {imageUrls, captions, enableTop} = props;
   const [firstSwiper, setFirstSwiper] = React.useState(null);
   const [secondSwiper, setSecondSwiper] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -33,6 +33,7 @@ export const Post: React.FC<IPost> = (props) => {
         swiperController={secondSwiper}
         onToggle={onToggle}
         captions={captions}
+        enableTop={enableTop}
       >
         <ImageSlider
         imageUrls={imageUrls}
