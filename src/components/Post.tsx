@@ -1,11 +1,11 @@
 import React from "react";
 import { ImageOverlay } from "./ImageOverlay";
 import { ImageSlider } from "./ImageSlider";
-import { Box,} from "@mui/material";
+import { Box } from "@mui/material";
 import { IPost } from "../types";
 
-export const Post: React.FC<IPost & {enableTop?: boolean}> = (props) => {
-  const {imageUrls, captions, enableTop} = props;
+export const Post: React.FC<IPost & { enableTop?: boolean }> = (props) => {
+  const { imageUrls, captions, enableTop } = props;
   const [firstSwiper, setFirstSwiper] = React.useState(null);
   const [secondSwiper, setSecondSwiper] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -13,17 +13,17 @@ export const Post: React.FC<IPost & {enableTop?: boolean}> = (props) => {
     setIsOpen(false);
   };
   const onToggle = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
   return (
     <Box
       sx={{
         position: "relative",
         maxWidth: "400px",
-        width:'100%',
+        width: "100%",
         height: "600px",
         maxHeight: "600px",
-        overflow: 'hidden'
+        overflow: "hidden",
       }}
     >
       <ImageOverlay
@@ -36,13 +36,12 @@ export const Post: React.FC<IPost & {enableTop?: boolean}> = (props) => {
         enableTop={enableTop}
       >
         <ImageSlider
-        imageUrls={imageUrls}
+          imageUrls={imageUrls}
           onClose={onClose}
           onSwiper={setSecondSwiper}
           swiperController={firstSwiper}
         />
       </ImageOverlay>
-
     </Box>
   );
 };

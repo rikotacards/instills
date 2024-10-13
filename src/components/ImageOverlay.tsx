@@ -14,10 +14,11 @@ import { PostTop } from "./PostTop";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Controller, Navigation, EffectFade } from "swiper/modules";
 import "swiper/css/effect-fade";
-import profile from '../assets/profile.jpeg'
-import { AddReaction,  Favorite } from "@mui/icons-material";
-import './ImageOverlay.css'
+import profile from "../assets/profile.jpeg";
+import { AddReaction, Favorite, MoreHoriz } from "@mui/icons-material";
+import "./ImageOverlay.css";
 import { Reactions } from "./Reactions";
+import { PostOptions } from "./PostOptions";
 interface ImageOverlayProps {
   children: React.ReactNode;
   onSwiper: any;
@@ -26,10 +27,10 @@ interface ImageOverlayProps {
   onClose: () => void;
   onToggle: () => void;
   captions: string[];
-  enableTop?: boolean
+  enableTop?: boolean;
 }
 const sampleText =
-  'Went to view this apartment today, the floors were okay, but made of wood. nothing too bad.';
+  "Went to view this apartment today, the floors were okay, but made of wood. nothing too bad.";
 
 export const c = [sampleText, "Where the magic happens"];
 export const ImageOverlay: React.FC<ImageOverlayProps> = ({
@@ -40,7 +41,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   onClose,
   onToggle,
   captions,
-  enableTop
+  enableTop,
 }) => {
   const [isOpen, setOpen] = React.useState(false);
   const onDialogOpen = () => {
@@ -49,69 +50,78 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   const onDialogClose = () => {
     setOpen(false);
   };
-  
+
   const [currPage, setCurrPage] = React.useState(1);
 
-  const captionSlider =  <Box sx={{m:2}}>
-  <Box display={'flex'} sx={{color:'white', alignItems: 'center'}}>
-    <Avatar sx={{height:30, width:30, mr:1}} src={profile}/>
-  <Typography variant='body2' fontWeight={700} sx={{color: 'white'}}>Maxwelldhsu</Typography>
-  <Typography variant='caption' fontWeight={300} sx={{color: 'white',ml:1}}>Oct 12 2024</Typography>
- </Box>
+  const captionSlider = (
+    <Box sx={{ m: 2 }}>
+      <Box display={"flex"} sx={{ color: "white", alignItems: "center" }}>
+        <Avatar sx={{ height: 30, width: 30, mr: 1 }} src={profile} />
+        <Typography variant="body2" fontWeight={700} sx={{ color: "white" }}>
+          Maxwelldhsu
+        </Typography>
+        <Typography
+          variant="caption"
+          fontWeight={300}
+          sx={{ color: "white", ml: 1 }}
+        >
+          Oct 12 2024
+        </Typography>
+        <Box onClick={onDialogOpen} sx={{zIndex:3, ml: 'auto'}}>
+            <MoreHoriz />
+        </Box>
+      </Box>
 
-  <Swiper
-    onSwiper={onSwiper}
-    onSlideChange={onClose}
-    effect={"fade"}
-    fadeEffect={{ crossFade: true }}
-    onSlideNextTransitionEnd={() => setCurrPage((p) => p + 1)}
-    onSlidePrevTransitionEnd={() => setCurrPage((p) => p - 1)}
-    controller={{ control: swiperController }}
-    modules={[Controller, Navigation, EffectFade]}
-    style={{ display: "flex", zIndex:1 , marginTop: 8}}
-  >
-    {captions.map((text, i) => (
-      <SwiperSlide key={text + i}>
-        <Caption
-          isCaptionOpen={isCaptionOpen}
-          text={text}
-          onToggle={onToggle}
-        />
-      </SwiperSlide>
-    ))}
-  </Swiper>
-  </Box>
+      <Swiper
+        onSwiper={onSwiper}
+        onSlideChange={onClose}
+        effect={"fade"}
+        fadeEffect={{ crossFade: true }}
+        onSlideNextTransitionEnd={() => setCurrPage((p) => p + 1)}
+        onSlidePrevTransitionEnd={() => setCurrPage((p) => p - 1)}
+        controller={{ control: swiperController }}
+        modules={[Controller, Navigation, EffectFade]}
+        style={{ display: "flex", zIndex: 1, marginTop: 8 }}
+      >
+        {captions.map((text, i) => (
+          <SwiperSlide key={text + i}>
+            <Caption
+              isCaptionOpen={isCaptionOpen}
+              text={text}
+              onToggle={onToggle}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </Box>
+  );
 
   return (
     <Box
-
       sx={{
         position: "relative",
         height: "100%",
-        
       }}
     >
       <Box
-        className={enableTop ? 'top': undefined}
+        className={enableTop ? "top" : undefined}
         sx={{
           position: "absolute",
           top: 0,
           width: "100%",
           zIndex: 2,
           display: "flex",
-          flexDirection: 'column',
+          flexDirection: "column",
         }}
       >
- 
-
-      {!enableTop &&   <PostTop onMoreClick={onDialogOpen} />}
+        {!enableTop && <PostTop onMoreClick={onDialogOpen} />}
         {enableTop && captionSlider}
-        </Box>
+      </Box>
 
       {children}
 
       <Box
-      className={'bottom'}
+        className={"bottom"}
         sx={{
           position: "absolute",
           bottom: 0,
@@ -121,36 +131,48 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           // background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0,  ${isCaptionOpen ? 0.9 : 0.9})) `,
         }}
       >
-      {!enableTop &&
+        {!enableTop && (
           <>
-        <Box display={'flex'} sx={{color:'white'}}>
-        <Typography variant='body2' fontWeight={700} sx={{color: 'white'}}>Maxwelldhsu</Typography>
-        <Typography variant='caption' fontWeight={300} sx={{color: 'white',ml:1}}>Oct 12 2024</Typography>
-       </Box>
+            <Box display={"flex"} sx={{ color: "white" }}>
+              <Typography
+                variant="body2"
+                fontWeight={700}
+                sx={{ color: "white" }}
+              >
+                Maxwelldhsu
+              </Typography>
+              <Typography
+                variant="caption"
+                fontWeight={300}
+                sx={{ color: "white", ml: 1 }}
+              >
+                Oct 12 2024
+              </Typography>
+            </Box>
 
-        <Swiper
-          onSwiper={onSwiper}
-          onSlideChange={onClose}
-          effect={"fade"}
-          fadeEffect={{ crossFade: true }}
-          onSlideNextTransitionEnd={() => setCurrPage((p) => p + 1)}
-          onSlidePrevTransitionEnd={() => setCurrPage((p) => p - 1)}
-          controller={{ control: swiperController }}
-          modules={[Controller, Navigation, EffectFade]}
-          style={{ display: "flex", zIndex:10 }}
-        >
-          {captions.map((text, i) => (
-            <SwiperSlide key={text + i}>
-              <Caption
-                isCaptionOpen={isCaptionOpen}
-                text={text}
-                onToggle={onToggle}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        </>
-        }
+            <Swiper
+              onSwiper={onSwiper}
+              onSlideChange={onClose}
+              effect={"fade"}
+              fadeEffect={{ crossFade: true }}
+              onSlideNextTransitionEnd={() => setCurrPage((p) => p + 1)}
+              onSlidePrevTransitionEnd={() => setCurrPage((p) => p - 1)}
+              controller={{ control: swiperController }}
+              modules={[Controller, Navigation, EffectFade]}
+              style={{ display: "flex", zIndex: 10 }}
+            >
+              {captions.map((text, i) => (
+                <SwiperSlide key={text + i}>
+                  <Caption
+                    isCaptionOpen={isCaptionOpen}
+                    text={text}
+                    onToggle={onToggle}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </>
+        )}
         {/* <Box
           sx={{ 
             position: 'absolute',
@@ -173,13 +195,11 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
             }
           />
         </Box> */}
-      
-        <Reactions/>
+
+        <Reactions />
       </Box>
       <Dialog onClose={onDialogClose} open={isOpen}>
-        <DialogContent>
-          <Button color="error">Delete</Button>
-        </DialogContent>
+        <PostOptions onClose={onDialogClose} />
       </Dialog>
     </Box>
   );

@@ -2,28 +2,21 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
+
   Menu,
   IconButton,
   Box,
-  ListItemIcon,
-  Avatar,
-  Paper,
+ 
 } from "@mui/material";
 import React from "react";
 import { useIsNarrow } from "../utils/useIsNarrow";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router";
-import Button from "@mui/material/Button";
 import { useScrollDirection } from "../utils/useScrollDirection";
 
-import HomeIcon from "@mui/icons-material/Home";
 import MenuItem from "@mui/material/MenuItem";
 import { SideDrawer } from "./SideDrawer";
-const drawerWidth = 240;
+import { sidebar } from "../config/menuItems";
 
 interface TopAppbarProps {
   onOpen: () => void;

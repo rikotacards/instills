@@ -48,3 +48,18 @@ export default tseslint.config({
   },
 })
 ```
+
+## Firebase Database
+
+### users table
+- user ID (auto generated)
+Should include followers
+
+### Username to UserID mapping
+Maps the username to the userId
+When users visit a profile, the username will be in the URL
+We use the URL to get the username, which we then find the UID
+With the UID, we can get the posts.
+
+### posts
+- docId: post id (auto generated)
