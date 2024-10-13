@@ -16,6 +16,9 @@ import { Reactions } from "./Reactions";
 import { PostOptions } from "./PostOptions";
 import { PostHeader } from "./PostHeader";
 import { ReactionOverlay } from "./ReactionOverlay";
+import { addReaction } from "../firebase/posts";
+import { UID } from "../firebase/firebaseConfig";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface ImageOverlayProps {
   children: React.ReactNode;
   onSwiper: any;
@@ -45,6 +48,8 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   postId
 }) => {
   const [isOpen, setOpen] = React.useState(false);
+  const queryClient = useQueryClient();
+
   const onDialogOpen = () => {
     setOpen(true);
   };
@@ -52,9 +57,22 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
     setOpen(false);
   };
   const [openReaction, setReaction] = React.useState(false);
-
+  const mutation = useMutation({
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["getReactions", postId],
+      }),
+    mutationFn: (unicode: string) => {
+      return addReaction({
+        uid: UID,
+        unicode,
+        postId,
+      });
+    },
+  });
   const onOpenReaction = () => {
     setReaction(true);
+    mutation.mutate('like')
     setTimeout(() => setReaction(false), 500);
   };
 

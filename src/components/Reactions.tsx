@@ -6,14 +6,20 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Modal,
   Popover,
 } from "@mui/material";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import React from "react";
 import { ReactionEmoji } from "./ReactionEmoji";
-import { addReaction, getReactions } from "../firebase/posts";
+import { addReaction, deleteReaction, getReactions } from "../firebase/posts";
 import { UID } from "../firebase/firebaseConfig";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { getReactionsCounts } from "../utils/getReactionsCounts";
 
 interface ReactionsProps {
@@ -24,19 +30,39 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
   const queryClient = useQueryClient();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const mutation = useMutation({
-    onSuccess: () => queryClient.invalidateQueries(
-      {
-        queryKey:["getReactions", postId]
-      }
-    ),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["getReactions", postId],
+      }),
     mutationFn: (unicode: string) => {
       return addReaction({
         uid: UID,
         unicode,
         postId,
-      })
+      });
     },
-  })
+  });
+  const deleteMutation = useMutation({
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["getReactions", postId],
+      }),
+    mutationFn: ({
+      uid,
+      postId,
+      unicode,
+    }: {
+      uid: string;
+      postId: string;
+      unicode: string;
+    }) => {
+      return deleteReaction({
+        uid: uid || UID,
+        postId,
+        unicode,
+      });
+    },
+  });
   const openEl = Boolean(anchorEl);
   const { data, isLoading } = useQuery({
     queryKey: ["getReactions", postId],
@@ -44,9 +70,13 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
   });
   console.log("reaction data", data);
   const reactionsTransformed = getReactionsCounts(data || {});
-  const onReact = async (unicode: string) => {
+  const onReact = async (unicode: string, hasReacted: boolean) => {
     try {
-      mutation.mutate(unicode)
+      if (hasReacted) {
+        deleteMutation.mutate({ uid: UID, postId, unicode });
+      } else {
+        mutation.mutate(unicode);
+      }
     } catch (e) {
       alert(e);
     }
@@ -66,13 +96,19 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
   const likes =
     data && data?.["like"] ? Object.keys(data?.["like"])?.length : 0;
   const reactionEmojis = reactionsTransformed.map((r) => {
+    const hasReacted = !!data?.[r.unicode]?.[UID];
     if (r.unicode === "like") {
+      return;
+    }
+    if (r.count === 0) {
       return;
     }
     return (
       <ReactionEmoji
-        emoji={<Emoji size={20} unified={r.unicode} />}
-        onClick={() => onReact(r.unicode)}
+        key={r.unicode}
+        hasReacted={hasReacted}
+        emoji={<Emoji size={20} unified={r.unicode.toLowerCase()} />}
+        onClick={() => onReact(r.unicode, hasReacted)}
         count={r.count}
       />
     );
@@ -87,13 +123,24 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
         alignItems: "center",
       }}
     >
-      <ReactionEmoji
-        emoji={<Favorite color="error" />}
-        onClick={() => onReact("like")}
-        count={likes || 0}
-      />
+      <Box
+        sx={{
+          overflowX: "scroll",
+          whiteSpace: "nowrap",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          height: "50px",
+        }}
+      >
+        <ReactionEmoji
+          emoji={<Favorite color="error" />}
+          onClick={() => onReact("like", !!data?.["like"]?.[UID])}
+          count={likes || 0}
+        />
 
-      {reactionEmojis}
+        {reactionEmojis}
+      </Box>
 
       <IconButton onClick={onOpen} sx={{ color: "white", ml: "auto" }}>
         <AddReaction />
@@ -107,33 +154,50 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
         onClose={handleClose}
         sx={{ background: "transparent", borderRadius: 0, display: "flex" }}
       >
-        <IconButton>
-          <Emoji unified="1f423" />
-        </IconButton>
-        <IconButton>
-          <Emoji unified="1f60d" />
-        </IconButton>
-        <IconButton>
-          <Add />
-        </IconButton>
+        <EmojiPicker
+          skinTonesDisabled
+          searchDisabled
+          open
+          
+          reactionsDefaultOpen
+          onEmojiClick={(e) => {
+            onReact(e.unified, false);
+            onClose();
+          }}
+          onReactionClick={(s) => {
+            onReact(s.unified, false);
+            onClose();
+          }}
+          reactions={["1f602", "1f423"]}
+        />
       </Popover>
-      <Dialog
-        PaperProps={{
-          style: {
-            background: "transparent",
-            display: "flex",
-          },
+      <Modal
+        sx={{
+
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
         onClose={onClose}
         open={open}
       >
         <EmojiPicker
           skinTonesDisabled
+          searchDisabled
           open
+          
           reactionsDefaultOpen
+          onEmojiClick={(e) => {
+            onReact(e.unified, false);
+            onClose();
+          }}
+          onReactionClick={(s) => {
+            onReact(s.unified, false);
+            onClose();
+          }}
           reactions={["1f602", "1f423"]}
         />
-      </Dialog>
+      </Modal>
     </Box>
   );
 };

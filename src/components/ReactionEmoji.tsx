@@ -3,9 +3,10 @@ import React from 'react';
 interface ReactionEmojiProps {
     emoji: React.ReactNode;
     count: number;
-    onClick: () => void
+    onClick: () => void;
+    hasReacted?: boolean;
 }
-export const ReactionEmoji: React.FC<ReactionEmojiProps> = ({onClick, emoji, count}) => {
+export const ReactionEmoji: React.FC<ReactionEmojiProps> = ({onClick, emoji, count, hasReacted}) => {
     const [isBig, setBig] = React.useState(false);
 
     const enlarge = () => {
@@ -30,10 +31,8 @@ export const ReactionEmoji: React.FC<ReactionEmojiProps> = ({onClick, emoji, cou
           // backdropFilter: "blur(10px)",
           color: "white",
           fontWeight: 600,
-          // boxShadow: "0px 0px 1px black",
           mr: 1,
         }}
-        // variant='outlined'
         label={count}
       />
     )

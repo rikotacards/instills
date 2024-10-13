@@ -64,7 +64,7 @@ export const ProfilePage: React.FC = () => {
           </Box>
 
           <Typography fontWeight={500} variant="body2">
-            I made web things, travel a bit much, and strongly prefer menus with
+            I made web things, travel a bit much, and strongly prefer books and menus with
             pictures.
           </Typography>
         </Box>
