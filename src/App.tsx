@@ -18,8 +18,8 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         colorPrimary: {
-          backgroundColor: 'white'
-        }
+          backgroundColor: "white",
+        },
       },
     },
   },
@@ -42,19 +42,18 @@ const theme = createTheme({
 function App() {
   const queryClient = new QueryClient();
 
-
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/profile/edit" element={<ProfileSettingsPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Route>
-        </Routes>
+        <QueryClientProvider client={queryClient}>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/profile/edit" element={<ProfileSettingsPage />} />
+              <Route path="/profile/:username" element={<ProfilePage />} />
+              <Route path="/edit-profile" element={<ProfilePage />} />
+            </Route>
+          </Routes>
         </QueryClientProvider>
       </ThemeProvider>
     </BrowserRouter>

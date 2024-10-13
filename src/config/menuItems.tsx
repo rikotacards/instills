@@ -17,6 +17,6 @@ export const sidebar: IMenuItems[] = [
     {
       icon: <Avatar sx={{ height: 25, width: 25 }} />,
       label: "profile",
-      path: "/profile",
+      path: "/profile/maxwelldhsu",
     },
   ];

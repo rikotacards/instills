@@ -54,7 +54,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   const [currPage, setCurrPage] = React.useState(1);
 
   const captionSlider = (
-    <Box sx={{ m: 2 }}>
+    <Box sx={{ m:2 }}>
       <Box display={"flex"} sx={{ color: "white", alignItems: "center" }}>
         <Avatar sx={{ height: 30, width: 30, mr: 1 }} src={profile} />
         <Typography variant="body2" fontWeight={700} sx={{ color: "white" }}>

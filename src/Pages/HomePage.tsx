@@ -2,7 +2,7 @@ import React from "react";
 import sample from "../../sample.jpg";
 import landscape from "../../landscape.jpg";
 const imageUrls = [sample, landscape];
-import { Box } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import { Post } from "../components/Post";
 import asset1 from "../assets/asset1.jpeg";
 import asset2 from "../assets/asset2.jpeg";
@@ -12,13 +12,19 @@ import { getUserPosts } from "../firebase/posts";
 import { UID } from "../firebase/firebaseConfig";
 
 export const HomePage: React.FC = () => {
-    const { data, isLoading } = useQuery({
-        queryKey: ["getUserPosts", UID],
-        queryFn: () => getUserPosts(UID),
-      });
-      console.log(data)
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUserPosts", UID],
+    queryFn: () => getUserPosts(UID),
+  });
+  console.log(data);
+  const posts = data?.map((p) => (
+    <Box sx={{ mb: 1 }}>
+      <Post captions={p.captions} imageUrls={p.imageUrls} enableTop />
+    </Box>
+  ));
   return (
     <Box sx={{ m: 0 }}>
+        {posts}
       <Box sx={{ mb: 1 }}>
         <Post
           enableTop

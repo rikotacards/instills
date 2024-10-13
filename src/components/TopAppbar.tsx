@@ -2,11 +2,11 @@ import {
   AppBar,
   Toolbar,
   Typography,
-
   Menu,
   IconButton,
   Box,
- 
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import React from "react";
 import { useIsNarrow } from "../utils/useIsNarrow";
@@ -44,20 +44,33 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
           transition: "height 0.5s ease",
         }}
       >
-        <Toolbar >
+        <Toolbar>
           <Typography
-          sx={{ borderRadius: 4, pl:1, pr:1, color: sd=== 'up' ? 'black' : 'transparent'}}
-          color='textPrimary' fontWeight={"bold"} variant="h6" noWrap component="div">
+            sx={{
+              borderRadius: 4,
+              pl: 1,
+              pr: 1,
+              color: sd === "up" ? "black" : "transparent",
+            }}
+            color="textPrimary"
+            fontWeight={"bold"}
+            variant="h6"
+            noWrap
+            component="div"
+          >
             Stills
           </Typography>
           <Box sx={{ ml: "auto" }}>
-            <IconButton sx={{backdropFilter: 'blur(1px)'}} onClick={handleClick}>
+            <IconButton
+              sx={{ backdropFilter: "blur(1px)" }}
+              onClick={handleClick}
+            >
               <MenuIcon />
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-    <SideDrawer onOpen={onOpen} isNarrow={isNarrow}/>
+      <SideDrawer onOpen={onOpen} isNarrow={isNarrow} />
 
       <Toolbar />
       <Menu
@@ -74,7 +87,8 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
             key={item.label}
             onClick={item.label === "create" ? onOpen : () => nav(item.path)}
           >
-            {item.label}
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText sx={{textTransform: 'capitalize'}} primary={item.label}/>
           </MenuItem>
         ))}
       </Menu>

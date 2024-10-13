@@ -1,20 +1,45 @@
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, Dialog, Typography } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { ImageGallery } from "../components/ImageGallery";
 import { useIsNarrow } from "../utils/useIsNarrow";
 import { Timeline } from "../components/Timeline";
 import profile from "../assets/profile.jpeg";
+import { useQuery } from "@tanstack/react-query";
+import { getUserPosts } from "../firebase/posts";
+import { UID } from "../firebase/firebaseConfig";
+import { Post } from "../components/Post";
+import { EditProfilePage } from "./EditProfilePage";
+
 export const ProfilePage: React.FC = () => {
   const nav = useNavigate();
   const isNarrow = useIsNarrow();
-  const onEdit = () => nav("edit");
+  const location = useLocation();
+  const [editOpen, setEditOpen] = React.useState(false);
+  const onEdit = () => {
+    setEditOpen(true)
+  }
+  const onEditClose = () => {
+    setEditOpen(false)
+  }
+  const username = location.pathname.split('/')?.[2]
+  console.log(username)
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUserPosts", username],
+    queryFn: () => getUserPosts(username),
+  });
+  const posts = data?.map((p) => (
+    <Box sx={{ mb: 1 }}>
+      <Post captions={p.captions} imageUrls={p.imageUrls} enableTop />
+    </Box>
+  ));
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
+        // alignItems: "flex-start",
+        width:'100%',
         mt: 1,
       }}
     >
@@ -56,7 +81,10 @@ export const ProfilePage: React.FC = () => {
           Follow
         </Button>
       </Box>
-      {isNarrow ? <Timeline /> : <ImageGallery />}
+      {isNarrow ? posts : <ImageGallery />}
+      <Dialog fullScreen={isNarrow}  open={editOpen} onClose={onEditClose}>
+        <EditProfilePage onClose={onEditClose}/>
+      </Dialog>
     </Box>
   );
 };
