@@ -19,6 +19,7 @@ import { AddReaction, Favorite, MoreHoriz } from "@mui/icons-material";
 import "./ImageOverlay.css";
 import { Reactions } from "./Reactions";
 import { PostOptions } from "./PostOptions";
+import { PostHeader } from "./PostHeader";
 interface ImageOverlayProps {
   children: React.ReactNode;
   onSwiper: any;
@@ -57,25 +58,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
 
   const captionSlider = (
     <Box sx={{ m:2 }}>
-      <Box display={"flex"} sx={{ color: "white", alignItems: "center" }}>
-        <Avatar sx={{ height: 30, width: 30, mr: 1 }} src={profile} />
-        <Typography variant="body2" fontWeight={700} sx={{ color: "white" }}>
-          Maxwelldhsu
-        </Typography>
-        <Typography
-          variant="caption"
-          fontWeight={300}
-          sx={{ color: "white", ml: 1 }}
-        >
-         {dateAdded}
-        </Typography>
-        <Box  sx={{ ml: 'auto'}}>
-          <IconButton onClick={onDialogOpen} color='inherit'>
-
-            <MoreHoriz />
-          </IconButton>
-        </Box>
-      </Box>
+      <PostHeader onDialogOpen={onDialogOpen} dateAdded={dateAdded} profile={profile}/>
 
       <Swiper
         onSwiper={onSwiper}
@@ -119,7 +102,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           flexDirection: "column",
         }}
       >
-        {!enableTop && <PostTop onMoreClick={onDialogOpen} />}
+        {!enableTop && <PostHeader dateAdded={dateAdded} profile={profile} onDialogOpen={onDialogOpen} />}
         {enableTop && captionSlider}
       </Box>
 
