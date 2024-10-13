@@ -7,6 +7,7 @@ import {
   DialogContent,
   IconButton,
   Typography,
+  Zoom,
 } from "@mui/material";
 import React from "react";
 import { Caption } from "./Caption";
@@ -20,6 +21,7 @@ import "./ImageOverlay.css";
 import { Reactions } from "./Reactions";
 import { PostOptions } from "./PostOptions";
 import { PostHeader } from "./PostHeader";
+import { ReactionOverlay } from "./ReactionOverlay";
 interface ImageOverlayProps {
   children: React.ReactNode;
   onSwiper: any;
@@ -44,7 +46,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   onToggle,
   captions,
   enableTop,
-  dateAdded
+  dateAdded,
 }) => {
   const [isOpen, setOpen] = React.useState(false);
   const onDialogOpen = () => {
@@ -53,12 +55,22 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   const onDialogClose = () => {
     setOpen(false);
   };
+  const [openReaction, setReaction] = React.useState(false);
+
+  const onOpenReaction = () => {
+    setReaction(true);
+    setTimeout(() => setReaction(false), 500);
+  };
 
   const [currPage, setCurrPage] = React.useState(1);
 
   const captionSlider = (
-    <Box sx={{ m:2 }}>
-      <PostHeader onDialogOpen={onDialogOpen} dateAdded={dateAdded} profile={profile}/>
+    <Box sx={{ m: 2 }}>
+      <PostHeader
+        onDialogOpen={onDialogOpen}
+        dateAdded={dateAdded}
+        profile={profile}
+      />
 
       <Swiper
         onSwiper={onSwiper}
@@ -90,7 +102,13 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         position: "relative",
         height: "100%",
       }}
+      onClick={(e) => {
+        if (e.detail == 2) {
+          onOpenReaction()
+        }
+      }}
     >
+      {<ReactionOverlay openReaction={openReaction}/>}
       <Box
         className={enableTop ? "top" : undefined}
         sx={{
@@ -102,7 +120,13 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           flexDirection: "column",
         }}
       >
-        {!enableTop && <PostHeader dateAdded={dateAdded} profile={profile} onDialogOpen={onDialogOpen} />}
+        {!enableTop && (
+          <PostHeader
+            dateAdded={dateAdded}
+            profile={profile}
+            onDialogOpen={onDialogOpen}
+          />
+        )}
         {enableTop && captionSlider}
       </Box>
 
