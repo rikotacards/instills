@@ -67,8 +67,11 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         >
           Oct 12 2024
         </Typography>
-        <Box onClick={onDialogOpen} sx={{zIndex:3, ml: 'auto'}}>
+        <Box  sx={{ ml: 'auto'}}>
+          <IconButton onClick={onDialogOpen} color='inherit'>
+
             <MoreHoriz />
+          </IconButton>
         </Box>
       </Box>
 

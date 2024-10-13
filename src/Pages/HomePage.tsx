@@ -7,7 +7,16 @@ import { Post } from "../components/Post";
 import asset1 from "../assets/asset1.jpeg";
 import asset2 from "../assets/asset2.jpeg";
 import { c } from "../components/ImageOverlay";
+import { useQuery } from "@tanstack/react-query";
+import { getUserPosts } from "../firebase/posts";
+import { UID } from "../firebase/firebaseConfig";
+
 export const HomePage: React.FC = () => {
+    const { data, isLoading } = useQuery({
+        queryKey: ["getUserPosts", UID],
+        queryFn: () => getUserPosts(UID),
+      });
+      console.log(data)
   return (
     <Box sx={{ m: 0 }}>
       <Box sx={{ mb: 1 }}>

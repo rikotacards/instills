@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface PreparePost {
     imageUrl?: string;
     imageFile?: File;
@@ -13,3 +15,11 @@ export interface IMenuItems {
     label: string;
     path: string;
   }
+
+export interface IFbPost {
+    captions: string[];
+    imageUrls: string[];
+    uid: string;
+    dateAdded: Timestamp;
+    postId: string;
+}

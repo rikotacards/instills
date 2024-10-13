@@ -5,41 +5,49 @@ import { Layout } from "./layout/Layout";
 import { ProfilePage } from "./Pages/ProfilePage";
 import { ProfileSettingsPage } from "./Pages/ProfileSettingsPage";
 import { HomePage } from "./Pages/HomePage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const theme = createTheme({
+  palette: {
+    mode: "light",
+    background: {
+      // paper: "white",
+    },
+  },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        colorPrimary: {
+          backgroundColor: 'white'
+        }
+      },
+    },
+  },
+  typography: {
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+  },
+});
+
 function App() {
-  const theme = createTheme({
-    palette: {
-      mode: "light",
-      background: {
-        // paper: "white",
-      },
-    },
-    components: {
-      MuiAppBar: {
-        styleOverrides: {
-          colorPrimary: {
-            backgroundColor: 'white'
-          }
-        },
-      },
-    },
-    typography: {
-      fontFamily: [
-        "-apple-system",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
-    },
-  });
+  const queryClient = new QueryClient();
+
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
@@ -47,6 +55,7 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
           </Route>
         </Routes>
+        </QueryClientProvider>
       </ThemeProvider>
     </BrowserRouter>
   );

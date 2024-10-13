@@ -49,6 +49,10 @@ export default tseslint.config({
 })
 ```
 
+## Cloudinary
+For faster image loading
+To get started, just google Cloudinary React, and npm install
+
 ## Firebase Database
 
 ### users table

@@ -8,6 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  LinearProgress,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -18,6 +19,8 @@ import { CreatePostForm } from "./CreatePostForm";
 import { UploadArea } from "./UploadArea";
 import { PostPreview } from "./PostPreview";
 import { useIsNarrow } from "../utils/useIsNarrow";
+import { addPost } from "../firebase/posts";
+import { UID } from "../firebase/firebaseConfig";
 interface CreatePostProps {
   onClose: () => void;
   closeWithoutPosts: () => void;
@@ -28,6 +31,13 @@ export const CreatePost: React.FC<CreatePostProps> = ({
 }) => {
   const [step, setStep] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(false);
+  const onStartLoading = () => {
+    setLoading(true);
+  };
+  const onStopLoading = () => {
+    setLoading(false);
+  };
   const onOpen = () => {
     setOpen(true);
   };
@@ -67,6 +77,16 @@ export const CreatePost: React.FC<CreatePostProps> = ({
       closeWithoutPosts();
     }
   };
+  const onAddPost = async () => {
+    onStartLoading();
+    try {
+      await addPost(cp.posts, UID);
+    } catch (e) {
+      alert(e);
+    } finally {
+      onStopLoading();
+    }
+  };
   const isNarrow = useIsNarrow();
   return (
     <Box>
@@ -82,35 +102,45 @@ export const CreatePost: React.FC<CreatePostProps> = ({
           </Toolbar>
         </AppBar>
       )}
-      <AppBar position={isNarrow ? 'fixed': 'relative'} elevation={0}>
-      <Toolbar
-        
-        sx={{
-          textAlign: "center",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box sx={{ display: "flex", flex: 1, justifyContent: "flex-start" }}>
-          <IconButton onClick={step >= 1 ? onBack : close}>
-            {step >= 1 ? <ChevronLeft /> : <Close />}
-          </IconButton>
-        </Box>
-        <Typography
-          fontWeight={"bold"}
-          color='textPrimary'
-          sx={{ pl: 0, display: "flex", flex: 1, justifyContent: "center" }}
+      <AppBar position={isNarrow ? "fixed" : "relative"} elevation={0}>
+        <Toolbar
+          sx={{
+            textAlign: "center",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          {["New post", "Create", "Preview"][step]}
-        </Typography>
-        <Box
-          sx={{ display: "flex", flex: 1, justifyContent: "flex-end", mr: 1 }}
-        >
-          {hasPosts && <Button disableElevation variant='contained' sx={{textTransform: 'capitalize'}} onClick={onPreview}>{step === 2 ? 'Share': 'Preview'}</Button>}
-        </Box>
-      </Toolbar>
+          <Box sx={{ display: "flex", flex: 1, justifyContent: "flex-start" }}>
+            <IconButton onClick={step >= 1 ? onBack : close}>
+              {step >= 1 ? <ChevronLeft /> : <Close />}
+            </IconButton>
+          </Box>
+          <Typography
+            fontWeight={"bold"}
+            color="textPrimary"
+            sx={{ pl: 0, display: "flex", flex: 1, justifyContent: "center" }}
+          >
+            {["New post", "Create", "Preview"][step]}
+          </Typography>
+          <Box
+            sx={{ display: "flex", flex: 1, justifyContent: "flex-end", mr: 1 }}
+          >
+            {hasPosts && (
+              <Button
+                disableElevation
+                variant="contained"
+                sx={{ textTransform: "capitalize" }}
+                onClick={step === 2 ? onAddPost : onPreview}
+              >
+                {!isLoading && (step === 2 ? "Share" : "Preview")}
+                {isLoading && "Sharing"}
+              </Button>
+            )}
+          </Box>
+        </Toolbar>
       </AppBar>
-      {isNarrow && <Toolbar/>}
+
+      {isNarrow && <Toolbar />}
 
       {step === 0 && (
         <Box sx={{ p: 3 }}>
@@ -125,8 +155,15 @@ export const CreatePost: React.FC<CreatePostProps> = ({
           <DialogContentText>
             If you leave, your edits won't be saved.
           </DialogContentText>
-          <Box sx={{display: 'flex', flexDirection: 'column', pt:1}}>
-            <Button variant='outlined' fullWidth color='error' onClick={onDiscard}>Discard</Button>
+          <Box sx={{ display: "flex", flexDirection: "column", pt: 1 }}>
+            <Button
+              variant="outlined"
+              fullWidth
+              color="error"
+              onClick={onDiscard}
+            >
+              Discard
+            </Button>
             <Button onClick={onCloseDiscard}>Cancel</Button>
           </Box>
         </DialogContent>
