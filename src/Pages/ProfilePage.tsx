@@ -17,13 +17,13 @@ export const ProfilePage: React.FC = () => {
   const location = useLocation();
   const [editOpen, setEditOpen] = React.useState(false);
   const onEdit = () => {
-    setEditOpen(true)
-  }
+    setEditOpen(true);
+  };
   const onEditClose = () => {
-    setEditOpen(false)
-  }
-  const username = location.pathname.split('/')?.[2]
-  console.log(username)
+    setEditOpen(false);
+  };
+  const username = location.pathname.split("/")?.[2];
+  console.log(username);
   const { data, isLoading } = useQuery({
     queryKey: ["getUserPosts", username],
     queryFn: () => getUserPosts(username),
@@ -39,7 +39,7 @@ export const ProfilePage: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         // alignItems: "flex-start",
-        width:'100%',
+        width: "100%",
         mt: 1,
       }}
     >
@@ -51,7 +51,7 @@ export const ProfilePage: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <Avatar src={profile} sx={{ mr: 1, height: 100, width: 100 }} />
+        <Avatar src={profile} sx={{ mr: 1, height: 80, width: 80 }} />
         <Box
           sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}
         >
@@ -62,7 +62,14 @@ export const ProfilePage: React.FC = () => {
           </Typography>
         </Box>
       </Box>
-      <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width:'100%'}}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          width: "100%",
+        }}
+      >
         <Box>
           <Typography>3 posts</Typography>
         </Box>
@@ -82,8 +89,8 @@ export const ProfilePage: React.FC = () => {
         </Button>
       </Box>
       {isNarrow ? posts : <ImageGallery />}
-      <Dialog fullScreen={isNarrow}  open={editOpen} onClose={onEditClose}>
-        <EditProfilePage onClose={onEditClose}/>
+      <Dialog fullScreen={isNarrow} open={editOpen} onClose={onEditClose}>
+        <EditProfilePage onClose={onEditClose} />
       </Dialog>
     </Box>
   );

@@ -23,3 +23,11 @@ export interface IFbPost {
     dateAdded: Timestamp;
     postId: string;
 }
+
+export interface IUser {
+    name: string;
+    uid: string;
+    profilePhotoUrl: string;
+    bio: string;
+    username?: string;
+}
