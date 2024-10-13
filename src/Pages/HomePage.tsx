@@ -10,6 +10,7 @@ import { c } from "../components/ImageOverlay";
 import { useQuery } from "@tanstack/react-query";
 import { getUserPosts } from "../firebase/posts";
 import { UID } from "../firebase/firebaseConfig";
+import { MakeFirstPost } from "../components/MakeFirstPost";
 
 export const HomePage: React.FC = () => {
   const { data, isLoading } = useQuery({
@@ -24,6 +25,10 @@ export const HomePage: React.FC = () => {
   ));
   return (
     <Box sx={{ m: 0 }}>
+      <Box sx={{m:1}}>
+
+      <MakeFirstPost/>
+      </Box>
         {posts}
       <Box sx={{ mb: 1 }}>
         <Post

@@ -28,6 +28,7 @@ interface ImageOverlayProps {
   onToggle: () => void;
   captions: string[];
   enableTop?: boolean;
+  dateAdded?: string;
 }
 const sampleText =
   "Went to view this apartment today, the floors were okay, but made of wood. nothing too bad.";
@@ -42,6 +43,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   onToggle,
   captions,
   enableTop,
+  dateAdded
 }) => {
   const [isOpen, setOpen] = React.useState(false);
   const onDialogOpen = () => {
@@ -65,7 +67,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           fontWeight={300}
           sx={{ color: "white", ml: 1 }}
         >
-          Oct 12 2024
+         {dateAdded}
         </Typography>
         <Box  sx={{ ml: 'auto'}}>
           <IconButton onClick={onDialogOpen} color='inherit'>

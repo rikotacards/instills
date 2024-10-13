@@ -47,7 +47,9 @@ const EditName: React.FC<EditNameProps> = ({ value, onClose }) => {
         </Button>
       </Toolbar>
       <DialogContent>
-        <TextField onChange={onChange} placeholder="Name" fullWidth />
+        <TextField 
+        value={name}
+        onChange={onChange} placeholder="Name" fullWidth />
       </DialogContent>
     </Box>
   );

@@ -8,6 +8,7 @@ export interface PreparePost {
 export interface IPost {
     imageUrls: string[]
     captions: string[]
+    dateAdded?: string;
 }
 
 export interface IMenuItems {

@@ -1,5 +1,11 @@
 import { AddPhotoAlternate } from "@mui/icons-material";
-import { Button, Card, CardActionArea, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import React from "react";
 interface UploadAreaProps {
   onUpload: (file: File) => void;
@@ -19,7 +25,6 @@ export const UploadArea: React.FC<UploadAreaProps> = ({ onUpload, inc }) => {
   };
   return (
     <>
-
       <Card
         variant="outlined"
         sx={{
@@ -40,14 +45,18 @@ export const UploadArea: React.FC<UploadAreaProps> = ({ onUpload, inc }) => {
             minHeight: "200px",
             height: "100%",
             display: "flex",
-            flexDirection: 'column',
+            flexDirection: "column",
             alignItem: "center",
             zIndex: 0,
           }}
           onClick={() => ref?.current?.click()}
         >
-          <AddPhotoAlternate color="disabled" />
-          <Typography variant='body1' color='textSecondary'>Select photos</Typography>
+          <IconButton>
+            <AddPhotoAlternate />
+          </IconButton>
+          <Typography variant="body1" color="textSecondary">
+            Select photos
+          </Typography>
         </CardActionArea>
         <input
           onChange={onFileChange}
@@ -58,8 +67,9 @@ export const UploadArea: React.FC<UploadAreaProps> = ({ onUpload, inc }) => {
           style={{ display: "none", height: "100%", width: "100%" }}
         />
       </Card>
-      <Button size='large' fullWidth sx={{mt:1}} variant="outlined">Drafts</Button>
-
+      <Button size="large" fullWidth sx={{ mt: 1 }} variant="outlined">
+        Drafts
+      </Button>
     </>
   );
 };

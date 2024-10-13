@@ -50,7 +50,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/profile/edit" element={<ProfileSettingsPage />} />
-              <Route path="/profile/:username" element={<ProfilePage />} />
+              <Route path="/:username" element={<ProfilePage />} />
               <Route path="/edit-profile" element={<ProfilePage />} />
             </Route>
           </Routes>

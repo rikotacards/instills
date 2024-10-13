@@ -10,7 +10,7 @@ import { getUserPosts } from "../firebase/posts";
 import { UID } from "../firebase/firebaseConfig";
 import { Post } from "../components/Post";
 import { EditProfilePage } from "./EditProfilePage";
-
+import VerifiedIcon from "@mui/icons-material/Verified";
 export const ProfilePage: React.FC = () => {
   const nav = useNavigate();
   const isNarrow = useIsNarrow();
@@ -22,15 +22,14 @@ export const ProfilePage: React.FC = () => {
   const onEditClose = () => {
     setEditOpen(false);
   };
-  const username = location.pathname.split("/")?.[2];
-  console.log(username);
+  const username = location.pathname.split("/")?.[1];
   const { data, isLoading } = useQuery({
     queryKey: ["getUserPosts", username],
     queryFn: () => getUserPosts(username),
   });
   const posts = data?.map((p) => (
     <Box sx={{ mb: 1 }}>
-      <Post captions={p.captions} imageUrls={p.imageUrls} enableTop />
+      <Post dateAdded={ new Date(p.dateAdded.seconds *1000).toDateString()} captions={p.captions} imageUrls={p.imageUrls} enableTop />
     </Box>
   ));
   return (
@@ -55,8 +54,14 @@ export const ProfilePage: React.FC = () => {
         <Box
           sx={{ display: "flex", flexDirection: "column", textAlign: "left" }}
         >
-          <Typography fontWeight={"bold"}>Maxwell Hsu</Typography>
-          <Typography variant="body2">
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography sx={{ mr: 1 }} fontWeight={"bold"}>
+              Maxwell Hsu
+            </Typography>
+            {data?.isVerified && <VerifiedIcon color="info" fontSize="small" />}
+          </Box>
+
+          <Typography fontWeight={500} variant="body2">
             I made web things, travel a bit much, and strongly prefer menus with
             pictures.
           </Typography>
@@ -80,11 +85,30 @@ export const ProfilePage: React.FC = () => {
           <Typography>0 following</Typography>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", width: "100%" }}>
-        <Button fullWidth onClick={onEdit}>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          p: 0.5,
+          justifyContent: "space-between",
+        }}
+      >
+        <Button
+          size="small"
+          sx={{ m: 0.5 }}
+          variant="contained"
+          fullWidth
+          onClick={onEdit}
+        >
           Edit
         </Button>
-        <Button fullWidth onClick={onEdit}>
+        <Button
+          size="small"
+          sx={{ m: 0.5 }}
+          variant="contained"
+          fullWidth
+          onClick={onEdit}
+        >
           Follow
         </Button>
       </Box>
