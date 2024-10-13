@@ -17,6 +17,7 @@ import "swiper/css/effect-fade";
 import profile from '../assets/profile.jpeg'
 import { AddReaction,  Favorite } from "@mui/icons-material";
 import './ImageOverlay.css'
+import { Reactions } from "./Reactions";
 interface ImageOverlayProps {
   children: React.ReactNode;
   onSwiper: any;
@@ -42,17 +43,13 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   enableTop
 }) => {
   const [isOpen, setOpen] = React.useState(false);
-  const [isBig, setBig] = React.useState(false)
   const onDialogOpen = () => {
     setOpen(true);
   };
   const onDialogClose = () => {
     setOpen(false);
   };
-  const enlarge = () => {
-    setBig(true)
-    setTimeout(() => setBig(false), 500)
-  }
+  
   const [currPage, setCurrPage] = React.useState(1);
 
   const captionSlider =  <Box sx={{m:2}}>
@@ -177,62 +174,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           />
         </Box> */}
       
-         <Box
-          sx={{
-            mt:1,
-            display: "flex",
-            width: "100%",
-            justifyContent: "flex-start",
-            alignItems: "center",
-          }}
-        >
-          <Chip
-          onClick={enlarge}
-            icon={<Favorite 
-              sx={{
-                height: isBig ? 40 : 'default',
-                width: isBig ? 40 : 'default',
-                transform: isBig ? 'rotate(20deg)': 0,
-                transition: 'height 0.1s ease-in, width 0.1s ease-in'
-              }}
-              
-              color="error" />}
-            size="small"
-            sx={{
-              // backdropFilter: "blur(10px)",
-              color: "white",
-              fontWeight: 600,
-              // boxShadow: "0px 0px 1px black",
-              mr: 1,
-            }}
-            // variant='outlined'
-            label={40}
-          />
-          <Chip
-          onClick={enlarge}
-            size="small"
-            sx={{
-              color: "white",
-              fontWeight: 600,
-              mr: 1,
-              // backdropFilter: "blur(10px)",
-            }}
-            icon={<IconButton
-            size="small"
-            sx={{padding:0, m:0,
-              height: isBig ? 40 : 'default',
-              width: isBig ? 40 : 'default',
-              transform: isBig ? 'rotate(20deg) scale(2)': 0,
-              transition: 'height 0.1s ease-in, width 0.1s ease-in'
-            }}
-            
-            >😂</IconButton>}
-            label={"23"}
-          />
-          <IconButton size="small" sx={{ color: "white", ml: "auto" }}>
-            <AddReaction fontSize="small" />
-          </IconButton>
-        </Box>
+        <Reactions/>
       </Box>
       <Dialog onClose={onDialogClose} open={isOpen}>
         <DialogContent>
