@@ -7,3 +7,9 @@ export interface IPost {
     imageUrls: string[]
     captions: string[]
 }
+
+export interface IMenuItems {
+    icon: React.ReactNode;
+    label: string;
+    path: string;
+  }

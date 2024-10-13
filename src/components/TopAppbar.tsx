@@ -22,25 +22,9 @@ import { useScrollDirection } from "../utils/useScrollDirection";
 
 import HomeIcon from "@mui/icons-material/Home";
 import MenuItem from "@mui/material/MenuItem";
+import { SideDrawer } from "./SideDrawer";
 const drawerWidth = 240;
-import AddIcon from "@mui/icons-material/Add";
-const sidebar = [
-  {
-    icon: <HomeIcon />,
-    label: "home",
-    path: "/",
-  },
-  {
-    icon: <AddIcon />,
-    label: "create",
-    path: "/create",
-  },
-  {
-    icon: <Avatar sx={{ height: 25, width: 25 }} />,
-    label: "profile",
-    path: "/profile",
-  },
-];
+
 interface TopAppbarProps {
   onOpen: () => void;
 }
@@ -80,39 +64,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: isNarrow ? 0 : drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: isNarrow ? 0 : drawerWidth,
-            boxSizing: "border-box",
-            transition: "width 0.5s",
-            borderColor: "transparent",
-            zIndex: 0,
-          },
-          transition: "width 0.5s",
-        }}
-      >
-        <Toolbar />
-        <List>
-          {sidebar.map((s) => {
-            return (
-              <MenuItem
-                key={s.path}
-                onClick={s.label === "create" ? onOpen : () => nav(s.path)}
-              >
-                {s.icon && <ListItemIcon>{s.icon}</ListItemIcon>}
-                <ListItemText
-                  sx={{ textTransform: "capitalize", textAlign: "left" }}
-                  primary={s.label}
-                />
-              </MenuItem>
-            );
-          })}
-        </List>
-      </Drawer>
+    <SideDrawer onOpen={onOpen} isNarrow={isNarrow}/>
 
       <Toolbar />
       <Menu

@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -99,6 +98,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         </Box>
         <Typography
           fontWeight={"bold"}
+          color='textPrimary'
           sx={{ pl: 0, display: "flex", flex: 1, justifyContent: "center" }}
         >
           {["New post", "Create", "Preview"][step]}
