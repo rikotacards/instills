@@ -7,8 +7,8 @@ interface ReactionOverlayProps {
 export const ReactionOverlay: React.FC<ReactionOverlayProps> = ({
   openReaction,
 }) => {
-    const [firstOpen, setFirstOpen] = React.useState(false)
-    const [secondOpen, setSecondOpen] = React.useState(false)
+  const [firstOpen, setFirstOpen] = React.useState(false);
+  const [secondOpen, setSecondOpen] = React.useState(false);
 
   return (
     <Box
@@ -26,19 +26,17 @@ export const ReactionOverlay: React.FC<ReactionOverlayProps> = ({
           justifyContent: "center",
           display: "flex",
           position: "relative",
-          
         }}
       >
-          <IconButton>
-            <Favorite
+        <IconButton>
+          <Favorite
             sx={{
-                transition: 'transform 0.3s ease',
-                transform: openReaction ? 'scale(3)' : 'scale(0)'
+              transition: "transform 0.3s ease",
+              transform: openReaction ? "scale(3)" : "scale(0)",
             }}
-            color="error" />
-          </IconButton>
-  
-      
+            color="error"
+          />
+        </IconButton>
       </Box>
     </Box>
   );

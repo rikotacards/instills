@@ -25,6 +25,7 @@ export const Caption: React.FC<CaptionProps> = ({
         lineHeight: "1.5em",
         textAlign: "left",
         m: 0,
+        textShadow: '0px 0px 1px black',
         maxHeight: open ? "200px" : "calc(2 * 1.5em)",
       }}
       onClick={onToggle}
