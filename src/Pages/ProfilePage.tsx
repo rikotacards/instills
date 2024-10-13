@@ -29,7 +29,9 @@ export const ProfilePage: React.FC = () => {
   });
   const posts = data?.map((p) => (
     <Box sx={{ mb: 1 }}>
-      <Post dateAdded={ new Date(p.dateAdded.seconds *1000).toDateString()} captions={p.captions} imageUrls={p.imageUrls} enableTop />
+      <Post 
+      postId={p.postId}
+      dateAdded={ new Date(p.dateAdded.seconds *1000).toDateString()} captions={p.captions} imageUrls={p.imageUrls} enableTop />
     </Box>
   ));
   return (

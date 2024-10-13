@@ -2,13 +2,15 @@ import { Chip, IconButton } from '@mui/material';
 import React from 'react';
 interface ReactionEmojiProps {
     emoji: React.ReactNode;
-    count: number
+    count: number;
+    onClick: () => void
 }
-export const ReactionEmoji: React.FC<ReactionEmojiProps> = ({emoji}) => {
+export const ReactionEmoji: React.FC<ReactionEmojiProps> = ({onClick, emoji, count}) => {
     const [isBig, setBig] = React.useState(false);
 
     const enlarge = () => {
         setBig(true);
+        onClick()
         setTimeout(() => setBig(false), 500);
       };
     return (
@@ -32,7 +34,7 @@ export const ReactionEmoji: React.FC<ReactionEmojiProps> = ({emoji}) => {
           mr: 1,
         }}
         // variant='outlined'
-        label={40}
+        label={count}
       />
     )
 }

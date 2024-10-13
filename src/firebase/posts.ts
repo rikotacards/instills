@@ -3,6 +3,7 @@ import {
   and,
   collection,
   deleteDoc,
+  deleteField,
   doc,
   getDoc,
   getDocs,
@@ -82,7 +83,8 @@ export const addPost = async (args: PreparePost[], uid: string) => {
         captions,
         imageUrls,
         dateAdded: serverTimestamp(),
-        uid
+        uid,
+        postId: docRef.id
     })
   } catch (e) {
     console.error(e)
@@ -113,3 +115,53 @@ export const getUserPosts = async(userId: string) => {
         alert(e)
     }
 }
+interface AddReactionArgs {
+  uid: string;
+  unicode: string;
+  postId: string;
+}
+export const addReaction = async (args: AddReactionArgs) => {
+
+  try {
+    const docRef = await setDoc(
+      doc(db, "reactions", args.postId),
+      {
+        [args.unicode]: {
+          [args.uid]: true,
+        }
+      },
+      { merge: true }
+    );
+    return docRef;
+  } catch (e) {
+    alert(e);
+  }
+}
+interface DeleteReaction {
+  postId: string;
+  uid: string
+}
+export const deleteReaction = async (args: DeleteReaction) => {
+  const postRef = doc(db, 'reactions', args.postId);
+  await updateDoc(postRef, {
+    [args.uid]: deleteField()
+});
+}
+
+export const getReactions = async (postId: string) => {
+  const docRef = doc(db, "reactions", postId);
+  try {
+    console.log('getting')
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { ...docSnap.data() }
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No reactions for this post");
+      return { };
+    }
+  } catch (e) {
+    alert(e);
+    return {}
+  }
+};

@@ -7,8 +7,6 @@ interface ReactionOverlayProps {
 export const ReactionOverlay: React.FC<ReactionOverlayProps> = ({
   openReaction,
 }) => {
-  const [firstOpen, setFirstOpen] = React.useState(false);
-  const [secondOpen, setSecondOpen] = React.useState(false);
 
   return (
     <Box

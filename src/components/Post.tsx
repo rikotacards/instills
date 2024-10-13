@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import { IPost } from "../types";
 
 export const Post: React.FC<IPost & { enableTop?: boolean }> = (props) => {
-  const { imageUrls, captions, enableTop, dateAdded } = props;
+  const { imageUrls, captions, enableTop, dateAdded, postId } = props;
   const [firstSwiper, setFirstSwiper] = React.useState(null);
   const [secondSwiper, setSecondSwiper] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -35,6 +35,7 @@ export const Post: React.FC<IPost & { enableTop?: boolean }> = (props) => {
         captions={captions}
         enableTop={enableTop}
         dateAdded={dateAdded}
+        postId={postId}
       >
         <ImageSlider
           imageUrls={imageUrls}

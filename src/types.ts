@@ -9,6 +9,7 @@ export interface IPost {
     imageUrls: string[]
     captions: string[]
     dateAdded?: string;
+    postId: string;
 }
 
 export interface IMenuItems {

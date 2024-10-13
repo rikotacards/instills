@@ -1,22 +1,16 @@
 import {
-  Avatar,
   Box,
-  Button,
-  Chip,
+
   Dialog,
-  DialogContent,
-  IconButton,
+
   Typography,
-  Zoom,
 } from "@mui/material";
 import React from "react";
 import { Caption } from "./Caption";
-import { PostTop } from "./PostTop";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Controller, Navigation, EffectFade } from "swiper/modules";
 import "swiper/css/effect-fade";
 import profile from "../assets/profile.jpeg";
-import { AddReaction, Favorite, MoreHoriz } from "@mui/icons-material";
 import "./ImageOverlay.css";
 import { Reactions } from "./Reactions";
 import { PostOptions } from "./PostOptions";
@@ -32,6 +26,7 @@ interface ImageOverlayProps {
   captions: string[];
   enableTop?: boolean;
   dateAdded?: string;
+  postId: string;
 }
 const sampleText =
   "Went to view this apartment today, the floors were okay, but made of wood. nothing too bad.";
@@ -47,6 +42,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   captions,
   enableTop,
   dateAdded,
+  postId
 }) => {
   const [isOpen, setOpen] = React.useState(false);
   const onDialogOpen = () => {
@@ -208,7 +204,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           />
         </Box> */}
 
-        <Reactions />
+        <Reactions postId={postId} />
       </Box>
       <Dialog onClose={onDialogClose} open={isOpen}>
         <PostOptions onClose={onDialogClose} />
