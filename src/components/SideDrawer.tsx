@@ -2,7 +2,7 @@ import { Drawer, List, ListItemIcon, ListItemText, MenuItem, Toolbar } from '@mu
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { sidebar } from '../config/menuItems';
-const drawerWidth = 240;
+const drawerWidth = 100;
 interface SideDrawerProps {
     isNarrow: boolean;
     onOpen: () => void;
