@@ -34,6 +34,7 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
             WebkitUserSelect: 'none',
             WebkitTouchCallout: 'none',
             userSelect: 'none',
+          
           }}
         />
       </SwiperSlide>

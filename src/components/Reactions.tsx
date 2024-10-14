@@ -1,13 +1,16 @@
-import { Add, AddReaction, Favorite } from "@mui/icons-material";
+import { Add, AddReaction, Close, Favorite } from "@mui/icons-material";
 import {
   Box,
   Chip,
   Dialog,
+  Drawer,
   IconButton,
   Menu,
   MenuItem,
   Modal,
   Popover,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
 import React from "react";
@@ -70,6 +73,13 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
   });
   console.log("reaction data", data);
   const reactionsTransformed = getReactionsCounts(data || {});
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const onDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+  const onDrawerClose = () => {
+    setDrawerOpen(false);
+  };
   const onReact = async (unicode: string, hasReacted: boolean) => {
     try {
       if (hasReacted) {
@@ -121,9 +131,8 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
         width: "100%",
         justifyContent: "flex-start",
         alignItems: "center",
-        
       }}
-      onClick={e => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
     >
       <Box
         sx={{
@@ -144,7 +153,7 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
         {reactionEmojis}
       </Box>
 
-      <IconButton onClick={onOpen} sx={{ color: "white", ml: "auto" }}>
+      <IconButton onClick={onDrawerOpen} sx={{ color: "white", ml: "auto", backdropFilter: 'blur(20px)', boxShadow: '0px 0px 50px black' }}>
         <AddReaction />
       </IconButton>
       <Popover
@@ -160,7 +169,6 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
           skinTonesDisabled
           searchDisabled
           open
-          
           reactionsDefaultOpen
           onEmojiClick={(e) => {
             onReact(e.unified, false);
@@ -175,10 +183,9 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
       </Popover>
       <Modal
         sx={{
-
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
         onClose={onClose}
         open={open}
@@ -187,7 +194,6 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
           skinTonesDisabled
           searchDisabled
           open
-          
           reactionsDefaultOpen
           onEmojiClick={(e) => {
             onReact(e.unified, false);
@@ -200,6 +206,64 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
           reactions={["1f602", "1f423"]}
         />
       </Modal>
+      <Drawer
+        anchor="bottom"
+        open={drawerOpen}
+        onClose={onDrawerClose}
+        PaperProps={{
+          style: {
+            borderTopRightRadius: 20,
+            borderTopLeftRadius: 20,
+            overflow: "hidden",
+            backdropFilter: "blur(20px)",
+          },
+        }}
+      >
+        <Toolbar sx={{display: 'flex', textAlign: 'center'}}>
+          <Box sx={{flex:1}}/>
+          <Typography fontWeight={'bold'}>Leave a reaction</Typography>
+          <IconButton sx={{ flex: 1,ml: "auto", justifyContent: 'flex-end' }} onClick={onDrawerClose}>
+            <Close />
+          </IconButton>
+        </Toolbar>
+        <Box
+          sx={{
+            backdropFilter: "blur(10px)",
+            width: "100%",
+            p: 1,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <EmojiPicker
+            skinTonesDisabled
+            searchDisabled
+            open
+            style={{ width: "100%" }}
+            reactionsDefaultOpen
+            onEmojiClick={(e) => {
+              onReact(e.unified, false);
+              onDrawerClose();
+            }}
+            onReactionClick={(s) => {
+              onReact(s.unified, false);
+              onDrawerClose();
+            }}
+            reactions={[
+              "1f64c",
+              "1f602",
+              "1f601",
+              "1f44d",
+              "1f525",
+              "1f60d",
+              "1f622",
+              "1f44f",
+            ]}
+          />
+        </Box>
+
+      </Drawer>
     </Box>
   );
 };
