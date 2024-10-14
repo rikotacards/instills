@@ -20,7 +20,7 @@ export const Caption: React.FC<CaptionProps> = ({
         overflow: open ? "scroll" : "hidden",
         textOverflow: "ellipsis",
         WebkitLineClamp: open ? "unset" : 2,
-        transition: "max-height 0.5s ease-in-out",
+        transition: "max-height 0.4s ease, WebkitLineClamp 0.4s ease",
         height: "fit-content",
         lineHeight: "1.5em",
         textAlign: "left",

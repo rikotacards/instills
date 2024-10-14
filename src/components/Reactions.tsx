@@ -121,7 +121,9 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
         width: "100%",
         justifyContent: "flex-start",
         alignItems: "center",
+        
       }}
+      onClick={e => e.stopPropagation()}
     >
       <Box
         sx={{

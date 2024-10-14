@@ -95,7 +95,10 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         onSlidePrevTransitionEnd={() => setCurrPage((p) => p - 1)}
         controller={{ control: swiperController }}
         modules={[Controller, Navigation, EffectFade]}
-        style={{ display: "flex", zIndex: 1, marginTop: 0 }}
+        style={{ display: "flex", zIndex: 1, marginTop: 0, 
+          borderRadius: 4,
+          padding:8,
+        }}
       >
         {captions.map((text, i) => (
           <SwiperSlide key={text + i}>
@@ -120,11 +123,15 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         if (e.detail == 2) {
           onOpenReaction()
         }
+        if(e.detail ==1){
+          onToggle()
+        }
+       
       }}
     >
       {<ReactionOverlay openReaction={openReaction}/>}
       <Box
-        className={enableTop ? "top" : undefined}
+        className={enableTop ? isCaptionOpen ?'forNow' : "top" : undefined}
         sx={{
           position: "absolute",
           top: 0,
