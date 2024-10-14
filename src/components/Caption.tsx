@@ -14,13 +14,12 @@ export const Caption: React.FC<CaptionProps> = ({
   return (
     <Box
       sx={{
-        zIndex: 3,
         display: "-webkit-box",
         WebkitBoxOrient: "vertical",
-        overflow: open ? "scroll" : "hidden",
+        overflowY: open ? "scroll" : "hidden",
         textOverflow: "ellipsis",
         WebkitLineClamp: open ? "unset" : 2,
-        transition: "max-height 0.4s ease, WebkitLineClamp 0.4s ease",
+        transition: "max-height 0.3s ease, WebkitLineClamp 0.4s ease",
         height: "fit-content",
         lineHeight: "1.5em",
         textAlign: "left",
@@ -32,7 +31,8 @@ export const Caption: React.FC<CaptionProps> = ({
     >
       <Typography 
   
-      fontWeight={500} sx={{ color: "white"}} variant="body2">
+      fontWeight={500} sx={{ color: "white"}} 
+      variant="body2">
         {/* {text && <b style={{marginRight:4}}>Maxwelldhsu</b>} */}
         {text}
         
