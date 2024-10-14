@@ -79,7 +79,10 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   const [currPage, setCurrPage] = React.useState(1);
 
   const captionSlider = (
-    <Box sx={{ m: 2, }}>
+    <Box sx={{ m: 2, 
+
+
+    }}>
       <PostHeader
         onDialogOpen={onDialogOpen}
         dateAdded={dateAdded}
@@ -97,7 +100,8 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         modules={[Controller, Navigation, EffectFade]}
         style={{ display: "flex", zIndex: 1, marginTop: 0, 
           borderRadius: 4,
-          padding:8,
+          padding:4,
+          paddingTop:0
         }}
       >
         {captions.map((text, i) => (
@@ -129,7 +133,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
        
       }}
     >
-      {<ReactionOverlay openReaction={openReaction}/>}
+      <ReactionOverlay openReaction={openReaction}/>
       <Box
         className={enableTop ? isCaptionOpen ?'forNow' : "top" : undefined}
         sx={{
@@ -139,6 +143,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           zIndex: 2,
           display: "flex",
           flexDirection: "column",
+
         }}
       >
         {!enableTop && (
@@ -154,14 +159,13 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
       {children}
 
       <Box
-        className={"bottom"}
+        className={enableTop ? undefined: "bottom"}
         sx={{
           position: "absolute",
           bottom: 0,
           width: "100%",
           zIndex: 1,
           p: 2,
-          // background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0,  ${isCaptionOpen ? 0.9 : 0.9})) `,
         }}
       >
         {!enableTop && (
