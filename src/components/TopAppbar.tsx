@@ -7,6 +7,7 @@ import {
   Box,
   ListItemIcon,
   ListItemText,
+  Slide,
 } from "@mui/material";
 import React from "react";
 import { useIsNarrow } from "../utils/useIsNarrow";
@@ -33,10 +34,9 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
   const sd = useScrollDirection();
 
   return (
-    <>
+    <Slide in={sd == "up"}>
       <AppBar
         sx={{
-          // height: sd === "up" ? "55px" : 0,
           transition: "height 0.5s ease",
         }}
       >
@@ -64,30 +64,29 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
             </IconButton>
           </Box>
         </Toolbar>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          {sidebar.map((item) => (
+            <MenuItem
+              key={item.label}
+              onClick={item.label === "create" ? onOpen : () => nav(item.path)}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText
+                sx={{ textTransform: "capitalize" }}
+                primary={item.label}
+              />
+            </MenuItem>
+          ))}
+        </Menu>
       </AppBar>
-
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        {sidebar.map((item) => (
-          <MenuItem
-            key={item.label}
-            onClick={item.label === "create" ? onOpen : () => nav(item.path)}
-          >
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText
-              sx={{ textTransform: "capitalize" }}
-              primary={item.label}
-            />
-          </MenuItem>
-        ))}
-      </Menu>
-    </>
+    </Slide>
   );
 };
