@@ -6,6 +6,7 @@ import { ProfilePage } from "./Pages/ProfilePage";
 import { ProfileSettingsPage } from "./Pages/ProfileSettingsPage";
 import { HomePage } from "./Pages/HomePage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "./providers/AuthProvider";
 
 const theme = createTheme({
   palette: {
@@ -46,6 +47,8 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
@@ -54,6 +57,7 @@ function App() {
               <Route path="/edit-profile" element={<ProfilePage />} />
             </Route>
           </Routes>
+          </AuthProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </BrowserRouter>
