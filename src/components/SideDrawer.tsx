@@ -29,7 +29,9 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
         }}
       >
         <Toolbar />
-        <List>
+        <List
+        sx={{width:'100%', display: 'flex', flexDirection: 'column'}}
+        >
           {sidebar.map((s) => {
             return (
               <MenuItem

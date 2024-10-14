@@ -14,7 +14,8 @@ import { TopAppbar } from "../components/TopAppbar";
 import { CreatePost } from "../components/CreatePost";
 import { Outlet } from "react-router";
 import { CreatePostProvider } from "../providers/createPostProvider";
-
+import { sidebar } from "../config/menuItems";
+import { SideDrawer } from "../components/SideDrawer";
 
 export const Layout: React.FC = () => {
   const isNarrow = useIsNarrow();
@@ -47,16 +48,15 @@ export const Layout: React.FC = () => {
     <Box
       display={"flex"}
       sx={{
-        flexDirection: isNarrow ? "column" : "row",
-        justifyContent: "center",
+        // flexDirection: isNarrow ? "column" : "row",
         alignItems: "center",
       }}
     >
       <CssBaseline />
       <TopAppbar onOpen={onOpen} />
-      {!isNarrow && <Toolbar />}
+      <SideDrawer onOpen={onOpen} isNarrow={isNarrow} />
       <Box component="main" sx={{ p: 0, width: "100%" }}>
-        {!isNarrow && <Toolbar />}
+        <Toolbar />
         <Outlet />
       </Box>
       <Dialog

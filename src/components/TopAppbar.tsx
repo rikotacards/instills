@@ -15,14 +15,12 @@ import { useNavigate } from "react-router";
 import { useScrollDirection } from "../utils/useScrollDirection";
 
 import MenuItem from "@mui/material/MenuItem";
-import { SideDrawer } from "./SideDrawer";
 import { sidebar } from "../config/menuItems";
 
 interface TopAppbarProps {
   onOpen: () => void;
 }
 export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
-  const isNarrow = useIsNarrow();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -37,20 +35,17 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
   return (
     <>
       <AppBar
-        position="fixed"
         sx={{
-          height: sd === "up" ? "55px" : 0,
-          zIndex: (theme) => theme.zIndex.drawer + 1,
+          // height: sd === "up" ? "55px" : 0,
           transition: "height 0.5s ease",
         }}
       >
-        <Toolbar>
+        <Toolbar sx={{ height: 0 }}>
           <Typography
             sx={{
               borderRadius: 4,
               pl: 1,
               pr: 1,
-              color: sd === "up" ? "black" : "transparent",
             }}
             color="textPrimary"
             fontWeight={"bold"}
@@ -70,9 +65,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
           </Box>
         </Toolbar>
       </AppBar>
-      <SideDrawer onOpen={onOpen} isNarrow={isNarrow} />
 
-      <Toolbar />
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -88,7 +81,10 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
             onClick={item.label === "create" ? onOpen : () => nav(item.path)}
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText sx={{textTransform: 'capitalize'}} primary={item.label}/>
+            <ListItemText
+              sx={{ textTransform: "capitalize" }}
+              primary={item.label}
+            />
           </MenuItem>
         ))}
       </Menu>
