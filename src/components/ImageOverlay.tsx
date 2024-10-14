@@ -79,7 +79,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   const [currPage, setCurrPage] = React.useState(1);
 
   const captionSlider = (
-    <Box sx={{ m: 2 }}>
+    <Box sx={{ m: 2, }}>
       <PostHeader
         onDialogOpen={onDialogOpen}
         dateAdded={dateAdded}
@@ -95,7 +95,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         onSlidePrevTransitionEnd={() => setCurrPage((p) => p - 1)}
         controller={{ control: swiperController }}
         modules={[Controller, Navigation, EffectFade]}
-        style={{ display: "flex", zIndex: 1, marginTop: 8 }}
+        style={{ display: "flex", zIndex: 1, marginTop: 0 }}
       >
         {captions.map((text, i) => (
           <SwiperSlide key={text + i}>
