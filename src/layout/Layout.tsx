@@ -16,9 +16,11 @@ import { Outlet } from "react-router";
 import { CreatePostProvider } from "../providers/createPostProvider";
 import { sidebar } from "../config/menuItems";
 import { SideDrawer } from "../components/SideDrawer";
+import { useAuthContext } from "../providers/useContexts";
 
 export const Layout: React.FC = () => {
   const isNarrow = useIsNarrow();
+  const { user } = useAuthContext();
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => {
     onOpenConfirm();
@@ -54,7 +56,7 @@ export const Layout: React.FC = () => {
     >
       <CssBaseline />
       <TopAppbar onOpen={onOpen} />
-      <SideDrawer onOpen={onOpen} isNarrow={isNarrow} />
+      {user && <SideDrawer onOpen={onOpen} isNarrow={isNarrow} />}
       <Box component="main" sx={{ p: 0, width: "100%" }}>
         <Toolbar />
         <Outlet />

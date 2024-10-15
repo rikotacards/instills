@@ -12,7 +12,7 @@ export const HomePage: React.FC = () => {
     queryKey: ["getUserPosts", UID],
     queryFn: () => getUserPosts(UID),
   });
-  console.log(data);
+  
   const posts = data?.map((p) => (
     <Box sx={{ mb: 1 }}>
       <Post postId={p.postId} 
