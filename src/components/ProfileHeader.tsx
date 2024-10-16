@@ -89,7 +89,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) =
         {uidFromAuth && (
           <Button
             size="small"
-            sx={{ m: 0.5 }}
+            sx={{ m: 0.5 , textTransform: 'capitalize'}}
             variant="contained"
             fullWidth
             onClick={onEdit}
@@ -99,10 +99,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) =
         )}
         <Button
           size="small"
-          sx={{ m: 0.5 }}
+          sx={{ m: 0.5, textTransform: 'capitalize' }}
           variant="contained"
           fullWidth
-          onClick={onEdit}
         >
           Follow
         </Button>

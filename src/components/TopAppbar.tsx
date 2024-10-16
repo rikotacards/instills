@@ -44,9 +44,11 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
     setAnchorEl(null);
   };
   const onSignIn = async () => {
+    handleClose();
     await onSignInWithGoogle();
   };
   const onSignOut = () => {
+    handleClose();
     signOut(auth).then(() => {
       nav("/");
     });
@@ -104,7 +106,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
           {sidebar.map((item) => (
             <MenuItem
               key={item.label}
-              onClick={item.label === "create" ? onOpen : () => nav(item.path)}
+              onClick={item.label === "create" ? onOpen : () => {nav(item.path); handleClose()}}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText
@@ -113,10 +115,9 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
               />
             </MenuItem>
           ))}
-          <MenuItem onClick={() => nav(`/${data?.username}`)}>
+          <MenuItem onClick={() => {nav(`/${data?.username}`); handleClose()}}>
             <ListItemIcon>
-              {" "}
-              <Avatar sx={{ height: 25, width: 25 }} />
+              <Avatar src={data?.profilePhotoUrl} sx={{ height: 25, width: 25 }} />
             </ListItemIcon>
             <ListItemText primary="Profile" />
           </MenuItem>
