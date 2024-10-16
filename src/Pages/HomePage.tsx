@@ -20,7 +20,6 @@ export const HomePage: React.FC = () => {
     queryKey: ["getUser", user?.uid],
     queryFn: () => getUser(user?.uid || ""),
   });
-  const hasUsername = !!userData?.username;
 
   const posts = data?.map((p) => (
     <Box sx={{ mb: 1 }}>
@@ -35,8 +34,7 @@ export const HomePage: React.FC = () => {
   return (
     <Box sx={{ m: 0 }}>
       <Box sx={{ m: 1 }}>
-        {!userIsLoading && !hasUsername && <CreateUsername />}
-        <MakeFirstPost />
+        {posts?.length === 0 && <MakeFirstPost />}
       </Box>
       {posts}
     </Box>
