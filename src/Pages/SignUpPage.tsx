@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
-import { CreateUsername } from '../components/ClaimUsername';
+import { CreateUsername } from '../components/CreateUsername';
 
 export const SignUpPage: React.FC = () => {
     return (

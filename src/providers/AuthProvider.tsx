@@ -25,6 +25,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log('uuu', user)
       if (user) {
         // Note: this logic should be added in your signin process and not here.
         setIsLoading(false);

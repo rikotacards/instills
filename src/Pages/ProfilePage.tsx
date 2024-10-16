@@ -18,7 +18,6 @@ export const ProfilePage: React.FC = () => {
   });
   const isNarrow = useIsNarrow();
 
-  console.log(uidData)
   const { data, isLoading } = useQuery({
     queryKey: ["getUserPosts", username],
     queryFn: () => getUserPosts(username),
@@ -47,11 +46,12 @@ export const ProfilePage: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           // alignItems: "flex-start",
-          width: "100%",
+          // width: "100%",
           mt: 1,
+          padding: isNarrow ? undefined : '0px 20%',
         }}
       >
-       <ProfileHeader uid={uidData.uid}/>
+       <ProfileHeader postCount={posts?.length || 0} uid={uidData.uid}/>
         {isNarrow ? posts : <ImageGallery />}
       </Box>
     );

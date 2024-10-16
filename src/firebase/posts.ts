@@ -22,8 +22,9 @@ import { db } from "./firebaseConfig";
 interface IUploadFile {
   file?: File;
   postId: string;
+  path?: string;
 }
-const uploadFile = async ({ file, postId }: IUploadFile) => {
+export const uploadFile = async ({ file, postId, path='posts'}: IUploadFile) => {
   if (!file) {
     return;
   }
@@ -32,7 +33,7 @@ const uploadFile = async ({ file, postId }: IUploadFile) => {
   fd.append("upload_preset", "public");
   fd.append("tags", "browser_upload"); // Optional - add tags for image admin in Cloudinary
   fd.append("file", file);
-  fd.append("folder", `posts/${postId}`);
+  fd.append("folder", `${path}/${postId}`);
 
   const res = await fetch(url, {
     method: "POST",

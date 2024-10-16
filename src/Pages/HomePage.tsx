@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserPosts } from "../firebase/posts";
 import { UID } from "../firebase/firebaseConfig";
 import { MakeFirstPost } from "../components/MakeFirstPost";
-import { CreateUsername } from "../components/ClaimUsername";
+import { CreateUsername } from "../components/CreateUsername";
 import { useAuthContext } from "../providers/useContexts";
 import { getUser } from "../firebase/profile";
 

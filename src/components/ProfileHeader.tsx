@@ -6,11 +6,15 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import { getUser } from "../firebase/profile";
 import { EditProfilePage } from "../Pages/EditProfilePage";
 import { useIsNarrow } from "../utils/useIsNarrow";
+import { useAuthContext } from "../providers/useContexts";
 interface ProfileHeaderProps {
-  uid: string;
+  uid?: string;
+  postCount: number;
 }
-export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ uid }) => {
+export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) => {
   const [editOpen, setEditOpen] = React.useState(false);
+    const {user} = useAuthContext();
+    const uidFromAuth = user?.uid
   const onEdit = () => {
     setEditOpen(true);
   };
@@ -21,7 +25,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ uid }) => {
   };
   const { data, isLoading } = useQuery({
     queryKey: ["getUser", uid],
-    queryFn: () => getUser(uid),
+    queryFn: () => (uid ? getUser(uid) : undefined),
   });
 
   return (
@@ -53,7 +57,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ uid }) => {
           </Typography>
         </Box>
         <Dialog fullScreen={isNarrow} open={editOpen} onClose={onEditClose}>
-          <EditProfilePage uid={uid} onClose={onEditClose} />
+          {uidFromAuth && <EditProfilePage uid={uidFromAuth} onClose={onEditClose} />}
         </Dialog>
       </Box>
       <Box
@@ -65,7 +69,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ uid }) => {
         }}
       >
         <Box>
-          <Typography>3 posts</Typography>
+          <Typography>{postCount} posts</Typography>
         </Box>
         <Box>
           <Typography>0 followers</Typography>
@@ -82,15 +86,17 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({ uid }) => {
           justifyContent: "space-between",
         }}
       >
-        <Button
-          size="small"
-          sx={{ m: 0.5 }}
-          variant="contained"
-          fullWidth
-          onClick={onEdit}
-        >
-          Edit
-        </Button>
+        {uidFromAuth && (
+          <Button
+            size="small"
+            sx={{ m: 0.5 }}
+            variant="contained"
+            fullWidth
+            onClick={onEdit}
+          >
+            Edit
+          </Button>
+        )}
         <Button
           size="small"
           sx={{ m: 0.5 }}
