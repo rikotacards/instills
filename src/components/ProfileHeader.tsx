@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Dialog, Typography } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import VerifiedIcon from "@mui/icons-material/Verified";
 
@@ -7,19 +7,54 @@ import { getUser } from "../firebase/profile";
 import { EditProfilePage } from "../Pages/EditProfilePage";
 import { useIsNarrow } from "../utils/useIsNarrow";
 import { useAuthContext } from "../providers/useContexts";
+import { Followers } from "./Followers";
+import { getFollowedBy, getFollowers, onFollow } from "../firebase/followers";
 interface ProfileHeaderProps {
   uid?: string;
   postCount: number;
 }
-export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) => {
+export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
+  postCount,
+  uid,
+}) => {
   const [editOpen, setEditOpen] = React.useState(false);
-    const {user} = useAuthContext();
-    const uidFromAuth = user?.uid
+  const { user } = useAuthContext();
+  const uidFromAuth = user?.uid;
   const onEdit = () => {
     setEditOpen(true);
   };
   const isNarrow = useIsNarrow();
+  const queryClient = useQueryClient();
 
+  const { data: dataFollowers, isLoading: isLoadingFollowers } = useQuery({
+    queryKey: ["getFollowers", uid],
+    queryFn: () => (uid ? getFollowers(uid) : undefined),
+  });
+  const { data: dataFollowedBy, isLoading: isLoadingFollowedBy } = useQuery({
+    queryKey: ["getFollowedBy", uid],
+    queryFn: () => (uid ? getFollowedBy(uid) : undefined),
+  });
+//   const followedByCount = dataFollowedBy ? Object.keys(dataFollowedBy?.followers).length : 0
+
+//   const followerCount = dataFollowers ? Object.keys(dataFollowers?.followers).length : 0
+  const mutation = useMutation({
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: ["getFollowers"],
+      }),
+    mutationFn: (args: { followingUid: string; uid: string }) => {
+      return onFollow({
+        followingUid: args.followingUid,
+        uid: args.uid,
+      });
+    },
+  });
+  const onFollowUser = () => {
+    if(!uidFromAuth || !uid){
+        return;
+    }
+    mutation.mutate({followingUid: uid, uid: uidFromAuth})
+  }
   const onEditClose = () => {
     setEditOpen(false);
   };
@@ -28,6 +63,24 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) =
     queryFn: () => (uid ? getUser(uid) : undefined),
   });
 
+  const [selectedC, setSelectedC] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const onOpen = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setSelectedC("");
+    setOpen(false);
+  };
+
+  const onFollowersClick = () => {
+    setSelectedC("followers");
+    onOpen();
+  };
+  const onFollowingClick = () => {
+    setSelectedC("following");
+    onOpen();
+  };
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box
@@ -57,7 +110,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) =
           </Typography>
         </Box>
         <Dialog fullScreen={isNarrow} open={editOpen} onClose={onEditClose}>
-          {uidFromAuth && <EditProfilePage uid={uidFromAuth} onClose={onEditClose} />}
+          {uidFromAuth && (
+            <EditProfilePage uid={uidFromAuth} onClose={onEditClose} />
+          )}
         </Dialog>
       </Box>
       <Box
@@ -71,11 +126,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) =
         <Box>
           <Typography>{postCount} posts</Typography>
         </Box>
-        <Box>
-          <Typography>0 followers</Typography>
+        <Box onClick={onFollowersClick}>
+          <Typography>{0} followers</Typography>
         </Box>
-        <Box>
-          <Typography>0 following</Typography>
+        <Box onClick={onFollowingClick}>
+          <Typography>{0} following</Typography>
         </Box>
       </Box>
       <Box
@@ -89,7 +144,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) =
         {uidFromAuth && (
           <Button
             size="small"
-            sx={{ m: 0.5 , textTransform: 'capitalize'}}
+            sx={{ m: 0.5, textTransform: "capitalize" }}
             variant="contained"
             fullWidth
             onClick={onEdit}
@@ -99,13 +154,17 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({postCount, uid }) =
         )}
         <Button
           size="small"
-          sx={{ m: 0.5, textTransform: 'capitalize' }}
+          sx={{ m: 0.5, textTransform: "capitalize" }}
           variant="contained"
           fullWidth
+          onClick={onFollowUser}
         >
           Follow
         </Button>
       </Box>
+      <Dialog fullScreen={isNarrow} open={open} onClose={onClose}>
+        {selectedC === "followers" && uid && <Followers uid={uid} onClose={onClose} />}
+      </Dialog>
     </Box>
   );
 };
