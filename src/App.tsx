@@ -1,10 +1,7 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter} from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material";
 
-import { Layout } from "./layout/Layout";
-import { ProfilePage } from "./Pages/ProfilePage";
-import { ProfileSettingsPage } from "./Pages/ProfileSettingsPage";
-import { HomePage } from "./Pages/HomePage";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./providers/AuthProvider";
 import { AuthCheck } from "./components/AuthCheck";

@@ -16,17 +16,23 @@ import React from "react";
 import { useIsNarrow } from "../utils/useIsNarrow";
 import { getUser, updateProfile } from "../firebase/profile";
 import { UID } from "../firebase/firebaseConfig";
-const fields = [{fieldName: "name", placeholder: 'name'}, {fieldName:"username", placeholder: 'username'}, {fieldName: 'bio', placeholder: 'Write something about yourself'}];
+const fields = [
+  { fieldName: "name", placeholder: "name" },
+  { fieldName: "username", placeholder: "username" },
+  { fieldName: "bio", placeholder: "Write something about yourself" },
+];
 import { useQuery } from "@tanstack/react-query";
 
 interface EditProfilePageProps {
   onClose: () => void;
+  uid: string;
 }
 interface EditNameProps {
   onClose: () => void;
   value?: string;
+  uid: string;
 }
-const EditName: React.FC<EditNameProps> = ({ value, onClose }) => {
+const EditName: React.FC<EditNameProps> = ({ uid, value, onClose }) => {
   const [name, setName] = React.useState(value || "");
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -34,7 +40,7 @@ const EditName: React.FC<EditNameProps> = ({ value, onClose }) => {
   const onDone = async () => {
     await updateProfile({
       name,
-      uid: UID,
+      uid,
     });
     onClose();
   };
@@ -47,15 +53,18 @@ const EditName: React.FC<EditNameProps> = ({ value, onClose }) => {
         </Button>
       </Toolbar>
       <DialogContent>
-        <TextField 
-        value={name}
-        onChange={onChange} placeholder="Name" fullWidth />
+        <TextField
+          value={name}
+          onChange={onChange}
+          placeholder="Name"
+          fullWidth
+        />
       </DialogContent>
     </Box>
   );
 };
 
-const EditUsername: React.FC<EditNameProps> = ({ onClose, value }) => {
+const EditUsername: React.FC<EditNameProps> = ({ uid, onClose, value }) => {
   const [username, setName] = React.useState(value || "");
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value.toLowerCase());
@@ -63,7 +72,7 @@ const EditUsername: React.FC<EditNameProps> = ({ onClose, value }) => {
   const onDone = async () => {
     await updateProfile({
       username,
-      uid: UID,
+      uid,
     });
     onClose();
   };
@@ -86,7 +95,7 @@ const EditUsername: React.FC<EditNameProps> = ({ onClose, value }) => {
     </Box>
   );
 };
-const EditBio: React.FC<EditNameProps> = ({ onClose, value }) => {
+const EditBio: React.FC<EditNameProps> = ({ uid, onClose, value }) => {
   const [bio, setName] = React.useState(value || "");
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value.toLowerCase());
@@ -94,7 +103,7 @@ const EditBio: React.FC<EditNameProps> = ({ onClose, value }) => {
   const onDone = async () => {
     await updateProfile({
       bio,
-      uid: UID,
+      uid,
     });
     onClose();
   };
@@ -113,7 +122,7 @@ const EditBio: React.FC<EditNameProps> = ({ onClose, value }) => {
           minRows={4}
           placeholder="Write something"
           fullWidth
-          value={bio || "Write something"}
+          value={bio}
         />
       </DialogContent>
     </Box>
@@ -122,13 +131,14 @@ const EditBio: React.FC<EditNameProps> = ({ onClose, value }) => {
 
 export const EditProfilePage: React.FC<EditProfilePageProps> = ({
   onClose,
+  uid,
 }) => {
   const isNarrow = useIsNarrow();
   const [open, setOpen] = React.useState(false);
   const [editField, setEditField] = React.useState("");
   const { data, isLoading } = useQuery({
-    queryKey: ["getUser", UID],
-    queryFn: () => getUser(UID),
+    queryKey: ["getUser", uid || UID],
+    queryFn: () => getUser(uid || UID),
   });
   const onOpen = () => {
     setOpen(true);
@@ -151,9 +161,12 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
           sx={{ textTransform: "capitalize", display: "flex", flex: 2 }}
           divider
         >
-          <Typography color='textSecondary' sx={{ textTransform: "capitalize" }}>
+          <Typography
+            color="textSecondary"
+            sx={{ textTransform: "capitalize" }}
+          >
             {data?.[f.fieldName] || f.placeholder}
-            </Typography>
+          </Typography>
         </ListItem>
       </Box>
     );
@@ -185,13 +198,13 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
       </DialogContent>
       <Dialog fullScreen={isNarrow} open={open} onClose={onDClose}>
         {editField === "name" && (
-          <EditName value={data?.name} onClose={onDClose} />
+          <EditName uid={uid} value={data?.name} onClose={onDClose} />
         )}
         {editField === "username" && (
-          <EditUsername value={data?.username} onClose={onDClose} />
+          <EditUsername uid={uid} value={data?.username} onClose={onDClose} />
         )}
         {editField === "bio" && (
-          <EditBio value={data?.bio} onClose={onDClose} />
+          <EditBio uid={uid} value={data?.bio} onClose={onDClose} />
         )}
       </Dialog>
     </>

@@ -9,6 +9,7 @@ import {
   ListItemText,
   Slide,
   Button,
+  Avatar,
 } from "@mui/material";
 import React from "react";
 import { useIsNarrow } from "../utils/useIsNarrow";
@@ -20,7 +21,10 @@ import MenuItem from "@mui/material/MenuItem";
 import { sidebar } from "../config/menuItems";
 import { useAuthContext } from "../providers/useContexts";
 import { onSignInWithGoogle } from "../hooks/useSignIn";
-
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
+import { useQuery } from "@tanstack/react-query";
+import { getUser } from "../firebase/profile";
 interface TopAppbarProps {
   onOpen: () => void;
 }
@@ -32,12 +36,21 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUser", user?.uid],
+    queryFn: () => getUser(user?.uid || ""),
+  });
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const onSignIn = async() => {
+  const onSignIn = async () => {
     await onSignInWithGoogle();
-  }
+  };
+  const onSignOut = () => {
+    signOut(auth).then(() => {
+      nav("/");
+    });
+  };
   const nav = useNavigate();
   const sd = useScrollDirection();
   const displayedButton = user ? (
@@ -48,7 +61,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
     </Box>
   ) : (
     <Button
-    onClick={onSignIn}
+      onClick={onSignIn}
       variant="contained"
       sx={{ ml: "auto", textTransform: "capitalize" }}
     >
@@ -100,6 +113,16 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
               />
             </MenuItem>
           ))}
+          <MenuItem onClick={() => nav(`/${data?.username}`)}>
+            <ListItemIcon>
+              {" "}
+              <Avatar sx={{ height: 25, width: 25 }} />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </MenuItem>
+          <MenuItem onClick={onSignOut}>
+            <ListItemText primary="Log out" />
+          </MenuItem>
         </Menu>
       </AppBar>
     </Slide>

@@ -2,6 +2,8 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import React from "react";
 import { auth } from "../firebase/firebaseConfig";
 import { useQueryClient } from "@tanstack/react-query";
+import { getUser, updateProfile } from "../firebase/profile";
+import { useNavigate } from "react-router";
 
 interface AuthContextProps {
   user: User | null;
@@ -13,7 +15,10 @@ interface AuthProviderProps {
 }
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isUserLoading, setIsLoading] = React.useState(true);
-
+  const nav = useNavigate();
+  const goToSignUp = () => {
+    nav('/signup')
+  }
   const [user, setUser] = React.useState<User | null>({} as User);
  
   const queryClient = useQueryClient();
@@ -24,7 +29,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Note: this logic should be added in your signin process and not here.
         setIsLoading(false);
         setUser(user);
-        queryClient.invalidateQueries({ queryKey: ["getAgentListings"], exact: true});
+          if(user.metadata.creationTime === user.metadata.lastSignInTime){
+            goToSignUp()
+            return;
+          }
+        getUser(user.uid).then((res) => {
+          if(res){
+            return;
+          } else {
+            goToSignUp();
+            return;
+          }
+        })
 
       } else {
         queryClient.invalidateQueries({ queryKey: ["getUser"], exact: true});

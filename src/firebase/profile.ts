@@ -42,14 +42,7 @@ export const getUser = async (uid: string) => {
       return { ...docSnap.data(), uid: docSnap.id } as IUser;
     } else {
       // docSnap.data() will be undefined in this case
-      console.log("No such document!");
-      return {
-        username: "",
-        name: "",
-        bio: undefined,
-        uid: "",
-        profilePhotoUrl: "",
-      };
+     return undefined
     }
   } catch (e) {
     alert(e);
@@ -61,7 +54,7 @@ export const getUid = async (username: string) => {
   try {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return { ...docSnap.data(), uid: docSnap.id } as IUser;
+      return { ...docSnap.data() } as IUser;
     } else {
       // docSnap.data() will be undefined in this case
       return undefined;
@@ -71,43 +64,51 @@ export const getUid = async (username: string) => {
   }
 };
 // {username: uid}
-const updateUsername = async (username: string, uid: string) => {
+const updateUsername = async (username: string, uid: string, name?: string) => {
   try {
     const docRef = await setDoc(
       doc(db, "usernames", username),
       {
         uid: uid,
+        username,
         dateAdded: serverTimestamp(),
+        name
       },
       { merge: true }
     );
+
+    await updateProfile({username, uid, name})
+
     return docRef;
   } catch(e){
     alert(e)
   }
 }
-export const addUsername = async (username: string, uid: string) => {
+
+export const checkUsernameExists = async(username: string) => {
+  const docRef = doc(db, "usernames", username);
   try {
-    const res = await getUid(username);
-    if (res) {
-      if (res?.uid === uid) {
-        await updateUsername(username, uid)
-      } else {
-        throw "Username exists";
-      }
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return true
     } else {
-      const docRef = await setDoc(
-        doc(db, "usernames", username),
-        {
-          uid: uid,
-          dateAdded: serverTimestamp(),
-        },
-        { merge: true }
-      );
-      return docRef;
+      return false
+    }
+  } catch (e) {
+    alert(e);
+  }
+}
+
+export const addUsername = async (username: string, uid: string, name?: string) => {
+  try {
+    const res = await checkUsernameExists(username);
+    if (res) {
+      throw('Username taken')
+      }
+     else {
+      await updateUsername(username, uid, name)
     }
   } catch (e) {
     return e;
   }
 };
-// {uid: usernameff}

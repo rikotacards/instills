@@ -32,4 +32,5 @@ export interface IUser {
     profilePhotoUrl: string;
     bio: string;
     username?: string;
+    isVerified: boolean;
 }

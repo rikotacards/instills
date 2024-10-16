@@ -55,7 +55,7 @@ export const Layout: React.FC = () => {
       }}
     >
       <CssBaseline />
-      <TopAppbar onOpen={onOpen} />
+      <TopAppbar  onOpen={onOpen} />
       {user && <SideDrawer onOpen={onOpen} isNarrow={isNarrow} />}
       <Box component="main" sx={{ p: 0, width: "100%" }}>
         <Toolbar />
