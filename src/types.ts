@@ -10,6 +10,7 @@ export interface IPost {
     captions: string[]
     dateAdded?: string;
     postId: string;
+    uid: string;
 }
 
 export interface IMenuItems {

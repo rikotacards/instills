@@ -17,12 +17,11 @@ export const ProfilePage: React.FC = () => {
     queryFn: () => getUid(username),
   });
   const isNarrow = useIsNarrow();
-
+  console.log('uidData', uidData)
   const { data, isLoading } = useQuery({
-    queryKey: ["getUserPosts", username],
-    queryFn: () => getUserPosts(username),
+    queryKey: ["getUserPosts", uidData?.uid],
+    queryFn: () => getUserPosts(uidData?.uid || ''),
   });
-
   const posts = data?.map((p) => (
     <Box sx={{ mb: 1 }}>
       <Post
@@ -30,6 +29,7 @@ export const ProfilePage: React.FC = () => {
         dateAdded={new Date(p.dateAdded.seconds * 1000).toDateString()}
         captions={p.captions}
         imageUrls={p.imageUrls}
+        uid={p.uid}
         enableTop
       />
     </Box>

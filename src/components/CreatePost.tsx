@@ -3,12 +3,12 @@ import {
   AppBar,
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogContentText,
   DialogTitle,
   IconButton,
-  LinearProgress,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -20,14 +20,15 @@ import { UploadArea } from "./UploadArea";
 import { PostPreview } from "./PostPreview";
 import { useIsNarrow } from "../utils/useIsNarrow";
 import { addPost } from "../firebase/posts";
-import { UID } from "../firebase/firebaseConfig";
 interface CreatePostProps {
   onClose: () => void;
   closeWithoutPosts: () => void;
+  uid: string;
 }
 export const CreatePost: React.FC<CreatePostProps> = ({
   onClose,
   closeWithoutPosts,
+  uid
 }) => {
   const [step, setStep] = React.useState(0);
   const [open, setOpen] = React.useState(false);
@@ -80,7 +81,8 @@ export const CreatePost: React.FC<CreatePostProps> = ({
   const onAddPost = async () => {
     onStartLoading();
     try {
-      await addPost(cp.posts, UID);
+      await addPost(cp.posts, uid);
+      onClose();
     } catch (e) {
       alert(e);
     } finally {
@@ -129,6 +131,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
               <Button
                 disableElevation
                 variant="contained"
+                startIcon={isLoading && <CircularProgress sx={{color: 'white'}} size={20}/>}
                 sx={{ textTransform: "capitalize" }}
                 onClick={step === 2 ? onAddPost : onPreview}
               >

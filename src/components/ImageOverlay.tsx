@@ -30,22 +30,23 @@ interface ImageOverlayProps {
   enableTop?: boolean;
   dateAdded?: string;
   postId: string;
+  isYourPost?: boolean;
+  total: number;
 }
-const sampleText =
-  "Went to view this apartment today, the floors were okay, but made of wood. nothing too bad.";
 
-export const c = [sampleText, "Where the magic happens"];
 export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   children,
   swiperController,
   onSwiper,
+  isYourPost,
   isCaptionOpen,
   onClose,
   onToggle,
   captions,
   enableTop,
   dateAdded,
-  postId
+  postId,
+  total
 }) => {
   const [isOpen, setOpen] = React.useState(false);
   const queryClient = useQueryClient();
@@ -75,9 +76,18 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
     mutation.mutate('like')
     setTimeout(() => setReaction(false), 500);
   };
-
+ 
   const [currPage, setCurrPage] = React.useState(1);
-
+  const onNext = () => {
+    if(currPage < total){
+      setCurrPage((p) => p+1)
+    }
+  }
+  const onPrev = () => {
+    if(currPage > 1){
+      setCurrPage(p => p-1)
+    }
+  }
   const captionSlider = (
     <Box sx={{ m: 2, 
 
@@ -87,6 +97,9 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         onDialogOpen={onDialogOpen}
         dateAdded={dateAdded}
         profile={profile}
+        isYourPost={!!isYourPost}
+        curr={currPage}
+        total={total}
       />
 
       <Swiper
@@ -94,8 +107,8 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         onSlideChange={onClose}
         effect={"fade"}
         fadeEffect={{ crossFade: true }}
-        onSlideNextTransitionEnd={() => setCurrPage((p) => p + 1)}
-        onSlidePrevTransitionEnd={() => setCurrPage((p) => p - 1)}
+        onSlideNextTransitionEnd={onNext}
+        onSlidePrevTransitionEnd={onPrev}
         controller={{ control: swiperController }}
         modules={[Controller, Navigation, EffectFade]}
         style={{ display: "flex", zIndex: 1, marginTop: 0, 
@@ -151,6 +164,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
             dateAdded={dateAdded}
             profile={profile}
             onDialogOpen={onDialogOpen}
+            isYourPost={!!isYourPost}
           />
         )}
         {enableTop && captionSlider}

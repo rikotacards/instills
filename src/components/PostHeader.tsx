@@ -5,11 +5,17 @@ interface PostHeaderProps {
   dateAdded: string;
   onDialogOpen: () => void;
   profile: string;
+  isYourPost: boolean;
+  total: number;
+  curr: number;
 }
 export const PostHeader: React.FC<PostHeaderProps> = ({
   dateAdded,
   onDialogOpen,
   profile,
+  isYourPost,
+  curr, 
+  total
 }) => {
   return (
     <Box display={"flex"} sx={{ color: "white", alignItems: "center" }}>
@@ -17,6 +23,8 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
       <Typography variant="body2" fontWeight={700} sx={{ color: "white" }}>
         Maxwelldhsu
       </Typography>
+      <Typography variant='caption' fontWeight={300} sx={{ml:1}}>({curr}/{total})</Typography>
+
       <Typography
         variant="caption"
         fontWeight={300}
@@ -25,9 +33,9 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
         {dateAdded}
       </Typography>
       <Box sx={{ ml: "auto" }}>
-        <IconButton onClick={onDialogOpen} color="inherit">
+        {isYourPost && <IconButton onClick={onDialogOpen} color="inherit">
           <MoreHoriz />
-        </IconButton>
+        </IconButton>}
       </Box>
     </Box>
   );

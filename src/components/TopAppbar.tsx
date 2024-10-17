@@ -26,12 +26,13 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../firebase/profile";
+import { useDetectColorTheme } from "../hooks/useDetectColorTheme";
 interface TopAppbarProps {
   onOpen: () => void;
 }
 export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const { theme } = useDetectColorTheme();
   const { user } = useAuthContext();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -74,7 +75,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
   return (
     <Slide in={sd == "up"}>
       <AppBar
-      elevation={0}
+        elevation={0}
         sx={{
           transition: "height 0.5s ease",
         }}
@@ -108,7 +109,14 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
           {sidebar.map((item) => (
             <MenuItem
               key={item.label}
-              onClick={item.label === "create" ? onOpen : () => {nav(item.path); handleClose()}}
+              onClick={
+                item.label === "create"
+                  ? onOpen
+                  : () => {
+                      nav(item.path);
+                      handleClose();
+                    }
+              }
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText
@@ -117,9 +125,17 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
               />
             </MenuItem>
           ))}
-          <MenuItem onClick={() => {nav(`/${data?.username}`); handleClose()}}>
+          <MenuItem
+            onClick={() => {
+              nav(`/${data?.username}`);
+              handleClose();
+            }}
+          >
             <ListItemIcon>
-              <Avatar src={data?.profilePhotoUrl} sx={{ height: 25, width: 25 }} />
+              <Avatar
+                src={data?.profilePhotoUrl}
+                sx={{ height: 25, width: 25 }}
+              />
             </ListItemIcon>
             <ListItemText primary="Profile" />
           </MenuItem>
@@ -127,7 +143,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
             <ListItemText primary="Log out" />
           </MenuItem>
         </Menu>
-        <Divider/>
+        <Divider />
       </AppBar>
     </Slide>
   );

@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Dialog, Typography } from "@mui/material";
+import { Avatar, Box, Button, Dialog, Divider, Typography } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import VerifiedIcon from "@mui/icons-material/Verified";
@@ -212,6 +212,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <Followers uid={uid} onClose={onClose} />
         )}
       </Dialog>
+      <Divider/>
     </Box>
   );
 };

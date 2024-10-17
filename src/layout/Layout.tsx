@@ -78,7 +78,7 @@ export const Layout: React.FC = () => {
         fullScreen={isNarrow}
       >
         <CreatePostProvider>
-          <CreatePost onClose={onClose} closeWithoutPosts={closeWithoutPosts} />
+          <CreatePost uid={user.uid} onClose={onClose} closeWithoutPosts={closeWithoutPosts} />
         </CreatePostProvider>
       </Dialog>
       <Dialog onClose={onCloseConfirm} open={openConfirmation}>

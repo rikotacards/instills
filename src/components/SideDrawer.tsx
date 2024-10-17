@@ -15,7 +15,7 @@ import { useAuthContext } from "../providers/useContexts";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../firebase/profile";
 
-const drawerWidth = 100;
+const drawerWidth = 200;
 interface SideDrawerProps {
   isNarrow: boolean;
   onOpen: () => void;

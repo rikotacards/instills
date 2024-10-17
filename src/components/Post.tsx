@@ -3,18 +3,32 @@ import { ImageOverlay } from "./ImageOverlay";
 import { ImageSlider } from "./ImageSlider";
 import { Box } from "@mui/material";
 import { IPost } from "../types";
+import { useAuthContext } from "../providers/useContexts";
 
 export const Post: React.FC<IPost & { enableTop?: boolean }> = (props) => {
   const { imageUrls, captions, enableTop, dateAdded, postId } = props;
   const [firstSwiper, setFirstSwiper] = React.useState(null);
   const [secondSwiper, setSecondSwiper] = React.useState(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const { user } = useAuthContext();
   const onClose = () => {
     setIsOpen(false);
   };
   const onToggle = () => {
     setIsOpen(!isOpen);
   };
+  const [page, setPage] = React.useState(1);
+  const nextPage = () => {
+    if (page < imageUrls.length + 1) {
+      setPage((p) => p + 1);
+    }
+  };
+  const prevPage = () => {
+    if (page > 1) {
+      setPage((p) => p - 1);
+    }
+  };
+  const isYourPost = user?.uid === props.uid;
   return (
     <Box
       sx={{
@@ -36,6 +50,8 @@ export const Post: React.FC<IPost & { enableTop?: boolean }> = (props) => {
         enableTop={enableTop}
         dateAdded={dateAdded}
         postId={postId}
+        isYourPost={isYourPost}
+        total={imageUrls.length}
       >
         <ImageSlider
           imageUrls={imageUrls}

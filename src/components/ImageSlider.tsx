@@ -10,13 +10,13 @@ interface ImageSliderProps {
   onSwiper: any;
   swiperController: any;
   onClose: () => void;
-  imageUrls: string[]
+  imageUrls: string[];
 }
 export const ImageSlider: React.FC<ImageSliderProps> = ({
   onSwiper,
   swiperController,
   onClose,
-  imageUrls
+  imageUrls,
 }) => {
   const sliders = imageUrls.map((i) => {
     return (
@@ -46,7 +46,6 @@ export const ImageSlider: React.FC<ImageSliderProps> = ({
       navigation
       onSliderMove={onClose}
       pagination={true}
-      // onSlideChangeTransitionStart={onClose}
       onSwiper={onSwiper}
       controller={{ control: swiperController }}
       style={{

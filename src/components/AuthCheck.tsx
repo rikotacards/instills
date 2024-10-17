@@ -24,7 +24,7 @@ export const AuthCheck: React.FC = () => {
     return (
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage uid={user.uid}/>} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/profile/edit" element={<ProfileSettingsPage />} />
           <Route path="/:username" element={<ProfilePage />} />

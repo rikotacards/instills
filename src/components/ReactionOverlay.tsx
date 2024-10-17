@@ -17,6 +17,7 @@ export const ReactionOverlay: React.FC<ReactionOverlayProps> = ({
         display: "flex",
         justifyContent: "center",
         width: "100%",
+        visibility: openReaction ? 'visible' : 'hidden'
       }}
     >
       <Box

@@ -234,6 +234,7 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            mb:3
           }}
         >
           <EmojiPicker

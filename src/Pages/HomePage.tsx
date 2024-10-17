@@ -10,13 +10,15 @@ import { CreateUsername } from "../components/CreateUsername";
 import { useAuthContext } from "../providers/useContexts";
 import { getUser } from "../firebase/profile";
 import { useIsNarrow } from "../utils/useIsNarrow";
-
-export const HomePage: React.FC = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["getUserPosts", UID],
-    queryFn: () => getUserPosts(UID),
-  });
+interface HomePageProps {
+  uid: string
+}
+export const HomePage: React.FC<HomePageProps> = ({uid}) => {
   const { user } = useAuthContext();
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUserPosts", uid],
+    queryFn: () => getUserPosts(uid),
+  });
   const isNarrow = useIsNarrow();
   const { data: userData, isLoading: userIsLoading } = useQuery({
     queryKey: ["getUser", user?.uid],
@@ -30,6 +32,8 @@ export const HomePage: React.FC = () => {
         captions={p.captions}
         imageUrls={p.imageUrls}
         enableTop
+        uid={p.uid}
+        dateAdded={new Date(p.dateAdded.seconds * 1000).toDateString()}
       />
     </Box>
   ));
