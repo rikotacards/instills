@@ -15,7 +15,8 @@ export const Followers: React.FC<FollowersProps> = ({uid, onClose }) => {
     queryKey: ["getFollowers", uid],
     queryFn: () => (uid ? getFollowers(uid) : undefined),
   });
-  const followerUids = data ? Object.keys(data?.followers) : []
+  console.log(data)
+  const followerUids = data?.followers ? Object.keys(data.followers) : []
   return (
     <Box>
       <Toolbar sx={{ display: "flex" }}>
@@ -30,7 +31,7 @@ export const Followers: React.FC<FollowersProps> = ({uid, onClose }) => {
       </Toolbar>
 
       {followerUids.length ? (
-        followers.map((uid) => {
+        followerUids.map((uid) => {
           return <FollowersRow uid={uid} />;
         })
       ) : (

@@ -34,7 +34,7 @@ export const BottomAppBar: React.FC<BottomAppBarProps> = ({ onOpen }) => {
   }
   return (
     <Box sx={{ position: "fixed", bottom: "1%", zIndex: 3, width: "100%" }}>
-      <Slide direction="up" in={sd == "up"}>
+      <Slide direction="up" in={true}>
         <Box
           sx={{
             width: "100%",

@@ -20,7 +20,7 @@ import { db } from "./firebaseConfig";
 
 interface AddFollowerProp {
   uid: string;
-  followingUid: string;
+  otherUid: string;
 }
 export const addFollower = async (args: AddFollowerProp) => {
   if (!args.uid) {
@@ -28,9 +28,9 @@ export const addFollower = async (args: AddFollowerProp) => {
   }
   try {
     const docRef = await setDoc(
-      doc(db, "followers", args.uid),
+      doc(db, "followers", args.otherUid),
       {
-        followers: { [args.followingUid]: true },
+        followers: { [args.uid]: true },
       },
       { merge: true }
     );
@@ -40,15 +40,15 @@ export const addFollower = async (args: AddFollowerProp) => {
   }
 };
 
-export const addFollowedBy = async (args: AddFollowerProp) => {
+export const addFollowing = async (args: AddFollowerProp) => {
   if (!args.uid) {
     throw "Requires UID";
   }
   try {
     const docRef = await setDoc(
-      doc(db, "followedBy", args.followingUid),
+      doc(db, "following", args.uid),
       {
-        followedBy: { [args.uid]: true },
+        following: { [args.otherUid]: true },
       },
       { merge: true }
     );
@@ -60,57 +60,68 @@ export const addFollowedBy = async (args: AddFollowerProp) => {
 
 export const onFollow = async (args: AddFollowerProp) => {
   try {
-    await addFollower({ uid: args.uid, followingUid: args.followingUid });
-    await addFollowedBy({ uid: args.followingUid, followingUid: args.uid });
+    await addFollower({ uid: args.uid, otherUid: args.otherUid });
+    await addFollowing({ uid: args.uid, otherUid: args.uid });
   } catch (e) {
     alert(e);
   }
 };
 
-export const removeFollower = async (args: AddFollowerProp) => {
-  const ref = doc(db, "followers", args.uid);
+export const onUnfollow = async (args: AddFollowerProp) => {
+  const followerRef = doc(db, "followers", args.otherUid);
   try {
-    const followedByRef = doc(db, "followedBy", args.followingUid);
-    await updateDoc(ref, {
-      [args.followingUid]: deleteField(),
-    });
-    await updateDoc(followedByRef, {
-      [args.uid]: deleteField(),
-    });
+    const followingRef = doc(db, "following", args.uid);
+    await setDoc(
+      followerRef,
+      {
+        followers: { [args.uid]: deleteField() },
+      },
+      { merge: true }
+    );
+    await setDoc(
+      followingRef,
+      {
+        following: { [args.otherUid]: deleteField() },
+      },
+      { merge: true }
+    );
   } catch (e) {
     alert(e);
   }
 };
 
 interface IFollowers {
-    followers: {[key: string]: string}
-}
-export const getFollowers = async(uid: string) => {
-    const docRef = doc(db, "followers", uid);
-  try {
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return { ...docSnap.data() } as IFollowers
-    } else {
-      // docSnap.data() will be undefined in this case
-     return undefined
-    }
-  } catch (e) {
-    alert(e);
-  }
-}
-export const getFollowedBy = async(uid: string) => {
-    const docRef = doc(db, "followedBy", uid);
-  try {
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return { ...docSnap.data() } as IFollowers
-    } else {
-      // docSnap.data() will be undefined in this case
-     return undefined
-    }
-  } catch (e) {
-    alert(e);
-  }
+  followers: { [key: string]: boolean };
 }
 
+interface IFollowing {
+  following: { [key: string]: boolean };
+}
+export const getFollowers = async (uid: string) => {
+  const docRef = doc(db, "followers", uid);
+  try {
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { ...docSnap.data() } as IFollowers;
+    } else {
+      // docSnap.data() will be undefined in this case
+      return undefined;
+    }
+  } catch (e) {
+    alert(e);
+  }
+};
+export const getFollowing = async (uid: string) => {
+  const docRef = doc(db, "following", uid);
+  try {
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { ...docSnap.data() } as IFollowing;
+    } else {
+      // docSnap.data() will be undefined in this case
+      return undefined;
+    }
+  } catch (e) {
+    alert(e);
+  }
+};
