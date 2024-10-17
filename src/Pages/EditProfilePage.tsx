@@ -241,7 +241,7 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
       <DialogContent>
         <Box sx={{ display: "flex", mb: 1 }}>
           <Avatar src={imagePath} sx={{ mr: 1 }} />
-          <Button onClick={() => ref.current.click()} fullWidth>Edit picture</Button>
+          <Button onClick={() => ref?.current?.click()} fullWidth>Edit picture</Button>
           <input
             onChange={(e) => onImageFileChange(e)}
             accept="image/*"

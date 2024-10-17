@@ -1,6 +1,6 @@
-import {  Box, } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import React from "react";
-import { useLocation} from "react-router";
+import { useLocation } from "react-router";
 import { ImageGallery } from "../components/ImageGallery";
 import { useIsNarrow } from "../utils/useIsNarrow";
 import { useQuery } from "@tanstack/react-query";
@@ -35,24 +35,28 @@ export const ProfilePage: React.FC = () => {
     </Box>
   ));
   if (!uidLoading && !uidData) {
-    return (
-      <BrokenPage/>
-    );
+    return <BrokenPage />;
   }
+
   if (!uidLoading && uidData) {
     return (
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          // alignItems: "flex-start",
-          // width: "100%",
           mt: 1,
-          padding: isNarrow ? undefined : '0px 20%',
+          padding: isNarrow ? undefined : "0px 20%",
+          textAlign: 'center'
         }}
       >
-       <ProfileHeader postCount={posts?.length || 0} uid={uidData.uid}/>
-        {isNarrow ? posts : <ImageGallery />}
+        {(uidLoading || !uidData || isLoading) && <CircularProgress />}
+        {!uidLoading && uidData && !isLoading && data && (
+          <>
+            <ProfileHeader postCount={posts?.length || 0} uid={uidData.uid} />
+            {isNarrow ? posts : <ImageGallery posts={data} />}
+            {data.length === 0 && <Typography fontWeight={'bold'}>No posts</Typography>}
+          </>
+        )}
       </Box>
     );
   }

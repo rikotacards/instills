@@ -9,6 +9,7 @@ import { MakeFirstPost } from "../components/MakeFirstPost";
 import { CreateUsername } from "../components/CreateUsername";
 import { useAuthContext } from "../providers/useContexts";
 import { getUser } from "../firebase/profile";
+import { useIsNarrow } from "../utils/useIsNarrow";
 
 export const HomePage: React.FC = () => {
   const { data, isLoading } = useQuery({
@@ -16,6 +17,7 @@ export const HomePage: React.FC = () => {
     queryFn: () => getUserPosts(UID),
   });
   const { user } = useAuthContext();
+  const isNarrow = useIsNarrow();
   const { data: userData, isLoading: userIsLoading } = useQuery({
     queryKey: ["getUser", user?.uid],
     queryFn: () => getUser(user?.uid || ""),
@@ -32,10 +34,8 @@ export const HomePage: React.FC = () => {
     </Box>
   ));
   return (
-    <Box sx={{ m: 0 }}>
-      <Box sx={{ m: 1 }}>
-        {posts?.length === 0 && <MakeFirstPost />}
-      </Box>
+    <Box sx={{ m: 0, padding: isNarrow ? undefined : "0px 20%" }}>
+      <Box sx={{ m: 1 }}>{posts?.length === 0 && <MakeFirstPost />}</Box>
       {posts}
     </Box>
   );

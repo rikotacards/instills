@@ -1,20 +1,23 @@
 import { ImageList, ImageListItem } from "@mui/material";
 import React from "react";
-import sample from "../../sample.jpg";
-import landscape from "../../landscape.jpg";
-export const ImageGallery: React.FC = () => {
+
+import { IFbPost } from "../types";
+interface ImageGalleryProps {
+  posts: IFbPost[];
+}
+export const ImageGallery: React.FC<ImageGalleryProps> = ({ posts }) => {
   return (
     <ImageList sx={{ height: "100%" }} gap={0} cols={3}>
-      {[sample, landscape, sample, landscape, sample, landscape].map((item) => (
-        <ImageListItem key={item}>
+      {posts.map((item, i) => (
+        <ImageListItem key={item.imageUrls[0] + i}>
           <img
-            src={item}
+            src={item.imageUrls[0]}
             style={{
               maxHeight: 300,
 
               maxWidth: 300,
             }}
-            alt={item}
+            alt={item.captions[0]}
             loading="lazy"
           />
         </ImageListItem>

@@ -1,30 +1,25 @@
-import { Box, CircularProgress, IconButton, Toolbar, Typography } from "@mui/material";
+import { Box, IconButton, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { FollowersRow } from "./FollowersRow";
 import { Close } from "@mui/icons-material";
 import { useQuery } from "@tanstack/react-query";
-import { getFollowers } from "../firebase/followers";
+import { getFollowers, getFollowing } from "../firebase/followers";
 interface FollowersProps {
   onClose: () => void;
   uid: string;
 }
-export const Followers: React.FC<FollowersProps> = ({uid, onClose }) => {
-  const followers = [] as string[];
+export const Followings: React.FC<FollowersProps> = ({uid, onClose }) => {
 
   const { data, isLoading } = useQuery({
-    queryKey: ["getFollowers", uid],
-    queryFn: () => (uid ? getFollowers(uid) : undefined),
+    queryKey: ["getFollowing", uid],
+    queryFn: () => (uid ? getFollowing(uid) : undefined),
   });
-  console.log(data)
-  const followerUids = data?.followers ? Object.keys(data.followers) : []
-  if(isLoading){
-    return <CircularProgress/>
-  }
+  const followerUids = data?.following ? Object.keys(data.following) : []
   return (
     <Box>
       <Toolbar sx={{ display: "flex" }}>
         <Box sx={{ flex: 1 }}>
-          <Typography>Followers</Typography>
+          <Typography>Following</Typography>
         </Box>
         <Box sx={{ ml: "auto" }}>
           <IconButton onClick={onClose}>
@@ -39,7 +34,7 @@ export const Followers: React.FC<FollowersProps> = ({uid, onClose }) => {
         })
       ) : (
         <Box sx={{ p: 2, textAlign: "center" }}>
-          <Typography fontWeight={"bold"}>No followers</Typography>
+          <Typography fontWeight={"bold"}>Not following anyone</Typography>
         </Box>
       )}
     </Box>

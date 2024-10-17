@@ -37,7 +37,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isNarrow, onOpen }) => {
           width: isNarrow ? 0 : drawerWidth,
           boxSizing: "border-box",
           transition: "width 0.5s",
-          borderColor: "transparent",
+          // borderColor: "transparent",
           zIndex: 0,
         },
         transition: "width 0.5s",

@@ -1,21 +1,4 @@
-import {
-  addDoc,
-  and,
-  collection,
-  deleteDoc,
-  deleteField,
-  doc,
-  getDoc,
-  getDocs,
-  or,
-  orderBy,
-  query,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { IUser } from "../types";
+import { deleteField, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
 interface AddFollowerProp {
@@ -23,6 +6,8 @@ interface AddFollowerProp {
   otherUid: string;
 }
 export const addFollower = async (args: AddFollowerProp) => {
+  // goes to the person you are following,
+  // adds your UID to their table
   if (!args.uid) {
     throw "Requires UID";
   }
@@ -60,8 +45,8 @@ export const addFollowing = async (args: AddFollowerProp) => {
 
 export const onFollow = async (args: AddFollowerProp) => {
   try {
-    await addFollower({ uid: args.uid, otherUid: args.otherUid });
-    await addFollowing({ uid: args.uid, otherUid: args.uid });
+    await addFollower(args);
+    await addFollowing(args);
   } catch (e) {
     alert(e);
   }
@@ -105,7 +90,7 @@ export const getFollowers = async (uid: string) => {
       return { ...docSnap.data() } as IFollowers;
     } else {
       // docSnap.data() will be undefined in this case
-      return undefined;
+      return {followers: {}};
     }
   } catch (e) {
     alert(e);
@@ -119,7 +104,7 @@ export const getFollowing = async (uid: string) => {
       return { ...docSnap.data() } as IFollowing;
     } else {
       // docSnap.data() will be undefined in this case
-      return undefined;
+      return {following:{}};
     }
   } catch (e) {
     alert(e);
