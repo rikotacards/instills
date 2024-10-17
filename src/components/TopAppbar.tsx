@@ -10,6 +10,7 @@ import {
   Slide,
   Button,
   Avatar,
+  Divider,
 } from "@mui/material";
 import React from "react";
 import { useIsNarrow } from "../utils/useIsNarrow";
@@ -73,6 +74,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
   return (
     <Slide in={sd == "up"}>
       <AppBar
+      elevation={0}
         sx={{
           transition: "height 0.5s ease",
         }}
@@ -125,6 +127,7 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
             <ListItemText primary="Log out" />
           </MenuItem>
         </Menu>
+        <Divider/>
       </AppBar>
     </Slide>
   );
