@@ -23,6 +23,7 @@ const fields = [
 ];
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { uploadFile } from "../firebase/posts";
+import { EditUsernameTextBox } from "../components/EditUsername";
 
 interface EditProfilePageProps {
   onClose: () => void;
@@ -81,10 +82,7 @@ const EditUsername: React.FC<EditNameProps> = ({ uid, onClose, value }) => {
     setName(e.target.value.toLowerCase());
   };
   const onDone = async () => {
-    await updateProfile({
-      username,
-      uid,
-    });
+    
     onClose();
   };
   return (
@@ -96,12 +94,7 @@ const EditUsername: React.FC<EditNameProps> = ({ uid, onClose, value }) => {
         </Button>
       </Toolbar>
       <DialogContent>
-        <TextField
-          value={username}
-          onChange={onChange}
-          placeholder="Username"
-          fullWidth
-        />
+        <EditUsernameTextBox currUsername={value} username={username} uid={uid} />
       </DialogContent>
     </Box>
   );

@@ -42,7 +42,7 @@ export const getUser = async (uid: string) => {
       return { ...docSnap.data(), uid: docSnap.id } as IUser;
     } else {
       // docSnap.data() will be undefined in this case
-     return undefined
+      return undefined;
     }
   } catch (e) {
     alert(e);
@@ -64,51 +64,78 @@ export const getUid = async (username: string) => {
   }
 };
 // {username: uid}
-const updateUsername = async (username: string, uid: string, name?: string) => {
+interface UpdateUserNameArgs {
+  username: string,
+  uid: string;
+  name?: string
+}
+const updateUsername = async (args: UpdateUserNameArgs) => {
   try {
     const docRef = await setDoc(
-      doc(db, "usernames", username),
+      doc(db, "usernames", args.username),
       {
-        uid: uid,
-        username,
+        ...args,
         dateAdded: serverTimestamp(),
-        name
       },
       { merge: true }
     );
 
-    await updateProfile({username, uid, name})
+    await updateProfile({ ...args });
 
     return docRef;
-  } catch(e){
-    alert(e)
+  } catch (e) {
+    alert(e);
   }
-}
+};
 
-export const checkUsernameExists = async(username: string) => {
+export const checkUsernameExists = async (username: string) => {
   const docRef = doc(db, "usernames", username);
   try {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return true
     } else {
-      return false
+      return false;
     }
   } catch (e) {
     alert(e);
   }
-}
+};
 
-export const addUsername = async (username: string, uid: string, name?: string) => {
+export const addUsername = async (
+  username: string,
+  uid: string,
+  name?: string
+) => {
   try {
     const res = await checkUsernameExists(username);
     if (res) {
-      throw('Username taken')
-      }
-     else {
-      await updateUsername(username, uid, name)
+      throw "Username taken";
+    } else {
+      await updateUsername({username, uid, name});
     }
   } catch (e) {
     return e;
+  }
+};
+
+const deleteUsername = async (username: string) => {
+  await deleteDoc(doc(db, "usernames", username));
+};
+
+export const editUsername = async (username: string, uid: string, currUsername: string) => {
+  try {
+    const res = await checkUsernameExists(username);
+    console.log("edit", res);
+
+    if (res) {
+      throw('Username exists')
+    } else {
+      await deleteUsername(currUsername);
+      await updateUsername({username, uid});
+
+    }
+  } catch (e) {
+    alert(e);
   }
 };
