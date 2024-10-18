@@ -17,7 +17,7 @@ import { useIsNarrow } from "../utils/useIsNarrow";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router";
 import { useScrollDirection } from "../utils/useScrollDirection";
-
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuItem from "@mui/material/MenuItem";
 import { sidebar } from "../config/menuItems";
 import { useAuthContext } from "../providers/useContexts";
@@ -140,6 +140,9 @@ export const TopAppbar: React.FC<TopAppbarProps> = ({ onOpen }) => {
             <ListItemText primary="Profile" />
           </MenuItem>
           <MenuItem onClick={onSignOut}>
+          <ListItemIcon>
+              <LogoutIcon/>
+          </ListItemIcon>
             <ListItemText primary="Log out" />
           </MenuItem>
         </Menu>
