@@ -124,7 +124,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <Box
         sx={{
-          p: 1,
+          p: 2,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",

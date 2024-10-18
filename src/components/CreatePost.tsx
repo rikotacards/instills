@@ -82,7 +82,8 @@ export const CreatePost: React.FC<CreatePostProps> = ({
     onStartLoading();
     try {
       await addPost(cp.posts, uid);
-      onClose();
+      closeWithoutPosts();
+      onStopLoading();
     } catch (e) {
       alert(e);
     } finally {

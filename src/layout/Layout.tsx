@@ -14,11 +14,9 @@ import { TopAppbar } from "../components/TopAppbar";
 import { CreatePost } from "../components/CreatePost";
 import { Outlet } from "react-router";
 import { CreatePostProvider } from "../providers/createPostProvider";
-import { sidebar } from "../config/menuItems";
 import { SideDrawer } from "../components/SideDrawer";
 import { useAuthContext } from "../providers/useContexts";
 import { BottomAppBar } from "../components/BottomAppBar";
-import { ScrollRestoration } from "react-router-dom";
 import { ScrollToTop } from "../components/ScrollToTop";
 
 export const Layout: React.FC = () => {
@@ -78,7 +76,9 @@ export const Layout: React.FC = () => {
         fullScreen={isNarrow}
       >
         <CreatePostProvider>
-          <CreatePost uid={user.uid} onClose={onClose} closeWithoutPosts={closeWithoutPosts} />
+         {user?.uid && <CreatePost 
+         onQuit={onQuit}
+         uid={user.uid} onClose={onClose} closeWithoutPosts={closeWithoutPosts} />}
         </CreatePostProvider>
       </Dialog>
       <Dialog onClose={onCloseConfirm} open={openConfirmation}>

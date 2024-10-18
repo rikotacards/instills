@@ -7,10 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { deletePost } from "../firebase/posts";
 interface PostOptionsProps {
   onClose: () => void;
+  postId: string;
 }
-export const PostOptions: React.FC<PostOptionsProps> = ({ onClose }) => {
+export const PostOptions: React.FC<PostOptionsProps> = ({postId, onClose }) => {
   const [open, setOpen] = React.useState(false);
   const onCloseConfirm = () => {
     setOpen(false);
@@ -21,9 +23,10 @@ export const PostOptions: React.FC<PostOptionsProps> = ({ onClose }) => {
   const onPrepareDelete = () => {
     onOpenConfirm();
   };
-  const onDelete = () => {
+  const onDelete = async() => {
     onClose();
     onCloseConfirm();
+    await deletePost(postId)
     console.log("delete");
   };
   return (

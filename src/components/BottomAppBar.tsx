@@ -1,7 +1,6 @@
 import { Add, Home } from "@mui/icons-material";
 import { Avatar, Box, IconButton, Paper, Slide } from "@mui/material";
 import React from "react";
-import { useScrollDirection } from "../utils/useScrollDirection";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../firebase/profile";
 import { useAuthContext } from "../providers/useContexts";
@@ -12,13 +11,14 @@ interface BottomAppBarProps {
   onOpen: () => void;
 }
 export const BottomAppBar: React.FC<BottomAppBarProps> = ({ onOpen }) => {
-  const sd = useScrollDirection();
+
   const { user } = useAuthContext();
   const nav = useNavigate();
   const { data, isLoading } = useQuery({
     queryKey: ["getUser", user?.uid],
     queryFn: () => getUser(user?.uid || ""),
   });
+  
   const goTop = () => {
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
     

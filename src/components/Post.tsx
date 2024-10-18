@@ -17,17 +17,7 @@ export const Post: React.FC<IPost & { enableTop?: boolean }> = (props) => {
   const onToggle = () => {
     setIsOpen(!isOpen);
   };
-  const [page, setPage] = React.useState(1);
-  const nextPage = () => {
-    if (page < imageUrls.length + 1) {
-      setPage((p) => p + 1);
-    }
-  };
-  const prevPage = () => {
-    if (page > 1) {
-      setPage((p) => p - 1);
-    }
-  };
+
   const isYourPost = user?.uid === props.uid;
   return (
     <Box
@@ -52,6 +42,8 @@ export const Post: React.FC<IPost & { enableTop?: boolean }> = (props) => {
         postId={postId}
         isYourPost={isYourPost}
         total={imageUrls.length}
+        uid={props.uid}
+
       >
         <ImageSlider
           imageUrls={imageUrls}

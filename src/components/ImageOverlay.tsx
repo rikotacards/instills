@@ -32,6 +32,7 @@ interface ImageOverlayProps {
   postId: string;
   isYourPost?: boolean;
   total: number;
+  uid: string;
 }
 
 export const ImageOverlay: React.FC<ImageOverlayProps> = ({
@@ -46,7 +47,8 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
   enableTop,
   dateAdded,
   postId,
-  total
+  total,
+  uid
 }) => {
   const [isOpen, setOpen] = React.useState(false);
   const queryClient = useQueryClient();
@@ -100,6 +102,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         isYourPost={!!isYourPost}
         curr={currPage}
         total={total}
+        uid={uid}
       />
 
       <Swiper
@@ -250,7 +253,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         <Reactions postId={postId} />
       </Box>
       <Dialog onClose={onDialogClose} open={isOpen}>
-        <PostOptions onClose={onDialogClose} />
+        <PostOptions postId={postId} onClose={onDialogClose} />
       </Dialog>
     </Box>
   );
