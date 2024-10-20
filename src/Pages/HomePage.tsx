@@ -11,19 +11,15 @@ import { useAuthContext } from "../providers/useContexts";
 import { getUser } from "../firebase/profile";
 import { useIsNarrow } from "../utils/useIsNarrow";
 interface HomePageProps {
-  uid: string
+  uid: string;
+  onCreate: () => void;
 }
-export const HomePage: React.FC<HomePageProps> = ({uid}) => {
-  const { user } = useAuthContext();
+export const HomePage: React.FC<HomePageProps> = ({onCreate, uid}) => {
   const { data, isLoading } = useQuery({
     queryKey: ["getUserPosts", uid],
     queryFn: () => getUserPosts(uid),
   });
   const isNarrow = useIsNarrow();
-  const { data: userData, isLoading: userIsLoading } = useQuery({
-    queryKey: ["getUser", user?.uid],
-    queryFn: () => getUser(user?.uid || ""),
-  });
 
   const posts = data?.map((p) => (
     <Box sx={{ mb: 1 }}>
@@ -39,7 +35,9 @@ export const HomePage: React.FC<HomePageProps> = ({uid}) => {
   ));
   return (
     <Box sx={{ m: 0, padding: isNarrow ? undefined : "0px 20%" }}>
-      <Box sx={{ m: 1 }}>{posts?.length === 0 && <MakeFirstPost />}</Box>
+      <Box sx={{ m: 1 }}>{posts?.length === 0 && 
+        <MakeFirstPost onCreate={onCreate} />}
+        </Box>
       {posts}
     </Box>
   );

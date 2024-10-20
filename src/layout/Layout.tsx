@@ -53,17 +53,17 @@ export const Layout: React.FC = () => {
       sx={{
         // flexDirection: isNarrow ? "column" : "row",
         alignItems: "center",
-        position: 'relative'
+        position: "relative",
       }}
     >
       <CssBaseline />
-      <TopAppbar  onOpen={onOpen} />
+      <TopAppbar onOpen={onOpen} />
       {user && <SideDrawer onOpen={onOpen} isNarrow={isNarrow} />}
-      <Box component="main" sx={{ p: 0, width: "100%" , position:'relative'}}>
+      <Box component="main" sx={{ p: 0, width: "100%", position: "relative" }}>
         <Toolbar />
-    <ScrollToTop/>
-        <Outlet />
-      <BottomAppBar onOpen={onOpen}/>
+        <ScrollToTop />
+        <Outlet context={{ onOpen }} />
+        <BottomAppBar onOpen={onOpen} />
       </Box>
       <Dialog
         PaperProps={{
@@ -76,9 +76,14 @@ export const Layout: React.FC = () => {
         fullScreen={isNarrow}
       >
         <CreatePostProvider>
-         {user?.uid && <CreatePost 
-         onQuit={onQuit}
-         uid={user.uid} onClose={onClose} closeWithoutPosts={closeWithoutPosts} />}
+          {user?.uid && (
+            <CreatePost
+              onQuit={onQuit}
+              uid={user.uid}
+              onClose={onClose}
+              closeWithoutPosts={closeWithoutPosts}
+            />
+          )}
         </CreatePostProvider>
       </Dialog>
       <Dialog onClose={onCloseConfirm} open={openConfirmation}>

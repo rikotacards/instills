@@ -18,13 +18,14 @@ import { useAuthContext } from "../providers/useContexts";
 import { useNavigate } from "react-router";
 import { ErrorOutlined } from "@mui/icons-material";
 
-export const CreateUsername: React.FC = () => {
+interface CreateUsernameProps {
+  onNext: () => void;
+}
+export const CreateUsername: React.FC<CreateUsernameProps> = ({onNext}) => {
   const [newUsername, setNewUsername] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
   const nav = useNavigate();
-  const goHome = () => {
-    nav('/')
-  }
+
   const onLoading = () => {
     setLoading(true);
   };
@@ -68,6 +69,9 @@ export const CreateUsername: React.FC = () => {
       sx={{ p: 1, display: "flex", flexDirection: "column", mb: 1 }}
     >
       <Typography fontWeight={"bold"}>Create your username</Typography>
+      <Typography color='textSecondary' variant="caption">
+        Don't worry, you'll be able to chage it later.
+      </Typography>
       <Box>
         <TextField
           fullWidth
@@ -85,25 +89,23 @@ export const CreateUsername: React.FC = () => {
           }}
         />
       </Box>
-      <Typography variant="caption">
-        Don't worry, you'll be able to chage it later.
-      </Typography>
+   
       {exists && <Typography variant='caption' color="error">Username exists</Typography>}
 
 
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <Button variant="contained" onClick={onDone}>
+        <Button sx={{mt:1}} variant="contained" onClick={onDone}>
           Done
         </Button>
       )}
-      {isSuccess && (
-        <Box>
-          <Typography>You can now explore the app</Typography>
-          <Button onClick={goHome} fullWidth variant='contained'>Go to app</Button>
+    
+        <Box sx={{mt:1}}>
+        
+          <Button disabled={!isSuccess} onClick={onNext} fullWidth variant='contained'>Next</Button>
         </Box>
-      )}
+      
     </Card>
   );
 };

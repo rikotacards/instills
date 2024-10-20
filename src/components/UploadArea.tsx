@@ -51,9 +51,9 @@ export const UploadArea: React.FC<UploadAreaProps> = ({ onUpload, inc }) => {
           }}
           onClick={() => ref?.current?.click()}
         >
-          <IconButton>
+      
             <AddPhotoAlternate />
-          </IconButton>
+        
           <Typography variant="body1" color="textSecondary">
             Select photos
           </Typography>

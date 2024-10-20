@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useOutletContext } from "react-router";
 import { useAuthContext } from "../providers/useContexts";
 import { Layout } from "../layout/Layout";
 import { HomePage } from "../Pages/HomePage";
@@ -10,6 +10,8 @@ import { SignUpPage } from "../Pages/SignUpPage";
 
 export const AuthCheck: React.FC = () => {
   const { user, isUserLoading } = useAuthContext();
+  const outletContext = useOutletContext();
+  console.log('loo', outletContext)
   if (!isUserLoading && !user) {
     return (
       <Routes>
@@ -24,7 +26,7 @@ export const AuthCheck: React.FC = () => {
     return (
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<HomePage uid={user.uid}/>} />
+          <Route path="/" element={<HomePage onCreate={outletContext?.onOpen} uid={user.uid}/>} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/profile/edit" element={<ProfileSettingsPage />} />
           <Route path="/:username" element={<ProfilePage />} />
