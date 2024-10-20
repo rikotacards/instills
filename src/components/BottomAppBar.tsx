@@ -1,4 +1,4 @@
-import { Add, Home } from "@mui/icons-material";
+import { Add, Home, Search } from "@mui/icons-material";
 import { Avatar, Box, IconButton, Paper, Slide } from "@mui/material";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -62,6 +62,16 @@ export const BottomAppBar: React.FC<BottomAppBarProps> = ({ onOpen }) => {
             }}
           >
             <Add />
+          </IconButton>
+          <IconButton
+            onClick={() => nav('/search')}
+            sx={{
+              color: "white",
+              backdropFilter: "blur(10px)",
+              background: "rgba(0,0,0,0.5)",
+            }}
+          >
+            <Search />
           </IconButton>
           <IconButton onClick={goProfile}>
             <Avatar

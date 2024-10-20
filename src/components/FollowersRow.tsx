@@ -25,7 +25,7 @@ export const FollowersRow: React.FC<FollowersRowProps> = ({ uid, onClose }) => {
     onClose();
   };
   return (
-    <ListItemButton>
+    <ListItemButton disableGutters>
       <ListItem onClick={goToProfile}>
         <ListItemAvatar>
           <Avatar src={data?.profilePhotoUrl} />

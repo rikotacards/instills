@@ -14,6 +14,7 @@ import { sidebar } from "../config/menuItems";
 import { useAuthContext } from "../providers/useContexts";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../firebase/profile";
+import { Search } from "@mui/icons-material";
 
 const drawerWidth = 200;
 interface SideDrawerProps {
@@ -22,7 +23,7 @@ interface SideDrawerProps {
 }
 export const SideDrawer: React.FC<SideDrawerProps> = ({ isNarrow, onOpen }) => {
   const nav = useNavigate();
-  const {user} = useAuthContext();
+  const { user } = useAuthContext();
   const { data, isLoading } = useQuery({
     queryKey: ["getUser", user?.uid],
     queryFn: () => getUser(user?.uid || ""),
@@ -59,11 +60,21 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isNarrow, onOpen }) => {
             </MenuItem>
           );
         })}
+        <MenuItem onClick={() => nav(`/search`)}>
+            <ListItemIcon>
+              <Search/>
+            </ListItemIcon>
+            <ListItemText primary="Search" />
+          </MenuItem>
         <Box sx={{ mt: "auto" }}>
-        <MenuItem onClick={() => nav(`/${data?.username}`)}>
-           <ListItemIcon> <Avatar sx={{ height: 25, width: 25 }} /></ListItemIcon>
-           <ListItemText primary='Profile'/>
-           </MenuItem>
+          
+          <MenuItem onClick={() => nav(`/${data?.username}`)}>
+            <ListItemIcon>
+              {" "}
+              <Avatar sx={{ height: 25, width: 25 }} />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </MenuItem>
           <MenuItem>
             <ListItemText primary="Log out" />
           </MenuItem>

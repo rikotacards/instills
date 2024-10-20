@@ -7,6 +7,7 @@ import { ProfilePage } from "../Pages/ProfilePage";
 import { ProfileSettingsPage } from "../Pages/ProfileSettingsPage";
 import { LoginPage } from "../Pages/LoginPage";
 import { SignUpPage } from "../Pages/SignUpPage";
+import { SearchPage } from "../Pages/SearchPage";
 
 export const AuthCheck: React.FC = () => {
   const { user, isUserLoading } = useAuthContext();
@@ -31,6 +32,8 @@ export const AuthCheck: React.FC = () => {
           <Route path="/profile/edit" element={<ProfileSettingsPage />} />
           <Route path="/:username" element={<ProfilePage />} />
           <Route path="/edit-profile" element={<ProfilePage />} />
+          <Route path="/search" element={<SearchPage />} />
+
         </Route>
       </Routes>
     );

@@ -66,6 +66,7 @@ const EditName: React.FC<EditNameProps> = ({ uid, value, onClose }) => {
       </Toolbar>
       <DialogContent>
         <TextField
+          sx={{ textTransform: "lowercase" }}
           value={name}
           onChange={onChange}
           placeholder="Name"
@@ -82,7 +83,6 @@ const EditUsername: React.FC<EditNameProps> = ({ uid, onClose, value }) => {
     setName(e.target.value.toLowerCase());
   };
   const onDone = async () => {
-    
     onClose();
   };
   return (
@@ -94,7 +94,11 @@ const EditUsername: React.FC<EditNameProps> = ({ uid, onClose, value }) => {
         </Button>
       </Toolbar>
       <DialogContent>
-        <EditUsernameTextBox currUsername={value} username={username} uid={uid} />
+        <EditUsernameTextBox
+          currUsername={value}
+          username={username}
+          uid={uid}
+        />
       </DialogContent>
     </Box>
   );
@@ -162,7 +166,7 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
       }),
     mutationFn: (args: { profilePhotoUrl: string; uid: string }) => {
       return updateProfile({
-       profilePhotoUrl: args.profilePhotoUrl,
+        profilePhotoUrl: args.profilePhotoUrl,
         uid: args.uid,
       });
     },
@@ -181,15 +185,19 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
     data?.profilePhotoUrl
   );
   const ref = React.useRef<null | HTMLInputElement>(null);
-  const onImageFileChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
+  const onImageFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length === 0 || !e.target?.files) {
       // if you cancel when choosing photos
       return;
     } else {
       const imageUrl = URL.createObjectURL(e.target.files[0]);
       setImagePath(imageUrl);
-     const profilePhotoUrl = await uploadFile({file: e.target.files[0], postId: 'profilePhoto', path:'profile'})
-      await mutation.mutate({uid, profilePhotoUrl})
+      const profilePhotoUrl = await uploadFile({
+        file: e.target.files[0],
+        postId: "profilePhoto",
+        path: "profile",
+      });
+      await mutation.mutate({ uid, profilePhotoUrl });
     }
   };
   const renderedFields = fields.map((f) => {
@@ -200,12 +208,11 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
         </Box>
         <ListItem
           onClick={() => onEditField(f.fieldName)}
-          sx={{ textTransform: "capitalize", display: "flex", flex: 2 }}
+          sx={{  display: "flex", flex: 2 }}
           divider
         >
           <Typography
             color="textSecondary"
-            sx={{ textTransform: "capitalize" }}
           >
             {data?.[f.fieldName] || f.placeholder}
           </Typography>
@@ -234,7 +241,9 @@ export const EditProfilePage: React.FC<EditProfilePageProps> = ({
       <DialogContent>
         <Box sx={{ display: "flex", mb: 1 }}>
           <Avatar src={imagePath} sx={{ mr: 1 }} />
-          <Button onClick={() => ref?.current?.click()} fullWidth>Edit picture</Button>
+          <Button onClick={() => ref?.current?.click()} fullWidth>
+            Edit picture
+          </Button>
           <input
             onChange={(e) => onImageFileChange(e)}
             accept="image/*"
