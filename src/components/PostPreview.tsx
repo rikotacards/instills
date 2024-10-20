@@ -1,17 +1,22 @@
 import React from 'react';
 import { Post } from './Post';
-import { useCreatePostContext } from '../providers/useContexts';
+import { useAuthContext, useCreatePostContext } from '../providers/useContexts';
 import { Box } from '@mui/material';
 
 export const PostPreview: React.FC = () => {
     const cp = useCreatePostContext();
+    const {user} = useAuthContext();
     const imageUrls = cp.posts.map((p) => p.imageUrl || '')
     const captions = cp.posts.map((p) => p.caption || '')
-
+    const today = new Date().toDateString()
     return (
-        <Box sx={{pt:1}}>
+        <Box sx={{pt:0}}>
 
-        <Post captions={captions} imageUrls={imageUrls}/>
+        <Post 
+        uid={user.uid}
+        enableTop
+        dateAdded={today}
+        captions={captions} imageUrls={imageUrls}/>
         </Box>
     )
 }

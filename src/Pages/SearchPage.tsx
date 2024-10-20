@@ -58,7 +58,7 @@ export const SearchPage: React.FC = () => {
       <TextField
         onFocus={() => setSearchFocus(true)}
         fullWidth
-        placeholder="Search username"
+        placeholder="Search user"
         onChange={onChange}
         value={username}
         slotProps={{

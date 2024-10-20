@@ -16,6 +16,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import React from "react";
 import { useCreatePostContext } from "../providers/useContexts";
 import { useIsNarrow } from "../utils/useIsNarrow";
+import "./ImageOverlay.css";
+
 interface CreatePostInputProps {
   index: number;
   captionFromContext: string;
@@ -117,14 +119,14 @@ export const CreatePostInput: React.FC<CreatePostInputProps> = ({
               //     ),
               //   },
               // }}
+              className='top'
               inputProps={{ style: { color: "white", margin: 0 } }}
               placeholder="Write your caption"
               sx={{
-                bottom:0,
+                top:0,
                 p:2,
                 position: "absolute",
-                background:
-                `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0,  ${true ? 0.8 : 0.6})) `,
+               
               }}
             />
         
