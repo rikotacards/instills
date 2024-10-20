@@ -48,9 +48,15 @@ export const UploadProfilePhoto: React.FC = () => {
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <Avatar sx={{m:1, height:150, width:150}} src={imagePath} />
-      <Button onClick={() => ref?.current?.click()} 
-      variant='contained'>Upload profile photo</Button>
-      <Button onClick={goHome}>{imagePath ? 'Get started': 'Skip'}</Button>
+      
+      <Button
+      fullWidth
+      onClick={() => ref?.current?.click()} 
+      variant={imagePath? 'outlined' :'contained'}>Upload profile photo</Button>
+      <Button
+      fullWidth
+      variant={imagePath? 'contained' : undefined}
+      sx={{mt:1}} onClick={goHome}>{imagePath ? 'Get started': 'Skip'}</Button>
       <input
         onChange={(e) => onImageFileChange(e)}
         accept="image/*"
