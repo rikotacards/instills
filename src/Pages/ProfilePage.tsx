@@ -23,7 +23,7 @@ export const ProfilePage: React.FC = () => {
     queryFn: () => getUserPosts(uidData?.uid || ''),
   });
   const posts = data?.map((p) => (
-    <Box sx={{ mb: 1 }}>
+    <Box sx={{ mb: 1, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
       <Post
         postId={p.postId}
         dateAdded={new Date(p.dateAdded.seconds * 1000).toDateString()}
