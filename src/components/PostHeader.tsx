@@ -12,6 +12,9 @@ interface PostHeaderProps {
   total: number;
   curr: number;
   uid: string;
+  username?: string;
+  profileUrl?: string;
+  isLoading?: boolean;
 }
 export const PostHeader: React.FC<PostHeaderProps> = ({
   dateAdded,
@@ -19,20 +22,19 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
   isYourPost,
   curr,
   total,
-  uid,
+  isLoading, 
+  profileUrl,
+  username
 }) => {
   const nav = useNavigate();
   const goToProfile = (username: string) => {
     nav(`/${username}`);
   };
-  const { data, isLoading } = useQuery({
-    queryKey: ["getUserForPost", uid],
-    queryFn: () => getUser(uid || ""),
-  });
+
   const avatar = isLoading ? (
     <Skeleton sx={{ height: 30, width: 30, mr: 1 }} variant="circular" />
   ) : (
-    <Avatar sx={{ height: 30, width: 30, mr: 1 }} src={data?.profilePhotoUrl} />
+    <Avatar sx={{ height: 30, width: 30, mr: 1 }} src={profileUrl} />
   );
 
   return (
@@ -40,13 +42,13 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
       {avatar}
       <Typography
         onClick={
-          data?.username?.length ? () => goToProfile(data.username) : undefined
+          username?.length ? () => goToProfile(username) : undefined
         }
         variant="body2"
         fontWeight={700}
         sx={{ color: "white", cursor: 'pointer' }}
       >
-        {data?.username}
+        {username}
       </Typography>
       <Typography
         variant="caption"

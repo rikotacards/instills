@@ -3,6 +3,7 @@ import {
   Box,
   Chip,
   Dialog,
+  DialogContent,
   Drawer,
   IconButton,
   Menu,
@@ -24,12 +25,17 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { getReactionsCounts } from "../utils/getReactionsCounts";
+import { useAuthContext } from "../providers/useContexts";
+import { SignInPopup } from "./SignInPopup";
 
 interface ReactionsProps {
   postId: string;
+  username?: string;
+  profileUrl?: string;
 }
-export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
+export const Reactions: React.FC<ReactionsProps> = ({ postId, username, profileUrl }) => {
   const [open, setOpen] = React.useState(false);
+  const { user } = useAuthContext();
   const queryClient = useQueryClient();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const mutation = useMutation({
@@ -74,8 +80,12 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
   console.log("reaction data", data);
   const reactionsTransformed = getReactionsCounts(data || {});
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [isDialogOpen, setDialog] = React.useState(false);
+  const onCloseD = () => {
+    setDialog(false);
+  };
   const onDrawerOpen = () => {
-    setDrawerOpen(true);
+    user ? setDialog(true) : setDrawerOpen(true);
   };
   const onDrawerClose = () => {
     setDrawerOpen(false);
@@ -153,7 +163,15 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
         {reactionEmojis}
       </Box>
 
-      <IconButton onClick={onDrawerOpen} sx={{ color: "white", ml: "auto", backdropFilter: 'blur(20px)', boxShadow: '0px 0px 50px black' }}>
+      <IconButton
+        onClick={user ? onDrawerOpen : () => setDialog(true)}
+        sx={{
+          color: "white",
+          ml: "auto",
+          backdropFilter: "blur(20px)",
+          boxShadow: "0px 0px 50px black",
+        }}
+      >
         <AddReaction />
       </IconButton>
       <Popover
@@ -206,6 +224,17 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
           reactions={["1f602", "1f423"]}
         />
       </Modal>
+      <Dialog open={isDialogOpen} onClose={onCloseD}>
+        <Toolbar>
+          <IconButton onClick={onCloseD} sx={{ ml: "auto" }}>
+            <Close />
+          </IconButton>
+        </Toolbar>
+        <DialogContent>
+
+        <SignInPopup username={username} profileUrl={profileUrl}/>
+        </DialogContent>
+      </Dialog>
       <Drawer
         anchor="bottom"
         open={drawerOpen}
@@ -219,10 +248,13 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
           },
         }}
       >
-        <Toolbar sx={{display: 'flex', textAlign: 'center'}}>
-          <Box sx={{flex:1}}/>
-          <Typography fontWeight={'bold'}>Leave a reaction</Typography>
-          <IconButton sx={{ flex: 1,ml: "auto", justifyContent: 'flex-end' }} onClick={onDrawerClose}>
+        <Toolbar sx={{ display: "flex", textAlign: "center" }}>
+          <Box sx={{ flex: 1 }} />
+          <Typography fontWeight={"bold"}>Leave a reaction</Typography>
+          <IconButton
+            sx={{ flex: 1, ml: "auto", justifyContent: "flex-end" }}
+            onClick={onDrawerClose}
+          >
             <Close />
           </IconButton>
         </Toolbar>
@@ -234,7 +266,7 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            mb:3
+            mb: 3,
           }}
         >
           <EmojiPicker
@@ -263,7 +295,6 @@ export const Reactions: React.FC<ReactionsProps> = ({ postId }) => {
             ]}
           />
         </Box>
-
       </Drawer>
     </Box>
   );

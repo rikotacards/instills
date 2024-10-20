@@ -18,7 +18,8 @@ import { PostHeader } from "./PostHeader";
 import { ReactionOverlay } from "./ReactionOverlay";
 import { addReaction } from "../firebase/posts";
 import { UID } from "../firebase/firebaseConfig";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUser } from "../firebase/profile";
 interface ImageOverlayProps {
   children: React.ReactNode;
   onSwiper: any;
@@ -52,7 +53,11 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
 }) => {
   const [isOpen, setOpen] = React.useState(false);
   const queryClient = useQueryClient();
-
+  const { data, isLoading } = useQuery({
+    queryKey: ["getUserForPost", uid],
+    queryFn: () => getUser(uid || ""),
+  });
+  console.log(data)
   const onDialogOpen = () => {
     setOpen(true);
   };
@@ -103,6 +108,9 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
         curr={currPage}
         total={total}
         uid={uid}
+        profileUrl={data?.profilePhotoUrl}
+        isLoading={isLoading}
+        username={data?.username}
       />
 
       <Swiper
@@ -168,6 +176,9 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
             profile={profile}
             onDialogOpen={onDialogOpen}
             isYourPost={!!isYourPost}
+            profileUrl={data?.profilePhotoUrl}
+            isLoading={isLoading}
+            username={data?.username}
           />
         )}
         {enableTop && captionSlider}
@@ -250,7 +261,7 @@ export const ImageOverlay: React.FC<ImageOverlayProps> = ({
           />
         </Box> */}
 
-        <Reactions postId={postId} />
+        <Reactions username={data?.username} profileUrl={data?.profilePhotoUrl} postId={postId} />
       </Box>
       <Dialog onClose={onDialogClose} open={isOpen}>
         <PostOptions postId={postId} onClose={onDialogClose} />
