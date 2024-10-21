@@ -21,7 +21,7 @@ import { ErrorOutlined } from "@mui/icons-material";
 interface CreateUsernameProps {
   onNext: () => void;
 }
-export const CreateUsername: React.FC<CreateUsernameProps> = ({onNext}) => {
+export const CreateUsername: React.FC<CreateUsernameProps> = ({ onNext }) => {
   const [newUsername, setNewUsername] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
   const nav = useNavigate();
@@ -69,13 +69,13 @@ export const CreateUsername: React.FC<CreateUsernameProps> = ({onNext}) => {
       sx={{ p: 1, display: "flex", flexDirection: "column", mb: 1 }}
     >
       <Typography fontWeight={"bold"}>Create your username</Typography>
-      <Typography color='textSecondary' variant="caption">
+      <Typography sx={{ mb: 1 }} color="textSecondary" variant="caption">
         Don't worry, you'll be able to chage it later.
       </Typography>
       <Box>
         <TextField
           fullWidth
-          color={exists ? 'error' : undefined}
+          color={exists ? "error" : undefined}
           onChange={onChange}
           value={newUsername}
           slotProps={{
@@ -84,28 +84,43 @@ export const CreateUsername: React.FC<CreateUsernameProps> = ({onNext}) => {
                 <InputAdornment position="end">
                   <CheckCircleOutlineIcon color="success" />
                 </InputAdornment>
-              ) : exists ? <ErrorOutlined color='error'/> : null,
+              ) : exists ? (
+                <ErrorOutlined color="error" />
+              ) : null,
             },
           }}
         />
       </Box>
-   
-      {exists && <Typography variant='caption' color="error">Username exists</Typography>}
 
+      {exists && (
+        <Typography variant="caption" color="error">
+          Username exists
+        </Typography>
+      )}
 
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <Button sx={{mt:1}} variant="contained" onClick={onDone}>
+        <Button
+          disabled={isSuccess}
+          sx={{ mt: 1 }}
+          variant="contained"
+          onClick={onDone}
+        >
           Done
         </Button>
       )}
-    
-        <Box sx={{mt:1}}>
-        
-          <Button disabled={!isSuccess} onClick={onNext} fullWidth variant='contained'>Next</Button>
-        </Box>
-      
+
+      <Box sx={{ mt: 1 }}>
+        <Button
+          disabled={!isSuccess}
+          onClick={onNext}
+          fullWidth
+          variant="contained"
+        >
+          Next
+        </Button>
+      </Box>
     </Card>
   );
 };
