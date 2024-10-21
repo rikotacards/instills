@@ -64,7 +64,7 @@ export const PostHeader: React.FC<PostHeaderProps> = ({
       <Box sx={{ ml: "auto" }}>
         {
           <IconButton
-            onClick={isYourPost ? onDialogOpen : undefined}
+            onClick={onDialogOpen}
             color="inherit"
           >
             <MoreHoriz />
